@@ -356,6 +356,21 @@ h3 { font-size: clamp(1.35rem, 1.15rem + .8vw, 1.7rem); line-height: 1.15; }
 .slab-3 { transform: translate(0, 40px); }
 .slab-4 { transform: translate(0, 120px); }
 
+/* Arrival windows, as bare numbers. Both paths below read these exact
+   custom properties, so a stagger is only ever authored once: the native
+   timeline multiplies them into percentages, the fallback into a delay.
+   Each slab lands during its own step, so arrival and reading stay in
+   sync. The last settles at 88%, leaving a beat on the finished mark. */
+.slab-1 { --r0: 0;  --r1: 30; }
+.slab-2 { --r0: 20; --r1: 50; }
+.slab-3 { --r0: 39; --r1: 69; }
+.slab-4 { --r0: 58; --r1: 88; }
+.pstep:nth-child(1) { --r0: 0;  --r1: 30; }
+.pstep:nth-child(2) { --r0: 22; --r1: 55; }
+.pstep:nth-child(3) { --r0: 47; --r1: 80; }
+.pstep:nth-child(4) { --r0: 72; --r1: 100; }
+
+/* Native path: Chrome, Edge, Safari. */
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) and (min-width: 768px) {
     /* The whole grid is the timeline subject. `contain 0%` is the moment
@@ -363,32 +378,40 @@ h3 { font-size: clamp(1.35rem, 1.15rem + .8vw, 1.7rem); line-height: 1.15; }
        bottom meets the viewport bottom. */
     .process { view-timeline-name: --process-track; }
 
-    .slab {
+    .slab, .pstep {
       animation-duration: auto;
       animation-fill-mode: both;
       animation-timeline: --process-track;
-      animation-timing-function: cubic-bezier(.16, 1, .3, 1);
-      will-change: transform, opacity;
+      animation-range: contain calc(var(--r0) * 1%) contain calc(var(--r1) * 1%);
     }
-    /* Staggered ranges: each slab lands during its own step, so arrival
-       and reading stay in sync. The last one settles at 88%, leaving a
-       beat on the finished mark before the section releases. */
-    .slab-1 { animation-name: settle-1; animation-range: contain 0%  contain 30%; }
-    .slab-2 { animation-name: settle-2; animation-range: contain 20% contain 50%; }
-    .slab-3 { animation-name: settle-3; animation-range: contain 39% contain 69%; }
-    .slab-4 { animation-name: settle-4; animation-range: contain 58% contain 88%; }
+    .slab { animation-timing-function: cubic-bezier(.16, 1, .3, 1); will-change: transform, opacity; }
 
-    .pstep {
-      animation-name: step-focus;
-      animation-duration: auto;
-      animation-fill-mode: both;
-      animation-timeline: --process-track;
-    }
-    .pstep:nth-child(1) { animation-range: contain 0%  contain 30%; }
-    .pstep:nth-child(2) { animation-range: contain 22% contain 55%; }
-    .pstep:nth-child(3) { animation-range: contain 47% contain 80%; }
-    .pstep:nth-child(4) { animation-range: contain 72% contain 100%; }
+    .slab-1 { animation-name: settle-1; }
+    .slab-2 { animation-name: settle-2; }
+    .slab-3 { animation-name: settle-3; }
+    .slab-4 { animation-name: settle-4; }
+    .pstep  { animation-name: step-focus; }
   }
+}
+
+/* Fallback path: Firefox and LibreWolf, which have no `animation-timeline`
+   yet. Same keyframes, same ranges. The animations run paused and script
+   picks the frame with a negative `animation-delay`, so no motion values
+   are ever restated in JavaScript. The class is set from script only when
+   the native path is unavailable. */
+@media (min-width: 768px) {
+  .scrub .slab, .scrub .pstep {
+    animation-duration: 1s;
+    animation-fill-mode: both;
+    animation-play-state: paused;
+  }
+  .scrub .slab { animation-timing-function: cubic-bezier(.16, 1, .3, 1); }
+
+  .scrub .slab-1 { animation-name: settle-1; }
+  .scrub .slab-2 { animation-name: settle-2; }
+  .scrub .slab-3 { animation-name: settle-3; }
+  .scrub .slab-4 { animation-name: settle-4; }
+  .scrub .pstep  { animation-name: step-focus; }
 }
 
 /* Scatter values are shared with the React port in stack-react/. */
@@ -989,6 +1012,84 @@ h3 { font-size: clamp(1.35rem, 1.15rem + .8vw, 1.7rem); line-height: 1.15; }
         box.classList.add("show");
       });
   });
+})();
+
+/* ---- Scroll-driven fallback ----
+   Firefox and LibreWolf ship no `animation-timeline` yet, so there the
+   section renders its default state: the finished mark, static. This runs
+   the same choreography for them instead.
+
+   It restates no motion values. The CSS animations run paused and this
+   only picks the frame with a negative `animation-delay`, reading the same
+   --r0/--r1 range the native timeline uses. There is no scroll listener:
+   a rAF loop runs only while the section is actually on screen. */
+(function () {
+  "use strict";
+
+  if (CSS.supports("animation-timeline", "view()")) return;
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  if (!("IntersectionObserver" in window)) return;
+
+  var track = document.querySelector(".process");
+  if (!track) return;
+
+  var DURATION = 1000;
+  var desktop = window.matchMedia("(min-width: 768px)");
+  var running = false;
+  var onScreen = false;
+
+  var targets = [].map.call(track.querySelectorAll(".slab, .pstep"), function (el) {
+    var cs = getComputedStyle(el);
+    return {
+      el: el,
+      from: parseFloat(cs.getPropertyValue("--r0")) / 100,
+      to: parseFloat(cs.getPropertyValue("--r1")) / 100
+    };
+  }).filter(function (t) {
+    return isFinite(t.from) && isFinite(t.to) && t.to > t.from;
+  });
+
+  if (!targets.length) return;
+
+  function apply() {
+    var rect = track.getBoundingClientRect();
+    var span = rect.height - window.innerHeight;
+    var progress = span > 0 ? -rect.top / span : 0;
+    if (progress < 0) progress = 0;
+    if (progress > 1) progress = 1;
+
+    for (var i = 0; i < targets.length; i++) {
+      var t = targets[i];
+      var local = (progress - t.from) / (t.to - t.from);
+      if (local < 0) local = 0;
+      if (local > 1) local = 1;
+      t.el.style.animationDelay = -(local * DURATION) + "ms";
+    }
+  }
+
+  function frame() {
+    if (!running) return;
+    apply();
+    requestAnimationFrame(frame);
+  }
+
+  function sync() {
+    var active = onScreen && desktop.matches;
+    if (active === running) return;
+    running = active;
+    if (active) requestAnimationFrame(frame);
+    else apply();
+  }
+
+  track.classList.add("scrub");
+  apply();
+
+  new IntersectionObserver(function (entries) {
+    onScreen = entries[0].isIntersecting;
+    sync();
+  }).observe(track);
+
+  desktop.addEventListener("change", sync);
 })();
 </script>
 </body>

@@ -15,10 +15,14 @@ The four process steps are the brand mark assembling itself. Four slabs start
 scattered and settle into their slots on scroll until the group is exactly the
 Linestack logo: separate layers becoming one ordered stack.
 
-`index.html` drives this with CSS scroll-driven animations only, no JavaScript.
-`stack-react/` drives the same choreography with Motion's `useScroll`.
+`index.html` drives this with CSS scroll-driven animations. Firefox and
+LibreWolf have no `animation-timeline` yet, so a small script drives the same
+`@keyframes` for them instead: the animations run paused and it picks the frame
+with a negative `animation-delay`. No motion value is restated in JavaScript,
+and there is no scroll listener. `stack-react/` drives the same choreography
+with Motion's `useScroll`.
 
-Two rules keep it working:
+Three rules keep it working:
 
 - **The assembled logo is the default state.** Every animation only describes
   how the page arrives there, which is what lets browsers without
@@ -26,6 +30,9 @@ Two rules keep it working:
 - **`.process` must keep `align-items: stretch`.** With `align-items: start` the
   mark column shrinks to the height of the SVG and the sticky element unsticks
   almost immediately.
+- **The stagger lives in `--r0` and `--r1` only.** The native timeline
+  multiplies them into `animation-range` percentages and the fallback into a
+  delay, so the arrival windows are authored once.
 
 The geometry constants are duplicated across `index.html`,
 `stack-react/src/components/LayerStack.tsx` and
