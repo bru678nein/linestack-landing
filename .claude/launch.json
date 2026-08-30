@@ -2,6 +2,12 @@
   "version": "0.0.1",
   "configurations": [
     {
+      "name": "landing",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "5179"],
+      "port": 5179
+    },
+    {
       "name": "layerstack",
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run", "dev", "--prefix", "stack-react"],
