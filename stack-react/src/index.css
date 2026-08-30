@@ -1,0 +1,49 @@
+@import "tailwindcss";
+
+/* Brand tokens, identical to the landing page. The slab ramp is the logo's
+   four steps, light to deep navy, and it is the only place these blues are
+   allowed to appear as fills. */
+@theme {
+  --color-paper: #ffffff;
+  --color-surface: #f1f6fa;
+  --color-ink: #0a1e35;
+  --color-ink-2: #2a4763;
+  --color-ink-3: #4d6a86;
+  --color-line: #e3ebf2;
+
+  --color-slab-1: #d7e6f2;
+  --color-slab-2: #9dc0dc;
+  --color-slab-3: #4a7fae;
+  --color-slab-4: #123a63;
+
+  --color-accent: #3f7099;
+  --color-accent-ink: #f7fbfe;
+
+  --font-display: "Archivo", system-ui, -apple-system, sans-serif;
+}
+
+/* @theme only runs at the top level, so dark mode reassigns the generated
+   custom properties directly. Same token names, different values. */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-paper: #08182b;
+    --color-surface: #0d2742;
+    --color-ink: #e9f0f7;
+    --color-ink-2: #b6cadd;
+    --color-ink-3: #8fa9c2;
+    --color-line: #1c3a5c;
+  }
+}
+
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+
+body {
+  margin: 0;
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-display);
+  -webkit-font-smoothing: antialiased;
+}
