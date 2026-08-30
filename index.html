@@ -46,6 +46,10 @@
   --accent-hover: #35618a;
   --accent-ink:   #f7fbfe;
   --focus-ring:   #3f7099;
+  /* Same hue as the accent, but sized for text rather than a button
+     surface. The accent only reaches 3.39:1 as text on the dark
+     background, so dark mode moves this one up the ramp. */
+  --link:         #3f7099;
 
   --panel:        #0c2440;
   --panel-ink:    #eef4fa;
@@ -77,6 +81,7 @@
     --line-strong: rgba(233, 240, 247, .30);
     --panel:       #0f2c4c;
     --focus-ring:  #86b0d3;
+    --link:        #86b0d3;
   }
 }
 
@@ -470,6 +475,61 @@ h3 { font-size: clamp(1.35rem, 1.15rem + .8vw, 1.7rem); line-height: 1.15; }
   color: var(--ink-3);
 }
 
+/* ---- Work: full-bleed horizontal rail ----
+   Every other section on this page is a two-column split, so the work
+   breaks the container and scrolls sideways instead. It also survives
+   having only two projects, which a three-column grid does not: a grid
+   with one empty cell reads as missing work. */
+.rail {
+  --gutter: clamp(1.25rem, 5vw, 3.5rem);
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: min(78vw, 400px);
+  gap: clamp(1rem, 2vw, 1.5rem);
+  margin-top: clamp(2.5rem, 5vw, 4rem);
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  /* First card lines up with the heading above; the rail still bleeds
+     to both edges of the viewport. */
+  padding-inline: calc(max(0px, (100% - 1240px) / 2) + var(--gutter));
+  scroll-padding-inline-start: calc(max(0px, (100% - 1240px) / 2) + var(--gutter));
+  padding-block: 4px;
+}
+.demo { scroll-snap-align: start; }
+.demo-link {
+  display: block; text-decoration: none;
+  transition: transform .25s var(--ease);
+}
+.demo-link:hover { transform: translateY(-3px); }
+.demo-link:active { transform: translateY(0); }
+.demo-shot {
+  width: 100%; aspect-ratio: 16 / 10; object-fit: cover;
+  border: 1px solid var(--line);
+  background: var(--surface);
+}
+/* Reserved frame, same dashed language as the testimonial slots. No
+   external placeholder service: this section is waiting on real
+   screenshots, and a third-party image that 503s just looks broken. */
+.demo-shot--empty {
+  display: grid; place-items: center;
+  border: 1px dashed var(--line-strong);
+  color: var(--ink-3);
+}
+.demo h3 { margin-top: 1.25rem; font-size: 1.25rem; }
+.demo p { margin-top: .5rem; color: var(--ink-2); max-width: 40ch; }
+.demo-go {
+  display: inline-block; margin-top: .9rem;
+  font-weight: 600; font-size: .95rem; color: var(--link);
+}
+.demo-link:hover .demo-go { text-decoration: underline; text-underline-offset: 3px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .demo-link { transition: none; }
+  .demo-link:hover { transform: none; }
+  .rail { scroll-snap-type: none; }
+}
+
 /* ---- Pricing: two-column split, grouped hairlines ---- */
 .price-grid { display: grid; gap: clamp(2.5rem, 6vw, 5rem); align-items: start; }
 @media (min-width: 900px) { .price-grid { grid-template-columns: 1fr 1.1fr; } }
@@ -602,6 +662,7 @@ h3 { font-size: clamp(1.35rem, 1.15rem + .8vw, 1.7rem); line-height: 1.15; }
 
     <nav class="nav-links" aria-label="Secciones">
       <a href="#proceso">Proceso</a>
+      <a href="#trabajo">Trabajo</a>
       <a href="#entrega">Qué te llevás</a>
       <a href="#precio">Precio</a>
     </nav>
@@ -771,13 +832,70 @@ h3 { font-size: clamp(1.35rem, 1.15rem + .8vw, 1.7rem); line-height: 1.15; }
     </div>
   </section>
 
+  <!-- ========== WORK: horizontal rail of shipped projects ==========
+       Fill each card with a real project: the href, a real screenshot,
+       the real name and one line saying what it solves. Add or remove
+       <article class="demo"> blocks freely, the rail takes any count.
+       Do not invent projects here. -->
+  <section class="section" id="trabajo">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 class="reveal">Lo que sale de ese proceso.</h2>
+      </div>
+    </div>
+
+    <div class="rail" role="region" aria-label="Proyectos entregados">
+      <article class="demo">
+        <a class="demo-link" href="#REEMPLAZAR-URL-1" target="_blank" rel="noopener noreferrer">
+          <!-- Swap this frame for the real screenshot:
+               <img class="demo-shot" src="img/proyecto.webp" width="1600" height="1000"
+                    loading="lazy" alt="Captura de [nombre del proyecto]"> -->
+          <div class="demo-shot demo-shot--empty">
+            <span class="label">Captura del proyecto</span>
+          </div>
+          <h3>[Nombre del proyecto]</h3>
+          <p>[Que resuelve, en una linea]</p>
+          <span class="demo-go">Ver en vivo</span>
+        </a>
+      </article>
+
+      <article class="demo">
+        <a class="demo-link" href="#REEMPLAZAR-URL-2" target="_blank" rel="noopener noreferrer">
+          <!-- Swap this frame for the real screenshot:
+               <img class="demo-shot" src="img/proyecto.webp" width="1600" height="1000"
+                    loading="lazy" alt="Captura de [nombre del proyecto]"> -->
+          <div class="demo-shot demo-shot--empty">
+            <span class="label">Captura del proyecto</span>
+          </div>
+          <h3>[Nombre del proyecto]</h3>
+          <p>[Que resuelve, en una linea]</p>
+          <span class="demo-go">Ver en vivo</span>
+        </a>
+      </article>
+
+      <article class="demo">
+        <a class="demo-link" href="#REEMPLAZAR-URL-3" target="_blank" rel="noopener noreferrer">
+          <!-- Swap this frame for the real screenshot:
+               <img class="demo-shot" src="img/proyecto.webp" width="1600" height="1000"
+                    loading="lazy" alt="Captura de [nombre del proyecto]"> -->
+          <div class="demo-shot demo-shot--empty">
+            <span class="label">Captura del proyecto</span>
+          </div>
+          <h3>[Nombre del proyecto]</h3>
+          <p>[Que resuelve, en una linea]</p>
+          <span class="demo-go">Ver en vivo</span>
+        </a>
+      </article>
+    </div>
+  </section>
+
   <!-- ========== PROOF: reserved, not invented ========== -->
   <section class="section proof">
     <div class="wrap proof-grid">
       <div>
         <h2 class="reveal">Todavía no publicamos testimonios.</h2>
         <p class="body-muted reveal proof-copy" style="--d:1">
-          Estamos cerrando los primeros proyectos. Cuando los clientes den el visto bueno, sus palabras van acá con nombre y empresa.
+          Los proyectos de arriba están entregados y online. Estamos pidiendo permiso para citar a los clientes: cuando den el visto bueno, sus palabras van acá con nombre y empresa.
         </p>
       </div>
 
@@ -907,6 +1025,7 @@ h3 { font-size: clamp(1.35rem, 1.15rem + .8vw, 1.7rem); line-height: 1.15; }
 
     <nav class="footer-links" aria-label="Pie de página">
       <a href="#proceso">Proceso</a>
+      <a href="#trabajo">Trabajo</a>
       <a href="#entrega">Qué te llevás</a>
       <a href="#precio">Precio</a>
       <a href="mailto:hola@linestack.dev">hola@linestack.dev</a>

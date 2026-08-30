@@ -66,6 +66,11 @@ The page ships with drafted content that is not confirmed:
   mandatory retainer, 48 hour response) are plausible copy, not agreed terms.
 - **`hola@linestack.dev`** is a placeholder address.
 - **Both photographs** are `picsum.photos` placeholders with unrelated subjects.
+  That service was returning 503 at the time of writing, so they may render as
+  empty boxes until replaced.
+- **The three project cards are empty frames.** Each needs a real screenshot, the
+  real name, one line saying what it solves, and its public URL in the `href`.
+  Add or remove `<article class="demo">` blocks freely; the rail takes any count.
 - **The contact form has no endpoint.** `FORM_ENDPOINT` is `null`, so it
   validates and shows the confirmation locally while warning in the console.
 - **Fonts load from the Google Fonts CDN.** Self-host them for production.
