@@ -522,6 +522,10 @@ h3 { font-size: clamp(1.35rem, 1.15rem + .8vw, 1.7rem); line-height: 1.15; }
   display: inline-block; margin-top: .9rem;
   font-weight: 600; font-size: .95rem; color: var(--link);
 }
+/* Not every project has a public URL. A desktop app or an internal tool
+   still belongs here; it just gets a factual note instead of a link that
+   goes nowhere. */
+.demo-note { display: inline-block; margin-top: .9rem; }
 .demo-link:hover .demo-go { text-decoration: underline; text-underline-offset: 3px; }
 
 @media (prefers-reduced-motion: reduce) {
@@ -873,18 +877,19 @@ h3 { font-size: clamp(1.35rem, 1.15rem + .8vw, 1.7rem); line-height: 1.15; }
         </a>
       </article>
 
+      <!-- Variant for work with no public URL: a desktop app, an internal
+           tool, anything behind a login. Same card, no anchor, and a
+           factual note where the link would go. -->
       <article class="demo">
-        <a class="demo-link" href="#REEMPLAZAR-URL-3" target="_blank" rel="noopener noreferrer">
-          <!-- Swap this frame for the real screenshot:
-               <img class="demo-shot" src="img/proyecto.webp" width="1600" height="1000"
-                    loading="lazy" alt="Captura de [nombre del proyecto]"> -->
-          <div class="demo-shot demo-shot--empty">
-            <span class="label">Captura del proyecto</span>
-          </div>
-          <h3>[Nombre del proyecto]</h3>
-          <p>[Que resuelve, en una linea]</p>
-          <span class="demo-go">Ver en vivo</span>
-        </a>
+        <!-- Swap this frame for the real screenshot:
+             <img class="demo-shot" src="img/proyecto.webp" width="1600" height="1000"
+                  loading="lazy" alt="Captura de [nombre del proyecto]"> -->
+        <div class="demo-shot demo-shot--empty">
+          <span class="label">Captura del proyecto</span>
+        </div>
+        <h3>[Nombre del proyecto]</h3>
+        <p>[Que resuelve, en una linea]</p>
+        <span class="demo-note label">[Aplicacion de escritorio / Herramienta interna]</span>
       </article>
     </div>
   </section>
