@@ -91,6 +91,10 @@ The page ships with drafted content that is not confirmed:
   reading the `<link>` tags, so the root copy answers them. The tags themselves
   use root-absolute paths so they survive being served from any route. Re-copy
   the root file from `img/` when the mark changes.
+- **The `.ico` tag comes before the SVG tag.** A browser that cannot read SVG
+  icons takes the first `rel="icon"` it understands, so leading with the SVG
+  leaves it with nothing; browsers that do read SVG still prefer it because of
+  the `type` hint. Keep that order.
 - **The favicon is a reduction of the mark, not a copy of it.** The nav geometry
   smudges below 24px, so the favicon uses thicker slabs, wider gaps, wider tonal
   steps, and a navy plate: the brand ramp runs light to deep navy, and without a

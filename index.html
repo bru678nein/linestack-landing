@@ -14,8 +14,13 @@
 <!-- Favicon. The SVG is the one modern browsers use; the .ico carries real
      16, 32 and 48px bitmaps for the ones that ignore SVG, rather than
      letting them downscale a large PNG. -->
+<!-- The .ico is declared first on purpose. A browser that cannot read the SVG
+     takes the first icon it understands, so leading with the SVG leaves those
+     browsers with no icon at all; browsers that do read SVG prefer it anyway
+     because of the type hint. The .ico points at the root copy so the tag and
+     the implicit /favicon.ico request resolve to the same file. -->
+<link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48">
 <link rel="icon" href="/img/favicon.svg" type="image/svg+xml">
-<link rel="icon" href="/img/favicon.ico" sizes="16x16 32x32 48x48">
 <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
 
 <!--
