@@ -84,4 +84,11 @@ The page ships with drafted content that is not confirmed:
 - **The contact form has no endpoint.** `FORM_ENDPOINT` is `null`, so it
   validates and shows the confirmation locally while warning in the console.
 - **Fonts load from the Google Fonts CDN.** Self-host them for production.
-- **The logo is a rebuilt SVG**, not the official asset.
+- **The logo is a rebuilt SVG**, not the official asset. That applies to the nav
+  mark, the process section and `img/favicon.svg`.
+- **The favicon is a reduction of the mark, not a copy of it.** The nav geometry
+  smudges below 24px, so the favicon uses thicker slabs, wider gaps, wider tonal
+  steps, and a navy plate: the brand ramp runs light to deep navy, and without a
+  plate the deep end disappears on light browser chrome and the light end on
+  dark. Re-render the `.ico` and the touch icon from the SVG if the mark
+  changes.

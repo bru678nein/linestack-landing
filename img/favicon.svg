@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" role="img" aria-label="Linestack">
+  <title>Linestack</title>
+  <!-- Navy plate. The brand ramp runs light to deep navy: the deep end would
+       vanish on light browser chrome and the light end on dark chrome, so the
+       mark sits on a plate and stays readable on both. -->
+  <rect width="32" height="32" fill="#0c2440"/>
+  <!-- Four slabs, thicker and further apart than the nav mark, with wider
+       tonal steps. A favicon is a reduction, not a copy: the nav geometry
+       smudges below 24px, and at 16px these read as bands rather than
+       rhombi, so the tones have to carry the separation. -->
+  <path d="M16 3.3 L27 5.5 L16 7.7 L5 5.5 Z" fill="#ffffff"/>
+  <path d="M16 10.3 L27 12.5 L16 14.7 L5 12.5 Z" fill="#b8d2e8"/>
+  <path d="M16 17.3 L27 19.5 L16 21.7 L5 19.5 Z" fill="#7aa6cc"/>
+  <path d="M16 24.3 L27 26.5 L16 28.7 L5 26.5 Z" fill="#4a7fae"/>
+</svg>
