@@ -444,21 +444,41 @@ h3 { font-size: clamp(1.35rem, 1.15rem + .8vw, 1.7rem); line-height: 1.15; }
   100% { color: var(--ink-3); }
 }
 
-/* ---- Handoff: full-width media band + two-column definition grid ---- */
-.band {
-  margin-top: clamp(2.5rem, 5vw, 4rem);
-  width: 100%; aspect-ratio: 21 / 9; object-fit: cover;
-  border: 1px solid var(--line);
-}
-@media (max-width: 700px) { .band { aspect-ratio: 3 / 2; } }
-
+/* ---- Handoff: asymmetric bento, five cells for five things ----
+   The five deliverables are not peers. "La opcion de irte" is the argument
+   the whole page builds toward, so it leads at double width on the navy
+   surface instead of sitting fifth in a flat two-column list.
+   Five items, five cells, no empty tile at the end. */
 .assets {
-  margin-top: clamp(3rem, 6vw, 4.5rem);
-  display: grid; gap: 2.5rem 4rem;
+  margin-top: clamp(2.5rem, 5vw, 4rem);
+  display: grid;
+  gap: clamp(.75rem, 1.5vw, 1rem);
 }
-@media (min-width: 800px) { .assets { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 720px)  { .assets { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1024px) { .assets { grid-template-columns: repeat(3, 1fr); } }
+
+.asset { padding: clamp(1.5rem, 3vw, 2.25rem); background: var(--surface); }
 .asset dt { font-weight: 700; font-size: 1.15rem; letter-spacing: -.02em; }
-.asset dd { margin: .5rem 0 0; color: var(--ink-2); max-width: 46ch; }
+.asset dd { margin: .6rem 0 0; color: var(--ink-2); max-width: 42ch; }
+
+/* In dark mode --panel and --surface are nearly the same blue (1.07:1),
+   so a tonal difference cannot carry the hierarchy there. The small cells
+   drop their fill and become outlines instead: filled-versus-outlined is
+   read instantly, where two close navies are not. */
+@media (prefers-color-scheme: dark) {
+  .asset { background: transparent; border: 1px solid var(--line); }
+}
+
+.asset--lead {
+  background: var(--panel);
+  border: 1px solid var(--panel-line);
+  color: var(--panel-ink);
+  display: flex; flex-direction: column; justify-content: flex-end;
+  min-height: 14rem;
+}
+@media (min-width: 720px) { .asset--lead { grid-column: span 2; min-height: 16rem; } }
+.asset--lead dt { font-size: clamp(1.5rem, 1.2rem + 1.1vw, 2rem); line-height: 1.05; letter-spacing: -.03em; }
+.asset--lead dd { color: var(--panel-muted); max-width: 38ch; margin-top: .9rem; }
 
 /* ---- Proof: honest reserved slots ---- */
 .proof { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
@@ -805,32 +825,26 @@ h3 { font-size: clamp(1.35rem, 1.15rem + .8vw, 1.7rem); line-height: 1.15; }
         <h2 class="reveal">Cuando terminamos, te llevás todo.</h2>
       </div>
 
-      <!-- TODO: replace with a real photo of a delivered project, 1800x780 -->
-      <img class="band reveal" style="--d:1"
-           src="https://picsum.photos/seed/linestack-handoff-screens/1800/780"
-           width="1800" height="780" loading="lazy"
-           alt="Pantallas de un proyecto entregado por Linestack">
-
       <dl class="assets">
-        <div class="asset reveal">
+        <div class="asset asset--lead reveal">
+          <dt>La opción de irte</dt>
+          <dd>Si querés seguir con otro equipo, no hay nada que desbloquear ni licencia que renovar.</dd>
+        </div>
+        <div class="asset reveal" style="--d:1">
           <dt>El repositorio</dt>
           <dd>En tu cuenta de GitHub, con el historial completo de commits.</dd>
         </div>
-        <div class="asset reveal" style="--d:1">
+        <div class="asset reveal" style="--d:2">
           <dt>La infraestructura</dt>
           <dd>Hosting, dominio y base de datos a nombre de tu empresa, no de la nuestra.</dd>
         </div>
-        <div class="asset reveal" style="--d:2">
+        <div class="asset reveal" style="--d:3">
           <dt>La documentación</dt>
           <dd>Cómo se despliega, cómo se edita el contenido y dónde toca cada cosa.</dd>
         </div>
-        <div class="asset reveal" style="--d:3">
+        <div class="asset reveal" style="--d:4">
           <dt>El diseño</dt>
           <dd>Archivos editables, con el sistema de componentes ya armado.</dd>
-        </div>
-        <div class="asset reveal" style="--d:4">
-          <dt>La opción de irte</dt>
-          <dd>Si querés seguir con otro equipo, no hay nada que desbloquear ni licencia que renovar.</dd>
         </div>
       </dl>
     </div>

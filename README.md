@@ -65,9 +65,9 @@ The page ships with drafted content that is not confirmed:
 - **Commercial terms** in the pricing section (fixed price, 50/50 payments, no
   mandatory retainer, 48 hour response) are plausible copy, not agreed terms.
 - **`hola@linestack.dev`** is a placeholder address.
-- **Both photographs** are `picsum.photos` placeholders with unrelated subjects.
-  That service was returning 503 at the time of writing, so they may render as
-  empty boxes until replaced.
+- **The hero photograph** is a `picsum.photos` placeholder with an unrelated
+  subject. That service was returning 503 at the time of writing, so it may
+  render as an empty box until replaced.
 - **The third project card is still a template.** Trainets and Blend Burger are
   real, with captured screenshots and live links. The remaining card waits for a
   name, a line saying what the project solves, and a screenshot; it uses the
