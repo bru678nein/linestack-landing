@@ -86,6 +86,11 @@ The page ships with drafted content that is not confirmed:
 - **Fonts load from the Google Fonts CDN.** Self-host them for production.
 - **The logo is a rebuilt SVG**, not the official asset. That applies to the nav
   mark, the process section and `img/favicon.svg`.
+- **`favicon.ico` is duplicated at the repo root.** Browsers, bookmark stores,
+  crawlers and link-preview bots request `/favicon.ico` directly, without ever
+  reading the `<link>` tags, so the root copy answers them. The tags themselves
+  use root-absolute paths so they survive being served from any route. Re-copy
+  the root file from `img/` when the mark changes.
 - **The favicon is a reduction of the mark, not a copy of it.** The nav geometry
   smudges below 24px, so the favicon uses thicker slabs, wider gaps, wider tonal
   steps, and a navy plate: the brand ramp runs light to deep navy, and without a
