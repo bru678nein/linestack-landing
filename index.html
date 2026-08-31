@@ -258,12 +258,25 @@ h3 { font-size: clamp(1.35rem, 1.15rem + .8vw, 1.7rem); line-height: 1.15; }
   right: -.9rem; bottom: -.9rem; width: 64%; height: 56%;
   background: var(--panel);
 }
-.hero-media img {
+.hero-media img,
+.hero-media .shot-empty {
   position: relative; z-index: 1;
   width: 100%; aspect-ratio: 4 / 5; object-fit: cover;
   border: 1px solid var(--line);
 }
-@media (max-width: 1023px) { .hero-media img { aspect-ratio: 4 / 3; } }
+@media (max-width: 1023px) {
+  .hero-media img,
+  .hero-media .shot-empty { aspect-ratio: 4 / 3; }
+}
+/* Reserved frame, same dashed language as the work cards and the
+   testimonial slots. Holds the composition until the real photo lands. */
+.hero-media .shot-empty {
+  display: grid; place-items: center;
+  padding: 2rem; text-align: center;
+  background: var(--surface);
+  border: 1px dashed var(--line-strong);
+  color: var(--ink-3);
+}
 
 /* ============================================================
    7. SECTION RHYTHM
@@ -758,10 +771,14 @@ h3 { font-size: clamp(1.35rem, 1.15rem + .8vw, 1.7rem); line-height: 1.15; }
       </div>
 
       <div class="hero-media reveal" style="--d:2">
-        <!-- TODO: replace with a real photo of the team or workspace, 1000x1250 -->
-        <img src="https://picsum.photos/seed/linestack-studio-desk/1000/1250"
-             width="1000" height="1250" fetchpriority="high"
-             alt="Espacio de trabajo del estudio Linestack">
+        <!-- Swap this frame for the real photo. It is the LCP element, so
+             keep fetchpriority="high" and do NOT add loading="lazy":
+             <img src="img/hero.webp" width="1000" height="1250" fetchpriority="high"
+                  alt="El diseño de una pantalla abierto en un monitor y esa misma
+                       pantalla funcionando en el otro"> -->
+        <div class="shot-empty">
+          <span class="label">Foto del hero<br>4:5 vertical</span>
+        </div>
       </div>
     </div>
   </section>
