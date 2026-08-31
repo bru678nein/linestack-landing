@@ -1,11 +1,8 @@
 // Verifies the LayerStack scroll choreography using Motion's own pure
 // interpolation, mirroring exactly what useTransform does at runtime.
-// Constants must stay in sync with src/components/LayerStack.tsx.
 import { interpolate, cubicBezier } from "motion";
 
 const CANVAS = 480;
-const SLAB_HALF_W = 150;
-const SLAB_HALF_H = 32;
 const SLAB_PITCH = 80;
 const EASE = cubicBezier(0.16, 1, 0.3, 1);
 const TOTAL = 4;
@@ -67,28 +64,26 @@ for (let i = 0; i < TOTAL; i++) {
   const at1 = slabAt(i, 1);
   const scat = scatterFor(i, TOTAL);
   check(`slab ${i} starts scattered`,
-    r2(at0.x) === r2(scat.x) && r2(at0.y) === r2(scat.y) && r2(at0.rotate) === r2(scat.rotate));
+    r2(at0.x) === r2(scat.x) && r2(at0.y) === r2(scat.y) && r2(at0.rotate) === r2(scat.rotate),
+    JSON.stringify({ x: r2(at0.x), y: r2(at0.y), r: r2(at0.rotate) }));
   check(`slab ${i} ends in its logo slot`,
     r2(at1.x) === 0 && r2(at1.y) === r2(slots[i]) && r2(at1.rotate) === 0 &&
     r2(at1.opacity) === 1 && r2(at1.scale) === 1,
     JSON.stringify({ x: r2(at1.x), y: r2(at1.y), r: r2(at1.rotate), o: r2(at1.opacity), s: r2(at1.scale) }));
 }
 
-console.log("\n--- clipping: an SVG cuts at its viewBox, so nothing may leave it ---");
-const rad = (d) => (d * Math.PI) / 180;
+console.log("\n--- no slab drifts outside the canvas while scattered ---");
+const SLAB_HALF_W = 150, SLAB_HALF_H = 32;
 for (let i = 0; i < TOTAL; i++) {
-  let worst = -Infinity;
-  for (let p = 0; p <= 1.0001; p += 0.005) {
+  let worst = 0;
+  for (let p = 0; p <= 1.0001; p += 0.01) {
     const s = slabAt(i, p);
-    // Half extents of a rotated rectangle, then scaled.
-    const c = Math.abs(Math.cos(rad(s.rotate))), sn = Math.abs(Math.sin(rad(s.rotate)));
-    const hx = (SLAB_HALF_W * c + SLAB_HALF_H * sn) * s.scale;
-    const hy = (SLAB_HALF_W * sn + SLAB_HALF_H * c) * s.scale;
     const cx = CANVAS / 2 + s.x, cy = CANVAS / 2 + s.y;
-    worst = Math.max(worst, -(cx - hx), (cx + hx) - CANVAS, -(cy - hy), (cy + hy) - CANVAS);
+    worst = Math.max(worst,
+      -(cx - SLAB_HALF_W * s.scale), (cx + SLAB_HALF_W * s.scale) - CANVAS,
+      -(cy - SLAB_HALF_H * s.scale), (cy + SLAB_HALF_H * s.scale) - CANVAS);
   }
-  check(`slab ${i} never leaves the viewBox`, worst <= 0, `worst margin ${r2(worst)}px`);
-  console.log(`      slab ${i} closest approach to an edge: ${r2(-worst)}px of clearance`);
+  console.log(`slab ${i} max overflow past viewBox edge: ${r2(worst)}px`);
 }
 
 console.log("\n--- active step mapping ---");

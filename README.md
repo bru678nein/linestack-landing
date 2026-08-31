@@ -68,11 +68,15 @@ The page ships with drafted content that is not confirmed:
 - **Both photographs** are `picsum.photos` placeholders with unrelated subjects.
   That service was returning 503 at the time of writing, so they may render as
   empty boxes until replaced.
-- **The project cards still need screenshots.** The first card points at the live
-  Trainets site; the other two are templates waiting for a real name, a line
-  saying what the project solves, and a URL. Every card renders a reserved frame
-  until a real screenshot replaces it. Add or remove `<article class="demo">`
-  blocks freely; the rail takes any count.
+- **The third project card is still a template.** Trainets and Blend Burger are
+  real, with captured screenshots and live links. The remaining card waits for a
+  name, a line saying what the project solves, and a screenshot; it uses the
+  no-URL variant, since the project it is held for is a desktop app. Delete it
+  rather than shipping it empty. Add or remove `<article class="demo">` blocks
+  freely; the rail takes any count.
+- **Screenshots are captured headless at 1600x1000**, the aspect the card
+  renders at, then encoded to WebP. Crop the frame above any hosting badge the
+  provider injects.
 - **The contact form has no endpoint.** `FORM_ENDPOINT` is `null`, so it
   validates and shows the confirmation locally while warning in the console.
 - **Fonts load from the Google Fonts CDN.** Self-host them for production.
