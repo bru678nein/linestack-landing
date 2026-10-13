@@ -1,1302 +1,1302 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Linestack | Proporcionamos soluciones digitales a los problemas de tu negocio</title>
-<meta name="description" content="Estudio de desarrollo para equipos chicos. Alcance cerrado, entregas cada dos semanas y el codigo a tu nombre.">
-<meta property="og:title" content="Linestack | Desarrollo de web apps y landing pages">
-<meta property="og:description" content="Alcance cerrado, entregas cada dos semanas y el codigo a tu nombre.">
-<meta property="og:type" content="website">
-<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#08182b" media="(prefers-color-scheme: dark)">
+    <!DOCTYPE html>
+    <html lang="es">
+    <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Linestack</title>
+    <meta name="description" content="Estudio de desarrollo para equipos chicos. Alcance cerrado, entregas cada dos semanas y el codigo a tu nombre.">
+    <meta property="og:title" content="Linestack | Desarrollo de web apps y landing pages">
+    <meta property="og:description" content="Alcance cerrado, entregas cada dos semanas y el codigo a tu nombre.">
+    <meta property="og:type" content="website">
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#08182b" media="(prefers-color-scheme: dark)">
 
-<!-- Favicon. The SVG is the one modern browsers use; the .ico carries real
-     16, 32 and 48px bitmaps for the ones that ignore SVG, rather than
-     letting them downscale a large PNG. -->
-<!-- The .ico is declared first on purpose. A browser that cannot read the SVG
-     takes the first icon it understands, so leading with the SVG leaves those
-     browsers with no icon at all; browsers that do read SVG prefer it anyway
-     because of the type hint. The .ico points at the root copy so the tag and
-     the implicit /favicon.ico request resolve to the same file. -->
-<link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48">
-<link rel="icon" href="/img/favicon.svg" type="image/svg+xml">
-<link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+    <!-- Favicon. The SVG is the one modern browsers use; the .ico carries real
+        16, 32 and 48px bitmaps for the ones that ignore SVG, rather than
+        letting them downscale a large PNG. -->
+    <!-- The .ico is declared first on purpose. A browser that cannot read the SVG
+        takes the first icon it understands, so leading with the SVG leaves those
+        browsers with no icon at all; browsers that do read SVG prefer it anyway
+        because of the type hint. The .ico points at the root copy so the tag and
+        the implicit /favicon.ico request resolve to the same file. -->
+    <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48">
+    <link rel="icon" href="/img/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
 
-<!--
-  NOTE ON FONTS: this file is a single self-contained deliverable, so fonts load
-  from the Google Fonts CDN. For production, self-host Archivo + JetBrains Mono
-  with @font-face and font-display: swap.
--->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,400..800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <!--
+    NOTE ON FONTS: this file is a single self-contained deliverable, so fonts load
+    from the Google Fonts CDN. For production, self-host Archivo + JetBrains Mono
+    with @font-face and font-display: swap.
+    -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,400..800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-<style>
-/* ============================================================
-   1. TOKENS
-   Palette derived from the Linestack mark: a four-step blue ramp
-   (light slab to deep navy) on a cool paper base. One warm accent,
-   reserved exclusively for calls to action.
-   Radius system: all-sharp. 0 on surfaces, 2px on interactive.
-   ============================================================ */
-:root {
-  /* Page is white, so the process layers invert the usual relationship and
-     sit on a light tint: white slabs on a white page would not read. */
-  --paper:        #ffffff;
-  --surface:      #f1f6fa;
-  --ink:          #0a1e35;
-  --ink-2:        #2a4763;
-  --ink-3:        #4d6a86;
-  --line:         rgba(10, 30, 53, .14);
-  --line-strong:  rgba(10, 30, 53, .30);
+    <style>
+    /* ============================================================
+    1. TOKENS
+    Palette derived from the Linestack mark: a four-step blue ramp
+    (light slab to deep navy) on a cool paper base. One warm accent,
+    reserved exclusively for calls to action.
+    Radius system: all-sharp. 0 on surfaces, 2px on interactive.
+    ============================================================ */
+    :root {
+    /* Page is white, so the process layers invert the usual relationship and
+        sit on a light tint: white slabs on a white page would not read. */
+    --paper:        #ffffff;
+    --surface:      #f1f6fa;
+    --ink:          #0a1e35;
+    --ink-2:        #2a4763;
+    --ink-3:        #4d6a86;
+    --line:         rgba(10, 30, 53, .14);
+    --line-strong:  rgba(10, 30, 53, .30);
 
-  /* Accent is the wordmark blue. The literal #4a7fae fails AA as a button
-     surface (4.29:1 against white, 3.69:1 against navy), so the interactive
-     surface uses one step deeper of the same hue: 5.27:1 against the label. */
-  --accent:       #3f7099;
-  --accent-hover: #35618a;
-  --accent-ink:   #f7fbfe;
-  --focus-ring:   #3f7099;
-  /* Same hue as the accent, but sized for text rather than a button
-     surface. The accent only reaches 3.39:1 as text on the dark
-     background, so dark mode moves this one up the ramp. */
-  --link:         #3f7099;
+    /* Accent is the wordmark blue. The literal #4a7fae fails AA as a button
+        surface (4.29:1 against white, 3.69:1 against navy), so the interactive
+        surface uses one step deeper of the same hue: 5.27:1 against the label. */
+    --accent:       #3f7099;
+    --accent-hover: #35618a;
+    --accent-ink:   #f7fbfe;
+    --focus-ring:   #3f7099;
+    /* Same hue as the accent, but sized for text rather than a button
+        surface. The accent only reaches 3.39:1 as text on the dark
+        background, so dark mode moves this one up the ramp. */
+    --link:         #3f7099;
 
-  --panel:        #0c2440;
-  --panel-ink:    #eef4fa;
-  --panel-muted:  #9db8d2;
-  --panel-line:   rgba(238, 244, 250, .18);
+    --panel:        #0c2440;
+    --panel-ink:    #eef4fa;
+    --panel-muted:  #9db8d2;
+    --panel-line:   rgba(238, 244, 250, .18);
 
-  /* Brand ramp, used structurally on the process layers */
-  --slab-1: #a9c8e2;
-  --slab-2: #7aa6cc;
-  --slab-3: #4a7fae;
-  --slab-4: #123a63;
+    /* Brand ramp, used structurally on the process layers */
+    --slab-1: #a9c8e2;
+    --slab-2: #7aa6cc;
+    --slab-3: #4a7fae;
+    --slab-4: #123a63;
 
-  --r: 2px;
-  --nav-h: 68px;
+    --r: 2px;
+    --nav-h: 68px;
 
-  --font: "Archivo", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
-  --ease: cubic-bezier(.16, 1, .3, 1);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --paper:       #08182b;
-    --surface:     #0d2742;
-    --ink:         #e9f0f7;
-    --ink-2:       #b6cadd;
-    --ink-3:       #8fa9c2;
-    --line:        rgba(233, 240, 247, .14);
-    --line-strong: rgba(233, 240, 247, .30);
-    --panel:       #0f2c4c;
-    --focus-ring:  #86b0d3;
-    --link:        #86b0d3;
-  }
-}
-
-/* ============================================================
-   2. RESET + BASE
-   ============================================================ */
-*, *::before, *::after { box-sizing: border-box; }
-* { margin: 0; }
-
-html { -webkit-text-size-adjust: 100%; }
-@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
-
-body {
-  background: var(--paper);
-  color: var(--ink);
-  font-family: var(--font);
-  font-size: clamp(1rem, .96rem + .2vw, 1.0625rem);
-  line-height: 1.6;
-  -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
-}
-
-img { display: block; max-width: 100%; height: auto; }
-a { color: inherit; }
-
-:focus-visible {
-  outline: 2px solid var(--focus-ring);
-  outline-offset: 3px;
-  border-radius: var(--r);
-}
-
-.skip {
-  position: absolute; left: 1rem; top: -4rem; z-index: 100;
-  background: var(--accent); color: var(--accent-ink);
-  padding: .75rem 1.25rem; font-weight: 600; text-decoration: none;
-  transition: top .2s var(--ease);
-}
-.skip:focus { top: 1rem; }
-
-.wrap {
-  width: 100%;
-  max-width: 1240px;
-  margin-inline: auto;
-  padding-inline: clamp(1.25rem, 5vw, 3.5rem);
-}
-
-section { scroll-margin-top: calc(var(--nav-h) + 1rem); }
-
-/* ============================================================
-   3. TYPE SCALE
-   Archivo carries a width axis. Display type runs slightly
-   expanded and tight, body stays at normal width.
-   ============================================================ */
-.display, h1, h2, h3 {
-  font-weight: 700;
-  line-height: 1.02;
-  letter-spacing: -.03em;
-  font-variation-settings: "wdth" 112;
-  text-wrap: balance;
-}
-
-/* Scale planned against the hero asset: a seven word headline caps at
-   ~3.4rem so it lands on two lines and the CTAs stay above the fold. */
-h1 { font-size: clamp(2.05rem, 1.1rem + 2.9vw, 3rem); }
-h2 { font-size: clamp(1.9rem, 1.3rem + 2.4vw, 2.85rem); }
-h3 { font-size: clamp(1.35rem, 1.15rem + .8vw, 1.7rem); line-height: 1.15; }
-
-.lead {
-  font-size: clamp(1.0625rem, 1rem + .45vw, 1.3rem);
-  color: var(--ink-2);
-  max-width: 46ch;
-  line-height: 1.55;
-}
-
-.body-muted { color: var(--ink-2); max-width: 62ch; }
-
-.label {
-  font-family: var(--mono);
-  font-size: .78rem;
-  letter-spacing: .02em;
-  color: var(--ink-3);
-}
-
-/* ============================================================
-   4. BUTTONS
-   Accent buttons carry a near-white label at 5.06:1. The literal wordmark
-   blue #4a7fae was rejected as the surface: it fails AA both ways.
-   ============================================================ */
-.btn {
-  display: inline-flex; align-items: center; justify-content: center;
-  min-height: 48px;
-  padding: .8rem 1.6rem;
-  border: 1px solid transparent;
-  border-radius: var(--r);
-  font: inherit; font-weight: 600; letter-spacing: -.01em;
-  text-decoration: none; white-space: nowrap; cursor: pointer;
-  transition: background-color .2s var(--ease), transform .18s var(--ease),
-              border-color .2s var(--ease), color .2s var(--ease),
-              box-shadow .25s var(--ease);
-}
-
-/* Controls lift on hover and return to rest on press, so the click reads as
-   a physical push. Focus-visible gets the same treatment: a keyboard user
-   should see the affordance a mouse user sees, not just the ring.
-   The shadow is tinted with the accent, never a grey drop under a blue. */
-.btn-primary { background: var(--accent); color: var(--accent-ink); }
-.btn-primary:hover,
-.btn-primary:focus-visible {
-  background: var(--accent-hover);
-  transform: translateY(-2px);
-  box-shadow: 0 10px 22px -10px color-mix(in srgb, var(--accent) 65%, transparent);
-}
-.btn-primary:active { transform: translateY(0); box-shadow: none; }
-
-.btn-ghost { background: transparent; color: var(--ink); border-color: var(--line-strong); }
-.btn-ghost:hover,
-.btn-ghost:focus-visible {
-  border-color: var(--ink);
-  background: color-mix(in srgb, var(--ink) 6%, transparent);
-  transform: translateY(-2px);
-}
-.btn-ghost:active { transform: translateY(0); }
-
-.btn-sm { min-height: 44px; padding: .55rem 1.15rem; font-size: .95rem; }
-
-.btn[disabled] { opacity: .6; cursor: not-allowed; transform: none; }
-
-/* ============================================================
-   5. NAV  (single line, 68px, condenses to logo + CTA on mobile)
-   ============================================================ */
-.nav {
-  position: sticky; top: 0; z-index: 50;
-  height: var(--nav-h);
-  display: flex; align-items: center;
-  background: color-mix(in srgb, var(--paper) 88%, transparent);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid var(--line);
-}
-.nav-inner { display: flex; align-items: center; justify-content: space-between; gap: 2rem; width: 100%; }
-
-.brand { display: inline-flex; align-items: center; gap: .6rem; text-decoration: none; }
-.brand svg { width: 26px; height: 26px; flex: none; }
-.brand-name {
-  font-weight: 700; font-size: 1.05rem; letter-spacing: .01em;
-  font-variation-settings: "wdth" 108;
-}
-.brand-name span { color: var(--slab-3); }
-
-.nav-links { display: none; gap: 2rem; }
-.nav-links a {
-  text-decoration: none; color: var(--ink-2); font-size: .95rem; font-weight: 500;
-  padding: .5rem 0; transition: color .2s var(--ease);
-}
-.nav-links a:hover { color: var(--ink); }
-
-@media (min-width: 900px) { .nav-links { display: flex; } }
-
-/* ============================================================
-   6. HERO  (asymmetric split, photo offset against a navy slab)
-   ============================================================ */
-.hero { padding-block: clamp(2.5rem, 5vw, 5.5rem) clamp(3.5rem, 7vw, 7rem); }
-@media (min-width: 1024px) { .hero { min-height: calc(100dvh - var(--nav-h)); display: grid; align-items: center; } }
-
-.hero-grid { display: grid; gap: clamp(2.5rem, 6vw, 4.5rem); }
-@media (min-width: 1024px) { .hero-grid { grid-template-columns: 1.25fr .75fr; align-items: center; } }
-
-.hero h1 { max-width: 22ch; text-wrap: pretty; }
-.hero .lead { margin-top: 1.5rem; max-width: 42ch; }
-.hero-actions { display: flex; flex-wrap: wrap; gap: .85rem; margin-top: 2.25rem; }
-
-.hero-media { position: relative; }
-.hero-media::before {
-  content: ""; position: absolute; z-index: 0;
-  right: -.9rem; bottom: -.9rem; width: 64%; height: 56%;
-  background: var(--panel);
-}
-.hero-media img,
-.hero-media .shot-empty {
-  position: relative; z-index: 1;
-  width: 100%; aspect-ratio: 4 / 5; object-fit: cover;
-  border: 1px solid var(--line);
-}
-@media (max-width: 1023px) {
-  .hero-media img,
-  .hero-media .shot-empty { aspect-ratio: 4 / 3; }
-}
-/* Reserved frame, same dashed language as the work cards and the
-   testimonial slots. Holds the composition until the real photo lands. */
-.hero-media .shot-empty {
-  display: grid; place-items: center;
-  padding: 2rem; text-align: center;
-  background: var(--surface);
-  border: 1px dashed var(--line-strong);
-  color: var(--ink-3);
-}
-
-/* ============================================================
-   7. SECTION RHYTHM
-   ============================================================ */
-.section { padding-block: clamp(4.5rem, 10vw, 9rem); }
-.section-head { max-width: 34ch; }
-.section-head h2 + p { margin-top: 1.5rem; }
-
-.rule { height: 1px; background: var(--line); border: 0; }
-
-/* ---- Problem: editorial statement + asymmetric pain blocks ---- */
-.problem-grid { display: grid; gap: clamp(2.5rem, 6vw, 5rem); }
-@media (min-width: 900px) { .problem-grid { grid-template-columns: 1.1fr 1.1fr; align-items: start; } }
-
-.pains { display: grid; gap: 0; }
-.pain {
-  padding-block: 1.6rem;
-  border-top: 1px solid var(--line);
-  display: grid; grid-template-columns: 9px 1fr; gap: 1.1rem; align-items: start;
-}
-.pain:last-child { border-bottom: 1px solid var(--line); }
-/* Square slab, not a rule: a horizontal line here reads as a long dash. */
-.pain-mark { width: 9px; height: 9px; background: var(--slab-3); margin-top: .55rem; }
-.pain p { font-size: 1.0625rem; color: var(--ink); max-width: 42ch; }
-
-.problem-close {
-  margin-top: clamp(3rem, 6vw, 4.5rem);
-  font-size: clamp(1.35rem, 1.1rem + 1.2vw, 2rem);
-  font-weight: 600; letter-spacing: -.02em; line-height: 1.25;
-  max-width: 22ch;
-  font-variation-settings: "wdth" 108;
-}
-
-/* ============================================================
-   PROCESS: the mark assembles itself as you read the steps
-
-   Four slabs start scattered and settle into their slots until the
-   group is exactly the Linestack logo. The motion says one thing:
-   separate layers become one ordered stack, which is what the process
-   does and what the mark is.
-
-   Driven entirely by CSS scroll-driven animations. No JavaScript, no
-   scroll listeners. The assembled formation is the DEFAULT state, so
-   browsers without `animation-timeline` show the finished mark rather
-   than a broken section.
-   ============================================================ */
-
-/* Tinted full-bleed band: this is the centrepiece of the page and the
-   only section that leaves the white. */
-.process-band {
-  background: var(--surface);
-  border-block: 1px solid var(--line);
-}
-
-.process { display: grid; gap: clamp(2.5rem, 6vw, 4rem); margin-top: clamp(2.5rem, 5vw, 4rem); }
-@media (min-width: 768px) {
-  .process {
-    grid-template-columns: 1fr 0.8fr;
-    gap: clamp(3rem, 7vw, 6rem);
-    /* Items stretch on purpose. If this column only grew to the height of
-       the mark, the sticky element would unstick almost immediately. */
-    align-items: stretch;
-  }
-}
-
-/* ---- Steps ---- */
-.psteps { list-style: none; margin: 0; padding: 0; }
-.pstep {
-  display: grid; grid-template-columns: 9px 1fr; gap: 1.1rem; align-items: start;
-  padding-block: 2rem;
-  border-top: 1px solid var(--line);
-}
-.pstep:first-child { border-top: 0; padding-top: 0; }
-@media (min-width: 768px) {
-  /* Tall steps give the timeline its scroll distance. The room comes
-     from real content, never from an empty spacer. */
-  .pstep { min-height: 58vh; align-content: center; border-top: 0; padding-block: 0; }
-}
-.pstep-dot { width: 9px; height: 9px; background: var(--slab-c); margin-top: .55rem; }
-/* The active step is signalled by heading colour, never by dimming the
-   block. Fading inactive steps drops body text under AA, and text a
-   reader might stop on has to stay readable. */
-.pstep { color: var(--ink); }
-.pstep h3 { font-size: clamp(1.35rem, 1.15rem + .8vw, 1.7rem); max-width: 24ch; color: inherit; }
-.pstep p { margin-top: 1rem; color: var(--ink-2); max-width: 48ch; }
-
-.pstep:nth-child(1) { --slab-c: var(--slab-1); }
-.pstep:nth-child(2) { --slab-c: var(--slab-2); }
-.pstep:nth-child(3) { --slab-c: var(--slab-3); }
-.pstep:nth-child(4) { --slab-c: var(--slab-4); }
-
-/* ---- The mark ---- */
-/* Reads first on mobile, sits beside the steps on desktop. */
-.pmark { order: -1; }
-@media (min-width: 768px) {
-  .pmark { order: 0; }
-  .pmark-inner { position: sticky; top: calc(var(--nav-h) + 3rem); }
-}
-
-/* The canvas is wider than the assembled mark on purpose: an SVG clips
-   at its viewBox, so the scattered slabs need the room. */
-.assembly { display: block; width: 100%; max-width: 260px; margin-inline: auto; }
-@media (min-width: 768px) { .assembly { max-width: 420px; } }
-
-.slab { transform-box: fill-box; transform-origin: center; }
-
-/* DEFAULT STATE = the assembled logo. Everything below only rearranges
-   how the page gets here. */
-.slab-1 { transform: translate(0, -120px); }
-.slab-2 { transform: translate(0, -40px); }
-.slab-3 { transform: translate(0, 40px); }
-.slab-4 { transform: translate(0, 120px); }
-
-/* Arrival windows, as bare numbers. Both paths below read these exact
-   custom properties, so a stagger is only ever authored once: the native
-   timeline multiplies them into percentages, the fallback into a delay.
-   Each slab lands during its own step, so arrival and reading stay in
-   sync. The last settles at 88%, leaving a beat on the finished mark. */
-.slab-1 { --r0: 0;  --r1: 30; }
-.slab-2 { --r0: 20; --r1: 50; }
-.slab-3 { --r0: 39; --r1: 69; }
-.slab-4 { --r0: 58; --r1: 88; }
-.pstep:nth-child(1) { --r0: 0;  --r1: 30; }
-.pstep:nth-child(2) { --r0: 22; --r1: 55; }
-.pstep:nth-child(3) { --r0: 47; --r1: 80; }
-.pstep:nth-child(4) { --r0: 72; --r1: 100; }
-
-/* Native path: Chrome, Edge, Safari. */
-@supports (animation-timeline: view()) {
-  @media (prefers-reduced-motion: no-preference) and (min-width: 768px) {
-    /* The whole grid is the timeline subject. `contain 0%` is the moment
-       its top meets the viewport top, `contain 100%` the moment its
-       bottom meets the viewport bottom. */
-    .process { view-timeline-name: --process-track; }
-
-    .slab, .pstep {
-      animation-duration: auto;
-      animation-fill-mode: both;
-      animation-timeline: --process-track;
-      animation-range: contain calc(var(--r0) * 1%) contain calc(var(--r1) * 1%);
+    --font: "Archivo", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    --ease: cubic-bezier(.16, 1, .3, 1);
     }
-    .slab { animation-timing-function: cubic-bezier(.16, 1, .3, 1); will-change: transform, opacity; }
 
-    .slab-1 { animation-name: settle-1; }
-    .slab-2 { animation-name: settle-2; }
-    .slab-3 { animation-name: settle-3; }
-    .slab-4 { animation-name: settle-4; }
-    .pstep  { animation-name: step-focus; }
-  }
-}
+    @media (prefers-color-scheme: dark) {
+    :root {
+        --paper:       #08182b;
+        --surface:     #0d2742;
+        --ink:         #e9f0f7;
+        --ink-2:       #b6cadd;
+        --ink-3:       #8fa9c2;
+        --line:        rgba(233, 240, 247, .14);
+        --line-strong: rgba(233, 240, 247, .30);
+        --panel:       #0f2c4c;
+        --focus-ring:  #86b0d3;
+        --link:        #86b0d3;
+    }
+    }
 
-/* Fallback path: Firefox and LibreWolf, which have no `animation-timeline`
-   yet. Same keyframes, same ranges. The animations run paused and script
-   picks the frame with a negative `animation-delay`, so no motion values
-   are ever restated in JavaScript. The class is set from script only when
-   the native path is unavailable. */
-@media (min-width: 768px) {
-  .scrub .slab, .scrub .pstep {
-    animation-duration: 1s;
-    animation-fill-mode: both;
-    animation-play-state: paused;
-  }
-  .scrub .slab { animation-timing-function: cubic-bezier(.16, 1, .3, 1); }
+    /* ============================================================
+    2. RESET + BASE
+    ============================================================ */
+    *, *::before, *::after { box-sizing: border-box; }
+    * { margin: 0; }
 
-  .scrub .slab-1 { animation-name: settle-1; }
-  .scrub .slab-2 { animation-name: settle-2; }
-  .scrub .slab-3 { animation-name: settle-3; }
-  .scrub .slab-4 { animation-name: settle-4; }
-  .scrub .pstep  { animation-name: step-focus; }
-}
+    html { -webkit-text-size-adjust: 100%; }
+    @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
 
-/* Scatter values are shared with the React port in stack-react/. */
-@keyframes settle-1 {
-  from { transform: translate(-78px, -150px) scale(.84) rotate(-9deg); opacity: .28; }
-  to   { transform: translate(0, -120px) scale(1) rotate(0deg); opacity: 1; }
-}
-@keyframes settle-2 {
-  from { transform: translate(92px, -50px) scale(.84) rotate(13deg); opacity: .28; }
-  to   { transform: translate(0, -40px) scale(1) rotate(0deg); opacity: 1; }
-}
-@keyframes settle-3 {
-  from { transform: translate(-106px, 50px) scale(.84) rotate(-17deg); opacity: .28; }
-  to   { transform: translate(0, 40px) scale(1) rotate(0deg); opacity: 1; }
-}
-@keyframes settle-4 {
-  from { transform: translate(78px, 150px) scale(.84) rotate(9deg); opacity: .28; }
-  to   { transform: translate(0, 120px) scale(1) rotate(0deg); opacity: 1; }
-}
-/* Both ends of this pass AA against the band: 5.2:1 resting, 14.5:1 active. */
-@keyframes step-focus {
-  0%   { color: var(--ink-3); }
-  20%  { color: var(--ink); }
-  80%  { color: var(--ink); }
-  100% { color: var(--ink-3); }
-}
+    body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font);
+    font-size: clamp(1rem, .96rem + .2vw, 1.0625rem);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    }
 
-/* ---- Handoff: asymmetric bento, five cells for five things ----
-   The five deliverables are not peers. "La opcion de irte" is the argument
-   the whole page builds toward, so it leads at double width on the navy
-   surface instead of sitting fifth in a flat two-column list.
-   Five items, five cells, no empty tile at the end. */
-.assets {
-  margin-top: clamp(2.5rem, 5vw, 4rem);
-  display: grid;
-  gap: clamp(.75rem, 1.5vw, 1rem);
-}
-@media (min-width: 720px)  { .assets { grid-template-columns: repeat(2, 1fr); } }
-@media (min-width: 1024px) { .assets { grid-template-columns: repeat(3, 1fr); } }
+    img { display: block; max-width: 100%; height: auto; }
+    a { color: inherit; }
 
-/* Cells do NOT lift on hover. They are content inside a <dl>, not controls,
-   and a card that rises promises a click that never comes. They get the
-   brand slab edge instead: it wipes in from the top, which is the same
-   vertical language the mark uses, and it is a transform so it stays off
-   the paint path. */
-.asset {
-  position: relative;
-  padding: clamp(1.5rem, 3vw, 2.25rem);
-  background: var(--surface);
-  transition: background-color .3s var(--ease);
-}
-.asset::before {
-  content: "";
-  position: absolute; inset: 0 auto 0 0; width: 3px;
-  background: var(--slab-3);
-  transform: scaleY(0); transform-origin: top;
-  transition: transform .35s var(--ease);
-}
-.asset:hover::before { transform: scaleY(1); }
-.asset:hover { background: color-mix(in srgb, var(--surface) 93%, var(--ink)); }
-.asset dt { font-weight: 700; font-size: 1.15rem; letter-spacing: -.02em; }
-.asset dd { margin: .6rem 0 0; color: var(--ink-2); max-width: 42ch; }
+    :focus-visible {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: 3px;
+    border-radius: var(--r);
+    }
 
-/* In dark mode --panel and --surface are nearly the same blue (1.07:1),
-   so a tonal difference cannot carry the hierarchy there. The small cells
-   drop their fill and become outlines instead: filled-versus-outlined is
-   read instantly, where two close navies are not. */
-@media (prefers-color-scheme: dark) {
-  .asset { background: transparent; border: 1px solid var(--line); }
-  /* Outlined at rest, filled on hover: the same filled-versus-outlined
-     distinction that carries the hierarchy here also carries the hover. */
-  .asset:hover { background: var(--surface); }
-}
+    .skip {
+    position: absolute; left: 1rem; top: -4rem; z-index: 100;
+    background: var(--accent); color: var(--accent-ink);
+    padding: .75rem 1.25rem; font-weight: 600; text-decoration: none;
+    transition: top .2s var(--ease);
+    }
+    .skip:focus { top: 1rem; }
 
-.asset--lead {
-  background: var(--panel);
-  border: 1px solid var(--panel-line);
-  color: var(--panel-ink);
-  display: flex; flex-direction: column; justify-content: flex-end;
-  min-height: 14rem;
-}
-@media (min-width: 720px) { .asset--lead { grid-column: span 2; min-height: 16rem; } }
-.asset--lead::before { background: var(--slab-2); }
-.asset--lead:hover { background: color-mix(in srgb, var(--panel) 88%, var(--slab-4)); }
-.asset--lead dt { font-size: clamp(1.5rem, 1.2rem + 1.1vw, 2rem); line-height: 1.05; letter-spacing: -.03em; }
-.asset--lead dd { color: var(--panel-muted); max-width: 38ch; margin-top: .9rem; }
+    .wrap {
+    width: 100%;
+    max-width: 1240px;
+    margin-inline: auto;
+    padding-inline: clamp(1.25rem, 5vw, 3.5rem);
+    }
 
-/* ---- Proof: honest reserved slots ---- */
-.proof { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
-.proof-grid { display: grid; gap: clamp(2rem, 5vw, 3.5rem); align-items: center; }
-@media (min-width: 900px) { .proof-grid { grid-template-columns: .9fr 1.1fr; } }
-.slots { display: grid; gap: 1rem; }
-@media (min-width: 560px) { .slots { grid-template-columns: 1fr 1fr; } }
-.proof-copy { margin-top: 1.25rem; }
-.slot {
-  border: 1px dashed var(--line-strong);
-  padding: 1.5rem;
-  min-height: 148px;
-  display: flex; align-items: flex-end;
-  color: var(--ink-3);
-}
+    section { scroll-margin-top: calc(var(--nav-h) + 1rem); }
 
-/* ---- Work: full-bleed horizontal rail ----
-   Every other section on this page is a two-column split, so the work
-   breaks the container and scrolls sideways instead. It also survives
-   having only two projects, which a three-column grid does not: a grid
-   with one empty cell reads as missing work. */
-.rail {
-  --gutter: clamp(1.25rem, 5vw, 3.5rem);
-  display: grid;
-  grid-auto-flow: column;
-  grid-auto-columns: min(78vw, 400px);
-  gap: clamp(1rem, 2vw, 1.5rem);
-  margin-top: clamp(2.5rem, 5vw, 4rem);
-  overflow-x: auto;
-  overscroll-behavior-x: contain;
-  scroll-snap-type: x mandatory;
-  /* First card lines up with the heading above; the rail still bleeds
-     to both edges of the viewport. */
-  padding-inline: calc(max(0px, (100% - 1240px) / 2) + var(--gutter));
-  scroll-padding-inline-start: calc(max(0px, (100% - 1240px) / 2) + var(--gutter));
-  padding-block: 4px;
-}
-.demo { scroll-snap-align: start; }
-.demo-link {
-  display: block; text-decoration: none;
-  transition: transform .25s var(--ease);
-}
-.demo-link:hover { transform: translateY(-3px); }
-.demo-link:active { transform: translateY(0); }
-.demo-shot {
-  width: 100%; aspect-ratio: 16 / 10; object-fit: cover;
-  border: 1px solid var(--line);
-  background: var(--surface);
-}
-/* Reserved frame, same dashed language as the testimonial slots. No
-   external placeholder service: this section is waiting on real
-   screenshots, and a third-party image that 503s just looks broken. */
-.demo-shot--empty {
-  display: grid; place-items: center;
-  border: 1px dashed var(--line-strong);
-  color: var(--ink-3);
-}
-.demo h3 { margin-top: 1.25rem; font-size: 1.25rem; }
-.demo p { margin-top: .5rem; color: var(--ink-2); max-width: 40ch; }
-.demo-go {
-  display: inline-block; margin-top: .9rem;
-  font-weight: 600; font-size: .95rem; color: var(--link);
-}
-/* Not every project has a public URL. A desktop app or an internal tool
-   still belongs here; it just gets a factual note instead of a link that
-   goes nowhere. */
-.demo-note { display: inline-block; margin-top: .9rem; }
-.demo-link:hover .demo-go { text-decoration: underline; text-underline-offset: 3px; }
+    /* ============================================================
+    3. TYPE SCALE
+    Archivo carries a width axis. Display type runs slightly
+    expanded and tight, body stays at normal width.
+    ============================================================ */
+    .display, h1, h2, h3 {
+    font-weight: 700;
+    line-height: 1.02;
+    letter-spacing: -.03em;
+    font-variation-settings: "wdth" 112;
+    text-wrap: balance;
+    }
 
-@media (prefers-reduced-motion: reduce) {
-  .demo-link { transition: none; }
-  .demo-link:hover { transform: none; }
-  .rail { scroll-snap-type: none; }
-}
+    /* Scale planned against the hero asset: a seven word headline caps at
+    ~3.4rem so it lands on two lines and the CTAs stay above the fold. */
+    h1 { font-size: clamp(2.05rem, 1.1rem + 2.9vw, 3rem); }
+    h2 { font-size: clamp(1.9rem, 1.3rem + 2.4vw, 2.85rem); }
+    h3 { font-size: clamp(1.35rem, 1.15rem + .8vw, 1.7rem); line-height: 1.15; }
 
-/* ---- Pricing: two-column split, grouped hairlines ---- */
-.price-grid { display: grid; gap: clamp(2.5rem, 6vw, 5rem); align-items: start; }
-@media (min-width: 900px) { .price-grid { grid-template-columns: 1fr 1.1fr; } }
-.terms { display: grid; }
-.term { padding-block: 1.5rem; border-top: 1px solid var(--line); }
-.term:last-child { border-bottom: 1px solid var(--line); }
-.term h3 { font-size: 1.1rem; letter-spacing: -.02em; }
-.term p { margin-top: .4rem; color: var(--ink-2); max-width: 48ch; }
+    .lead {
+    font-size: clamp(1.0625rem, 1rem + .45vw, 1.3rem);
+    color: var(--ink-2);
+    max-width: 46ch;
+    line-height: 1.55;
+    }
 
-/* ============================================================
-   8. FINAL CTA PANEL
-   A contained navy surface, not a page-wide theme flip: the page
-   stays locked to one theme end to end.
-   ============================================================ */
-.cta-panel {
-  /* Same accent hue, stepped for the surface it sits on: the page-level blue
-     only reaches 2.97:1 against this navy panel, so the button and the focus
-     ring move up the brand ramp. Documented rule, not a second accent. */
-  --accent:       #7aa6cc;
-  --accent-hover: #93b8d8;
-  --accent-ink:   #0a1e35;
-  --focus-ring:   #a9c8e2;
-  background: var(--panel);
-  color: var(--panel-ink);
-  padding: clamp(2.25rem, 6vw, 4.5rem);
-  border: 1px solid var(--panel-line);
-}
-.cta-grid { display: grid; gap: clamp(2.5rem, 5vw, 4rem); }
-@media (min-width: 900px) { .cta-grid { grid-template-columns: .95fr 1.05fr; } }
-.cta-panel h2 { max-width: 15ch; }
-.cta-panel .lead { color: var(--panel-muted); margin-top: 1.25rem; }
-.cta-contact { margin-top: 2rem; font-family: var(--mono); font-size: .85rem; color: var(--panel-muted); }
-.cta-contact a { color: var(--panel-ink); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+    .body-muted { color: var(--ink-2); max-width: 62ch; }
 
-/* ---- Form ---- */
-.field { margin-bottom: 1.25rem; }
-.field label { display: block; font-weight: 600; font-size: .95rem; margin-bottom: .45rem; }
-.field .hint { display: block; font-family: var(--mono); font-size: .75rem; color: var(--panel-muted); margin-bottom: .5rem; }
-.field input, .field select, .field textarea {
-  width: 100%;
-  min-height: 48px;
-  padding: .75rem .9rem;
-  font: inherit; font-size: 1rem;
-  color: var(--panel-ink);
-  background: rgba(255, 255, 255, .06);
-  border: 1px solid rgba(238, 244, 250, .34);
-  border-radius: var(--r);
-  transition: border-color .2s var(--ease), background-color .2s var(--ease);
-}
-.field textarea { min-height: 110px; resize: vertical; }
-.field select { appearance: none; background-image: none; }
-.field input::placeholder, .field textarea::placeholder { color: #a9c1d6; }
-.field input:hover, .field select:hover, .field textarea:hover { border-color: rgba(238, 244, 250, .6); }
-.field input:focus, .field select:focus, .field textarea:focus {
-  outline: 2px solid var(--focus-ring); outline-offset: 1px;
-  background: rgba(255, 255, 255, .1);
-}
-.field [aria-invalid="true"] { border-color: #ff9c7a; }
-.error {
-  display: none; margin-top: .4rem;
-  font-family: var(--mono); font-size: .78rem; color: #ffb59a;
-}
-.error.show { display: block; }
+    .label {
+    font-family: var(--mono);
+    font-size: .78rem;
+    letter-spacing: .02em;
+    color: var(--ink-3);
+    }
 
-.form-foot { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; margin-top: 1.75rem; }
-.form-foot .label { color: var(--panel-muted); }
+    /* ============================================================
+    4. BUTTONS
+    Accent buttons carry a near-white label at 5.06:1. The literal wordmark
+    blue #4a7fae was rejected as the surface: it fails AA both ways.
+    ============================================================ */
+    .btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-height: 48px;
+    padding: .8rem 1.6rem;
+    border: 1px solid transparent;
+    border-radius: var(--r);
+    font: inherit; font-weight: 600; letter-spacing: -.01em;
+    text-decoration: none; white-space: nowrap; cursor: pointer;
+    transition: background-color .2s var(--ease), transform .18s var(--ease),
+                border-color .2s var(--ease), color .2s var(--ease),
+                box-shadow .25s var(--ease);
+    }
 
-#e-form { margin-top: 1rem; }
+    /* Controls lift on hover and return to rest on press, so the click reads as
+    a physical push. Focus-visible gets the same treatment: a keyboard user
+    should see the affordance a mouse user sees, not just the ring.
+    The shadow is tinted with the accent, never a grey drop under a blue. */
+    .btn-primary { background: var(--accent); color: var(--accent-ink); }
+    .btn-primary:hover,
+    .btn-primary:focus-visible {
+    background: var(--accent-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 22px -10px color-mix(in srgb, var(--accent) 65%, transparent);
+    }
+    .btn-primary:active { transform: translateY(0); box-shadow: none; }
 
-.form-done {
-  display: none;
-  outline: none;
-  border: 1px solid var(--panel-line);
-  padding: clamp(1.75rem, 4vw, 2.5rem);
-}
-.form-done.show { display: block; }
-.form-done h3 { font-size: 1.5rem; }
-.form-done p { margin-top: .75rem; color: var(--panel-muted); max-width: 40ch; }
+    .btn-ghost { background: transparent; color: var(--ink); border-color: var(--line-strong); }
+    .btn-ghost:hover,
+    .btn-ghost:focus-visible {
+    border-color: var(--ink);
+    background: color-mix(in srgb, var(--ink) 6%, transparent);
+    transform: translateY(-2px);
+    }
+    .btn-ghost:active { transform: translateY(0); }
 
-/* ============================================================
-   9. FOOTER
-   ============================================================ */
-.footer { border-top: 1px solid var(--line); padding-block: 3rem 3.5rem; }
-.footer-inner { display: flex; flex-wrap: wrap; gap: 2rem; justify-content: space-between; align-items: flex-start; }
-.footer-links { display: flex; flex-wrap: wrap; gap: 1.5rem; }
-.footer-links a { color: var(--ink-2); text-decoration: none; font-size: .95rem; }
-.footer-links a:hover { color: var(--ink); }
-.footer-meta { font-family: var(--mono); font-size: .75rem; color: var(--ink-3); }
+    .btn-sm { min-height: 44px; padding: .55rem 1.15rem; font-size: .95rem; }
 
-/* ============================================================
-   10. MOTION
-   Every transition below answers to one of: hierarchy on load,
-   sequence on scroll, or feedback on input. Nothing loops.
-   ============================================================ */
-.reveal {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity .75s var(--ease), transform .75s var(--ease);
-  transition-delay: calc(var(--d, 0) * 80ms);
-}
-.reveal.in { opacity: 1; transform: none; }
+    .btn[disabled] { opacity: .6; cursor: not-allowed; transform: none; }
 
-@media (prefers-reduced-motion: reduce) {
-  .reveal { opacity: 1; transform: none; transition: none; }
-  .btn:active { transform: none; }
-  /* The universal selector does not match pseudo-elements, so ::before and
-     ::after keep their transitions unless named here. The hover bar on the
-     handoff cells was still animating for 350ms under reduce because of it. */
-  *, *::before, *::after {
-    animation-duration: .01ms !important;
-    transition-duration: .01ms !important;
-  }
-}
-</style>
-</head>
+    /* ============================================================
+    5. NAV  (single line, 68px, condenses to logo + CTA on mobile)
+    ============================================================ */
+    .nav {
+    position: sticky; top: 0; z-index: 50;
+    height: var(--nav-h);
+    display: flex; align-items: center;
+    background: color-mix(in srgb, var(--paper) 88%, transparent);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+    }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; gap: 2rem; width: 100%; }
 
-<body>
-<a class="skip" href="#main">Ir al contenido</a>
+    .brand { display: inline-flex; align-items: center; gap: .6rem; text-decoration: none; }
+    .brand svg { width: 26px; height: 26px; flex: none; }
+    .brand-name {
+    font-weight: 700; font-size: 1.05rem; letter-spacing: .01em;
+    font-variation-settings: "wdth" 108;
+    }
+    .brand-name span { color: var(--slab-3); }
 
-<header class="nav">
-  <div class="wrap nav-inner">
-    <a class="brand" href="#top" aria-label="Linestack, inicio">
-      <!--
-        Brand mark rebuilt as inline SVG from the supplied logo: four stacked
-        isometric slabs on the brand blue ramp. Replace with the official
-        vector asset when available.
-      -->
-      <svg viewBox="0 0 28 28" role="img" aria-hidden="true" focusable="false">
-        <path d="M14 1.5 L26 5 L14 8.5 L2 5 Z" fill="#d7e6f2"/>
-        <path d="M14 8 L26 11.5 L14 15 L2 11.5 Z" fill="#9dc0dc"/>
-        <path d="M14 14.5 L26 18 L14 21.5 L2 18 Z" fill="#4a7fae"/>
-        <path d="M14 21 L26 24.5 L14 28 L2 24.5 Z" fill="#123a63"/>
-      </svg>
-      <span class="brand-name">LINE<span>STACK</span></span>
-    </a>
+    .nav-links { display: none; gap: 2rem; }
+    .nav-links a {
+    text-decoration: none; color: var(--ink-2); font-size: .95rem; font-weight: 500;
+    padding: .5rem 0; transition: color .2s var(--ease);
+    }
+    .nav-links a:hover { color: var(--ink); }
 
-    <nav class="nav-links" aria-label="Secciones">
-      <a href="#proceso">Proceso</a>
-      <a href="#trabajo">Trabajo</a>
-      <a href="#entrega">Qué te llevás</a>
-      <a href="#precio">Precio</a>
-    </nav>
+    @media (min-width: 900px) { .nav-links { display: flex; } }
 
-    <a class="btn btn-primary btn-sm" href="#contacto">Pedir presupuesto</a>
-  </div>
-</header>
+    /* ============================================================
+    6. HERO  (asymmetric split, photo offset against a navy slab)
+    ============================================================ */
+    .hero { padding-block: clamp(2.5rem, 5vw, 5.5rem) clamp(3.5rem, 7vw, 7rem); }
+    @media (min-width: 1024px) { .hero { min-height: calc(100dvh - var(--nav-h)); display: grid; align-items: center; } }
 
-<main id="main">
+    .hero-grid { display: grid; gap: clamp(2.5rem, 6vw, 4.5rem); }
+    @media (min-width: 1024px) { .hero-grid { grid-template-columns: 1.25fr .75fr; align-items: center; } }
 
-  <!-- ========== HERO ========== -->
-  <section class="hero" id="top">
-    <div class="wrap hero-grid">
-      <div>
-        <h1 class="reveal">Construimos tu producto.<br>Vos ves cada capa.</h1>
-        <p class="lead reveal" style="--d:1">
-          Automatizaciones, aplicaciones web, paginas, la solucion digital que quieras a un precio accesible y de la mas alta calidad.
-        </p>
-        <div class="hero-actions reveal" style="--d:2">
-          <a class="btn btn-primary" href="#contacto">Pedir presupuesto</a>
-          <a class="btn btn-ghost" href="#proceso">Cómo trabajamos</a>
-        </div>
-      </div>
+    .hero h1 { max-width: 22ch; text-wrap: pretty; }
+    .hero .lead { margin-top: 1.5rem; max-width: 42ch; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: .85rem; margin-top: 2.25rem; }
 
-      <div class="hero-media reveal" style="--d:2">
-        <!-- Swap this frame for the real photo. It is the LCP element, so
-             keep fetchpriority="high" and do NOT add loading="lazy":
-             <img src="img/hero.webp" width="1000" height="1250" fetchpriority="high"
-                  alt="El diseño de una pantalla abierto en un monitor y esa misma
-                       pantalla funcionando en el otro"> -->
-        <div class="shot-empty">
-          <span class="label">Foto del hero<br>4:5 vertical</span>
-        </div>
-      </div>
-    </div>
-  </section>
-  <!-- ========== PROBLEM ========== -->
-  <section class="section" id="problema">
-    <div class="wrap problem-grid">
-      <div class="section-head">
-        <h2 class="reveal">Contratar desarrollo es una caja negra.</h2>
-        <p class="lead reveal" style="--d:1">
-          Casi nadie que nos escribe tuvo una mala experiencia con el código. La tuvieron con todo lo demás.
-        </p>
-      </div>
+    .hero-media { position: relative; }
+    .hero-media::before {
+    content: ""; position: absolute; z-index: 0;
+    right: -.9rem; bottom: -.9rem; width: 64%; height: 56%;
+    background: var(--panel);
+    }
+    .hero-media img,
+    .hero-media .shot-empty {
+    position: relative; z-index: 1;
+    width: 100%; aspect-ratio: 4 / 5; object-fit: cover;
+    border: 1px solid var(--line);
+    }
+    @media (max-width: 1023px) {
+    .hero-media img,
+    .hero-media .shot-empty { aspect-ratio: 4 / 3; }
+    }
+    /* Reserved frame, same dashed language as the work cards and the
+    testimonial slots. Holds the composition until the real photo lands. */
+    .hero-media .shot-empty {
+    display: grid; place-items: center;
+    padding: 2rem; text-align: center;
+    background: var(--surface);
+    border: 1px dashed var(--line-strong);
+    color: var(--ink-3);
+    }
 
-      <div>
-        <div class="pains">
-          <div class="pain reveal">
-            <span class="pain-mark" aria-hidden="true"></span>
-            <p>El presupuesto se movía cada vez que preguntabas algo.</p>
-          </div>
-          <div class="pain reveal" style="--d:1">
-            <span class="pain-mark" aria-hidden="true"></span>
-            <p>Tres semanas de silencio y después una demo que no era lo que pediste.</p>
-          </div>
-          <div class="pain reveal" style="--d:2">
-            <span class="pain-mark" aria-hidden="true"></span>
-            <p>El sitio funciona, pero nadie sabe en qué servidor vive.</p>
-          </div>
-          <div class="pain reveal" style="--d:3">
-            <span class="pain-mark" aria-hidden="true"></span>
-            <p>Cambiar un precio implica pedirle un favor a alguien.</p>
-          </div>
-        </div>
+    /* ============================================================
+    7. SECTION RHYTHM
+    ============================================================ */
+    .section { padding-block: clamp(4.5rem, 10vw, 9rem); }
+    .section-head { max-width: 34ch; }
+    .section-head h2 + p { margin-top: 1.5rem; }
 
-        <p class="problem-close reveal" style="--d:2">
-          Ninguno de estos es un problema técnico. Todos son de proceso.
-        </p>
-      </div>
-    </div>
-  </section>
+    .rule { height: 1px; background: var(--line); border: 0; }
 
-  <!-- ========== PROCESS: the mark assembles on scroll ========== -->
-  <section class="section process-band" id="proceso">
-    <div class="wrap">
-      <div class="section-head">
-        <h2 class="reveal">Cuatro capas, en este orden.</h2>
-      </div>
+    /* ---- Problem: editorial statement + asymmetric pain blocks ---- */
+    .problem-grid { display: grid; gap: clamp(2.5rem, 6vw, 5rem); }
+    @media (min-width: 900px) { .problem-grid { grid-template-columns: 1.1fr 1.1fr; align-items: start; } }
 
-      <div class="process">
-        <ol class="psteps">
-          <li class="pstep">
-            <span class="pstep-dot" aria-hidden="true"></span>
-            <div>
-              <h3>Definimos el alcance</h3>
-              <p>Salís de la primera llamada con una lista de lo que entra, lo que queda afuera y cuánto cuesta.</p>
-            </div>
-          </li>
+    .pains { display: grid; gap: 0; }
+    .pain {
+    padding-block: 1.6rem;
+    border-top: 1px solid var(--line);
+    display: grid; grid-template-columns: 9px 1fr; gap: 1.1rem; align-items: start;
+    }
+    .pain:last-child { border-bottom: 1px solid var(--line); }
+    /* Square slab, not a rule: a horizontal line here reads as a long dash. */
+    .pain-mark { width: 9px; height: 9px; background: var(--slab-3); margin-top: .55rem; }
+    .pain p { font-size: 1.0625rem; color: var(--ink); max-width: 42ch; }
 
-          <li class="pstep">
-            <span class="pstep-dot" aria-hidden="true"></span>
-            <div>
-              <h3>Diseñamos las pantallas</h3>
-              <p>Ves la interfaz completa antes de que exista una línea de código. Mover cosas acá no cuesta nada.</p>
-            </div>
-          </li>
+    .problem-close {
+    margin-top: clamp(3rem, 6vw, 4.5rem);
+    font-size: clamp(1.35rem, 1.1rem + 1.2vw, 2rem);
+    font-weight: 600; letter-spacing: -.02em; line-height: 1.25;
+    max-width: 22ch;
+    font-variation-settings: "wdth" 108;
+    }
 
-          <li class="pstep">
-            <span class="pstep-dot" aria-hidden="true"></span>
-            <div>
-              <h3>Construimos en tramos de dos semanas</h3>
-              <p>Cada tramo cierra con algo que podés abrir y usar. El entorno de prueba está siempre disponible.</p>
-            </div>
-          </li>
+    /* ============================================================
+    PROCESS: the mark assembles itself as you read the steps
 
-          <li class="pstep">
-            <span class="pstep-dot" aria-hidden="true"></span>
-            <div>
-              <h3>Salimos a producción con vos</h3>
-              <p>Publicamos juntos y quedamos disponibles treinta días para los ajustes que aparecen con usuarios reales.</p>
-            </div>
-          </li>
-        </ol>
+    Four slabs start scattered and settle into their slots until the
+    group is exactly the Linestack logo. The motion says one thing:
+    separate layers become one ordered stack, which is what the process
+    does and what the mark is.
 
-        <div class="pmark">
-          <div class="pmark-inner">
-            <!--
-              The brand mark as four separate slabs. Same geometry as the
-              nav logo, scaled up: the assembled formation is the logo.
-            -->
-            <svg class="assembly" viewBox="0 0 480 480" role="img"
-                 aria-label="Las cuatro capas del proceso se ordenan hasta formar el logotipo de Linestack.">
-              <path class="slab slab-1" d="M240 208 L390 240 L240 272 L90 240 Z" fill="#d7e6f2"/>
-              <path class="slab slab-2" d="M240 208 L390 240 L240 272 L90 240 Z" fill="#9dc0dc"/>
-              <path class="slab slab-3" d="M240 208 L390 240 L240 272 L90 240 Z" fill="#4a7fae"/>
-              <path class="slab slab-4" d="M240 208 L390 240 L240 272 L90 240 Z" fill="#123a63"/>
-            </svg>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+    Driven entirely by CSS scroll-driven animations. No JavaScript, no
+    scroll listeners. The assembled formation is the DEFAULT state, so
+    browsers without `animation-timeline` show the finished mark rather
+    than a broken section.
+    ============================================================ */
 
-  <!-- ========== HANDOFF ========== -->
-  <section class="section" id="entrega">
-    <div class="wrap">
-      <div class="section-head">
-        <h2 class="reveal">Cuando terminamos, te llevás todo.</h2>
-      </div>
+    /* Tinted full-bleed band: this is the centrepiece of the page and the
+    only section that leaves the white. */
+    .process-band {
+    background: var(--surface);
+    border-block: 1px solid var(--line);
+    }
 
-      <dl class="assets">
-        <div class="asset asset--lead reveal">
-          <dt>La opción de irte</dt>
-          <dd>Si querés seguir con otro equipo, no hay nada que desbloquear ni licencia que renovar.</dd>
-        </div>
-        <div class="asset reveal" style="--d:1">
-          <dt>El repositorio</dt>
-          <dd>En tu cuenta de GitHub, con el historial completo de commits.</dd>
-        </div>
-        <div class="asset reveal" style="--d:2">
-          <dt>La infraestructura</dt>
-          <dd>Hosting, dominio y base de datos a nombre de tu empresa, no de la nuestra.</dd>
-        </div>
-        <div class="asset reveal" style="--d:3">
-          <dt>La documentación</dt>
-          <dd>Cómo se despliega, cómo se edita el contenido y dónde toca cada cosa.</dd>
-        </div>
-        <div class="asset reveal" style="--d:4">
-          <dt>El diseño</dt>
-          <dd>Archivos editables, con el sistema de componentes ya armado.</dd>
-        </div>
-      </dl>
-    </div>
-  </section>
+    .process { display: grid; gap: clamp(2.5rem, 6vw, 4rem); margin-top: clamp(2.5rem, 5vw, 4rem); }
+    @media (min-width: 768px) {
+    .process {
+        grid-template-columns: 1fr 0.8fr;
+        gap: clamp(3rem, 7vw, 6rem);
+        /* Items stretch on purpose. If this column only grew to the height of
+        the mark, the sticky element would unstick almost immediately. */
+        align-items: stretch;
+    }
+    }
 
-  <!-- ========== WORK: horizontal rail of shipped projects ==========
-       Fill each card with a real project: the href, a real screenshot,
-       the real name and one line saying what it solves. Add or remove
-       <article class="demo"> blocks freely, the rail takes any count.
-       Do not invent projects here. -->
-  <section class="section" id="trabajo">
-    <div class="wrap">
-      <div class="section-head">
-        <h2 class="reveal">Lo que sale de ese proceso.</h2>
-      </div>
-    </div>
+    /* ---- Steps ---- */
+    .psteps { list-style: none; margin: 0; padding: 0; }
+    .pstep {
+    display: grid; grid-template-columns: 9px 1fr; gap: 1.1rem; align-items: start;
+    padding-block: 2rem;
+    border-top: 1px solid var(--line);
+    }
+    .pstep:first-child { border-top: 0; padding-top: 0; }
+    @media (min-width: 768px) {
+    /* Tall steps give the timeline its scroll distance. The room comes
+        from real content, never from an empty spacer. */
+    .pstep { min-height: 58vh; align-content: center; border-top: 0; padding-block: 0; }
+    }
+    .pstep-dot { width: 9px; height: 9px; background: var(--slab-c); margin-top: .55rem; }
+    /* The active step is signalled by heading colour, never by dimming the
+    block. Fading inactive steps drops body text under AA, and text a
+    reader might stop on has to stay readable. */
+    .pstep { color: var(--ink); }
+    .pstep h3 { font-size: clamp(1.35rem, 1.15rem + .8vw, 1.7rem); max-width: 24ch; color: inherit; }
+    .pstep p { margin-top: 1rem; color: var(--ink-2); max-width: 48ch; }
 
-    <div class="rail" role="region" aria-label="Proyectos entregados">
-      <article class="demo">
-        <a class="demo-link" href="https://www.trainets.com" target="_blank" rel="noopener noreferrer">
-          <img class="demo-shot" src="img/trainets.webp" width="1600" height="1000"
-               loading="lazy" decoding="async"
-               alt="Landing de Trainets, con el programador de mesociclos a la derecha del titular">
-          <h3>Trainets</h3>
-          <p>Programación de entrenamiento para coaches. La planilla, sin la parte de copiar celdas.</p>
-          <span class="demo-go">Ver en vivo</span>
+    .pstep:nth-child(1) { --slab-c: var(--slab-1); }
+    .pstep:nth-child(2) { --slab-c: var(--slab-2); }
+    .pstep:nth-child(3) { --slab-c: var(--slab-3); }
+    .pstep:nth-child(4) { --slab-c: var(--slab-4); }
+
+    /* ---- The mark ---- */
+    /* Reads first on mobile, sits beside the steps on desktop. */
+    .pmark { order: -1; }
+    @media (min-width: 768px) {
+    .pmark { order: 0; }
+    .pmark-inner { position: sticky; top: calc(var(--nav-h) + 3rem); }
+    }
+
+    /* The canvas is wider than the assembled mark on purpose: an SVG clips
+    at its viewBox, so the scattered slabs need the room. */
+    .assembly { display: block; width: 100%; max-width: 260px; margin-inline: auto; }
+    @media (min-width: 768px) { .assembly { max-width: 420px; } }
+
+    .slab { transform-box: fill-box; transform-origin: center; }
+
+    /* DEFAULT STATE = the assembled logo. Everything below only rearranges
+    how the page gets here. */
+    .slab-1 { transform: translate(0, -120px); }
+    .slab-2 { transform: translate(0, -40px); }
+    .slab-3 { transform: translate(0, 40px); }
+    .slab-4 { transform: translate(0, 120px); }
+
+    /* Arrival windows, as bare numbers. Both paths below read these exact
+    custom properties, so a stagger is only ever authored once: the native
+    timeline multiplies them into percentages, the fallback into a delay.
+    Each slab lands during its own step, so arrival and reading stay in
+    sync. The last settles at 88%, leaving a beat on the finished mark. */
+    .slab-1 { --r0: 0;  --r1: 30; }
+    .slab-2 { --r0: 20; --r1: 50; }
+    .slab-3 { --r0: 39; --r1: 69; }
+    .slab-4 { --r0: 58; --r1: 88; }
+    .pstep:nth-child(1) { --r0: 0;  --r1: 30; }
+    .pstep:nth-child(2) { --r0: 22; --r1: 55; }
+    .pstep:nth-child(3) { --r0: 47; --r1: 80; }
+    .pstep:nth-child(4) { --r0: 72; --r1: 100; }
+
+    /* Native path: Chrome, Edge, Safari. */
+    @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) and (min-width: 768px) {
+        /* The whole grid is the timeline subject. `contain 0%` is the moment
+        its top meets the viewport top, `contain 100%` the moment its
+        bottom meets the viewport bottom. */
+        .process { view-timeline-name: --process-track; }
+
+        .slab, .pstep {
+        animation-duration: auto;
+        animation-fill-mode: both;
+        animation-timeline: --process-track;
+        animation-range: contain calc(var(--r0) * 1%) contain calc(var(--r1) * 1%);
+        }
+        .slab { animation-timing-function: cubic-bezier(.16, 1, .3, 1); will-change: transform, opacity; }
+
+        .slab-1 { animation-name: settle-1; }
+        .slab-2 { animation-name: settle-2; }
+        .slab-3 { animation-name: settle-3; }
+        .slab-4 { animation-name: settle-4; }
+        .pstep  { animation-name: step-focus; }
+    }
+    }
+
+    /* Fallback path: Firefox and LibreWolf, which have no `animation-timeline`
+    yet. Same keyframes, same ranges. The animations run paused and script
+    picks the frame with a negative `animation-delay`, so no motion values
+    are ever restated in JavaScript. The class is set from script only when
+    the native path is unavailable. */
+    @media (min-width: 768px) {
+    .scrub .slab, .scrub .pstep {
+        animation-duration: 1s;
+        animation-fill-mode: both;
+        animation-play-state: paused;
+    }
+    .scrub .slab { animation-timing-function: cubic-bezier(.16, 1, .3, 1); }
+
+    .scrub .slab-1 { animation-name: settle-1; }
+    .scrub .slab-2 { animation-name: settle-2; }
+    .scrub .slab-3 { animation-name: settle-3; }
+    .scrub .slab-4 { animation-name: settle-4; }
+    .scrub .pstep  { animation-name: step-focus; }
+    }
+
+    /* Scatter values are shared with the React port in stack-react/. */
+    @keyframes settle-1 {
+    from { transform: translate(-78px, -150px) scale(.84) rotate(-9deg); opacity: .28; }
+    to   { transform: translate(0, -120px) scale(1) rotate(0deg); opacity: 1; }
+    }
+    @keyframes settle-2 {
+    from { transform: translate(92px, -50px) scale(.84) rotate(13deg); opacity: .28; }
+    to   { transform: translate(0, -40px) scale(1) rotate(0deg); opacity: 1; }
+    }
+    @keyframes settle-3 {
+    from { transform: translate(-106px, 50px) scale(.84) rotate(-17deg); opacity: .28; }
+    to   { transform: translate(0, 40px) scale(1) rotate(0deg); opacity: 1; }
+    }
+    @keyframes settle-4 {
+    from { transform: translate(78px, 150px) scale(.84) rotate(9deg); opacity: .28; }
+    to   { transform: translate(0, 120px) scale(1) rotate(0deg); opacity: 1; }
+    }
+    /* Both ends of this pass AA against the band: 5.2:1 resting, 14.5:1 active. */
+    @keyframes step-focus {
+    0%   { color: var(--ink-3); }
+    20%  { color: var(--ink); }
+    80%  { color: var(--ink); }
+    100% { color: var(--ink-3); }
+    }
+
+    /* ---- Handoff: asymmetric bento, five cells for five things ----
+    The five deliverables are not peers. "La opcion de irte" is the argument
+    the whole page builds toward, so it leads at double width on the navy
+    surface instead of sitting fifth in a flat two-column list.
+    Five items, five cells, no empty tile at the end. */
+    .assets {
+    margin-top: clamp(2.5rem, 5vw, 4rem);
+    display: grid;
+    gap: clamp(.75rem, 1.5vw, 1rem);
+    }
+    @media (min-width: 720px)  { .assets { grid-template-columns: repeat(2, 1fr); } }
+    @media (min-width: 1024px) { .assets { grid-template-columns: repeat(3, 1fr); } }
+
+    /* Cells do NOT lift on hover. They are content inside a <dl>, not controls,
+    and a card that rises promises a click that never comes. They get the
+    brand slab edge instead: it wipes in from the top, which is the same
+    vertical language the mark uses, and it is a transform so it stays off
+    the paint path. */
+    .asset {
+    position: relative;
+    padding: clamp(1.5rem, 3vw, 2.25rem);
+    background: var(--surface);
+    transition: background-color .3s var(--ease);
+    }
+    .asset::before {
+    content: "";
+    position: absolute; inset: 0 auto 0 0; width: 3px;
+    background: var(--slab-3);
+    transform: scaleY(0); transform-origin: top;
+    transition: transform .35s var(--ease);
+    }
+    .asset:hover::before { transform: scaleY(1); }
+    .asset:hover { background: color-mix(in srgb, var(--surface) 93%, var(--ink)); }
+    .asset dt { font-weight: 700; font-size: 1.15rem; letter-spacing: -.02em; }
+    .asset dd { margin: .6rem 0 0; color: var(--ink-2); max-width: 42ch; }
+
+    /* In dark mode --panel and --surface are nearly the same blue (1.07:1),
+    so a tonal difference cannot carry the hierarchy there. The small cells
+    drop their fill and become outlines instead: filled-versus-outlined is
+    read instantly, where two close navies are not. */
+    @media (prefers-color-scheme: dark) {
+    .asset { background: transparent; border: 1px solid var(--line); }
+    /* Outlined at rest, filled on hover: the same filled-versus-outlined
+        distinction that carries the hierarchy here also carries the hover. */
+    .asset:hover { background: var(--surface); }
+    }
+
+    .asset--lead {
+    background: var(--panel);
+    border: 1px solid var(--panel-line);
+    color: var(--panel-ink);
+    display: flex; flex-direction: column; justify-content: flex-end;
+    min-height: 14rem;
+    }
+    @media (min-width: 720px) { .asset--lead { grid-column: span 2; min-height: 16rem; } }
+    .asset--lead::before { background: var(--slab-2); }
+    .asset--lead:hover { background: color-mix(in srgb, var(--panel) 88%, var(--slab-4)); }
+    .asset--lead dt { font-size: clamp(1.5rem, 1.2rem + 1.1vw, 2rem); line-height: 1.05; letter-spacing: -.03em; }
+    .asset--lead dd { color: var(--panel-muted); max-width: 38ch; margin-top: .9rem; }
+
+    /* ---- Proof: honest reserved slots ---- */
+    .proof { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    .proof-grid { display: grid; gap: clamp(2rem, 5vw, 3.5rem); align-items: center; }
+    @media (min-width: 900px) { .proof-grid { grid-template-columns: .9fr 1.1fr; } }
+    .slots { display: grid; gap: 1rem; }
+    @media (min-width: 560px) { .slots { grid-template-columns: 1fr 1fr; } }
+    .proof-copy { margin-top: 1.25rem; }
+    .slot {
+    border: 1px dashed var(--line-strong);
+    padding: 1.5rem;
+    min-height: 148px;
+    display: flex; align-items: flex-end;
+    color: var(--ink-3);
+    }
+
+    /* ---- Work: full-bleed horizontal rail ----
+    Every other section on this page is a two-column split, so the work
+    breaks the container and scrolls sideways instead. It also survives
+    having only two projects, which a three-column grid does not: a grid
+    with one empty cell reads as missing work. */
+    .rail {
+    --gutter: clamp(1.25rem, 5vw, 3.5rem);
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: min(78vw, 400px);
+    gap: clamp(1rem, 2vw, 1.5rem);
+    margin-top: clamp(2.5rem, 5vw, 4rem);
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    /* First card lines up with the heading above; the rail still bleeds
+        to both edges of the viewport. */
+    padding-inline: calc(max(0px, (100% - 1240px) / 2) + var(--gutter));
+    scroll-padding-inline-start: calc(max(0px, (100% - 1240px) / 2) + var(--gutter));
+    padding-block: 4px;
+    }
+    .demo { scroll-snap-align: start; }
+    .demo-link {
+    display: block; text-decoration: none;
+    transition: transform .25s var(--ease);
+    }
+    .demo-link:hover { transform: translateY(-3px); }
+    .demo-link:active { transform: translateY(0); }
+    .demo-shot {
+    width: 100%; aspect-ratio: 16 / 10; object-fit: cover;
+    border: 1px solid var(--line);
+    background: var(--surface);
+    }
+    /* Reserved frame, same dashed language as the testimonial slots. No
+    external placeholder service: this section is waiting on real
+    screenshots, and a third-party image that 503s just looks broken. */
+    .demo-shot--empty {
+    display: grid; place-items: center;
+    border: 1px dashed var(--line-strong);
+    color: var(--ink-3);
+    }
+    .demo h3 { margin-top: 1.25rem; font-size: 1.25rem; }
+    .demo p { margin-top: .5rem; color: var(--ink-2); max-width: 40ch; }
+    .demo-go {
+    display: inline-block; margin-top: .9rem;
+    font-weight: 600; font-size: .95rem; color: var(--link);
+    }
+    /* Not every project has a public URL. A desktop app or an internal tool
+    still belongs here; it just gets a factual note instead of a link that
+    goes nowhere. */
+    .demo-note { display: inline-block; margin-top: .9rem; }
+    .demo-link:hover .demo-go { text-decoration: underline; text-underline-offset: 3px; }
+
+    @media (prefers-reduced-motion: reduce) {
+    .demo-link { transition: none; }
+    .demo-link:hover { transform: none; }
+    .rail { scroll-snap-type: none; }
+    }
+
+    /* ---- Pricing: two-column split, grouped hairlines ---- */
+    .price-grid { display: grid; gap: clamp(2.5rem, 6vw, 5rem); align-items: start; }
+    @media (min-width: 900px) { .price-grid { grid-template-columns: 1fr 1.1fr; } }
+    .terms { display: grid; }
+    .term { padding-block: 1.5rem; border-top: 1px solid var(--line); }
+    .term:last-child { border-bottom: 1px solid var(--line); }
+    .term h3 { font-size: 1.1rem; letter-spacing: -.02em; }
+    .term p { margin-top: .4rem; color: var(--ink-2); max-width: 48ch; }
+
+    /* ============================================================
+    8. FINAL CTA PANEL
+    A contained navy surface, not a page-wide theme flip: the page
+    stays locked to one theme end to end.
+    ============================================================ */
+    .cta-panel {
+    /* Same accent hue, stepped for the surface it sits on: the page-level blue
+        only reaches 2.97:1 against this navy panel, so the button and the focus
+        ring move up the brand ramp. Documented rule, not a second accent. */
+    --accent:       #7aa6cc;
+    --accent-hover: #93b8d8;
+    --accent-ink:   #0a1e35;
+    --focus-ring:   #a9c8e2;
+    background: var(--panel);
+    color: var(--panel-ink);
+    padding: clamp(2.25rem, 6vw, 4.5rem);
+    border: 1px solid var(--panel-line);
+    }
+    .cta-grid { display: grid; gap: clamp(2.5rem, 5vw, 4rem); }
+    @media (min-width: 900px) { .cta-grid { grid-template-columns: .95fr 1.05fr; } }
+    .cta-panel h2 { max-width: 15ch; }
+    .cta-panel .lead { color: var(--panel-muted); margin-top: 1.25rem; }
+    .cta-contact { margin-top: 2rem; font-family: var(--mono); font-size: .85rem; color: var(--panel-muted); }
+    .cta-contact a { color: var(--panel-ink); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+
+    /* ---- Form ---- */
+    .field { margin-bottom: 1.25rem; }
+    .field label { display: block; font-weight: 600; font-size: .95rem; margin-bottom: .45rem; }
+    .field .hint { display: block; font-family: var(--mono); font-size: .75rem; color: var(--panel-muted); margin-bottom: .5rem; }
+    .field input, .field select, .field textarea {
+    width: 100%;
+    min-height: 48px;
+    padding: .75rem .9rem;
+    font: inherit; font-size: 1rem;
+    color: var(--panel-ink);
+    background: rgba(255, 255, 255, .06);
+    border: 1px solid rgba(238, 244, 250, .34);
+    border-radius: var(--r);
+    transition: border-color .2s var(--ease), background-color .2s var(--ease);
+    }
+    .field textarea { min-height: 110px; resize: vertical; }
+    .field select { appearance: none; background-image: none; }
+    .field input::placeholder, .field textarea::placeholder { color: #a9c1d6; }
+    .field input:hover, .field select:hover, .field textarea:hover { border-color: rgba(238, 244, 250, .6); }
+    .field input:focus, .field select:focus, .field textarea:focus {
+    outline: 2px solid var(--focus-ring); outline-offset: 1px;
+    background: rgba(255, 255, 255, .1);
+    }
+    .field [aria-invalid="true"] { border-color: #ff9c7a; }
+    .error {
+    display: none; margin-top: .4rem;
+    font-family: var(--mono); font-size: .78rem; color: #ffb59a;
+    }
+    .error.show { display: block; }
+
+    .form-foot { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; margin-top: 1.75rem; }
+    .form-foot .label { color: var(--panel-muted); }
+
+    #e-form { margin-top: 1rem; }
+
+    .form-done {
+    display: none;
+    outline: none;
+    border: 1px solid var(--panel-line);
+    padding: clamp(1.75rem, 4vw, 2.5rem);
+    }
+    .form-done.show { display: block; }
+    .form-done h3 { font-size: 1.5rem; }
+    .form-done p { margin-top: .75rem; color: var(--panel-muted); max-width: 40ch; }
+
+    /* ============================================================
+    9. FOOTER
+    ============================================================ */
+    .footer { border-top: 1px solid var(--line); padding-block: 3rem 3.5rem; }
+    .footer-inner { display: flex; flex-wrap: wrap; gap: 2rem; justify-content: space-between; align-items: flex-start; }
+    .footer-links { display: flex; flex-wrap: wrap; gap: 1.5rem; }
+    .footer-links a { color: var(--ink-2); text-decoration: none; font-size: .95rem; }
+    .footer-links a:hover { color: var(--ink); }
+    .footer-meta { font-family: var(--mono); font-size: .75rem; color: var(--ink-3); }
+
+    /* ============================================================
+    10. MOTION
+    Every transition below answers to one of: hierarchy on load,
+    sequence on scroll, or feedback on input. Nothing loops.
+    ============================================================ */
+    .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity .75s var(--ease), transform .75s var(--ease);
+    transition-delay: calc(var(--d, 0) * 80ms);
+    }
+    .reveal.in { opacity: 1; transform: none; }
+
+    @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1; transform: none; transition: none; }
+    .btn:active { transform: none; }
+    /* The universal selector does not match pseudo-elements, so ::before and
+        ::after keep their transitions unless named here. The hover bar on the
+        handoff cells was still animating for 350ms under reduce because of it. */
+    *, *::before, *::after {
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
+    }
+    }
+    </style>
+    </head>
+
+    <body>
+    <a class="skip" href="#main">Ir al contenido</a>
+
+    <header class="nav">
+    <div class="wrap nav-inner">
+        <a class="brand" href="#top" aria-label="Linestack, inicio">
+        <!--
+            Brand mark rebuilt as inline SVG from the supplied logo: four stacked
+            isometric slabs on the brand blue ramp. Replace with the official
+            vector asset when available.
+        -->
+        <svg viewBox="0 0 28 28" role="img" aria-hidden="true" focusable="false">
+            <path d="M14 1.5 L26 5 L14 8.5 L2 5 Z" fill="#d7e6f2"/>
+            <path d="M14 8 L26 11.5 L14 15 L2 11.5 Z" fill="#9dc0dc"/>
+            <path d="M14 14.5 L26 18 L14 21.5 L2 18 Z" fill="#4a7fae"/>
+            <path d="M14 21 L26 24.5 L14 28 L2 24.5 Z" fill="#123a63"/>
+        </svg>
+        <span class="brand-name">LINE<span>STACK</span></span>
         </a>
-      </article>
 
-      <article class="demo">
-        <a class="demo-link" href="https://blendburgershop.netlify.app/" target="_blank" rel="noopener noreferrer">
-          <img class="demo-shot" src="img/blend-burger.webp" width="1600" height="1000"
-               loading="lazy" decoding="async"
-               alt="Landing de Blend Burger, con la hamburguesa sobre fondo oscuro">
-          <h3>Blend Burger</h3>
-          <p>Hamburguesería en Mendoza. Carta, local y pedidos en una sola página.</p>
-          <span class="demo-go">Ver en vivo</span>
-        </a>
-      </article>
+        <nav class="nav-links" aria-label="Secciones">
+        <a href="#proceso">Proceso</a>
+        <a href="#trabajo">Trabajo</a>
+        <a href="#entrega">Qué te llevás</a>
+        <a href="#precio">Precio</a>
+        </nav>
 
-      <!-- Variant for work with no public URL: a desktop app, an internal
-           tool, anything behind a login. Same card, no anchor, and a
-           factual note where the link would go. -->
-      <article class="demo">
-        <!-- Swap this frame for the real screenshot:
-             <img class="demo-shot" src="img/proyecto.webp" width="1600" height="1000"
-                  loading="lazy" alt="Captura de [nombre del proyecto]"> -->
-        <div class="demo-shot demo-shot--empty">
-          <span class="label">Captura del proyecto</span>
-        </div>
-        <h3>[Nombre del proyecto]</h3>
-        <p>[Que resuelve, en una linea]</p>
-        <span class="demo-note label">[Aplicacion de escritorio / Herramienta interna]</span>
-      </article>
+        <a class="btn btn-primary btn-sm" href="#contacto">Pedir presupuesto</a>
     </div>
-  </section>
+    </header>
 
-  <!-- ========== PROOF: reserved, not invented ========== -->
-  <section class="section proof">
-    <div class="wrap proof-grid">
-      <div>
-        <h2 class="reveal">Todavía no publicamos testimonios.</h2>
-        <p class="body-muted reveal proof-copy" style="--d:1">
-          Los proyectos de arriba están entregados y online. Estamos pidiendo permiso para citar a los clientes: cuando den el visto bueno, sus palabras van acá con nombre y empresa.
-        </p>
-      </div>
+    <main id="main">
 
-      <!-- Visible placeholders. Swap each slot for a real quote when available. -->
-      <div class="slots">
-        <div class="slot reveal" style="--d:1"><span class="label">Testimonio reservado</span></div>
-        <div class="slot reveal" style="--d:2"><span class="label">Testimonio reservado</span></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ========== PRICING ========== -->
-  <section class="section" id="precio">
-    <div class="wrap price-grid">
-      <div class="section-head">
-        <h2 class="reveal">Cómo cobramos.</h2>
-        <p class="lead reveal" style="--d:1">
-          Cotizamos por alcance, no por hora. Antes de empezar sabés el número final, qué incluye y en cuántos pagos se divide.
-        </p>
-      </div>
-
-      <!--
-        TODO (commercial): confirm these terms before publishing, and drop real
-        starting ranges here if you want them public. Example placement:
-        <p class="label">Landing page desde USD X. Web app desde USD Y.</p>
-      -->
-      <div class="terms">
-        <div class="term reveal">
-          <h3>Precio cerrado</h3>
-          <p>El presupuesto que firmás es el que pagás. Si aparece algo nuevo, se cotiza aparte y decidís vos.</p>
-        </div>
-        <div class="term reveal" style="--d:1">
-          <h3>Dos pagos</h3>
-          <p>Mitad al arrancar, mitad contra la salida a producción.</p>
-        </div>
-        <div class="term reveal" style="--d:2">
-          <h3>Sin abono obligatorio</h3>
-          <p>El mantenimiento mensual es opcional y se contrata después, si lo necesitás.</p>
-        </div>
-        <div class="term reveal" style="--d:3">
-          <h3>Respuesta en 48 horas</h3>
-          <p>Nos contás qué necesitás y volvemos con un número y un plazo.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ========== FINAL CTA ========== -->
-  <section class="section" id="contacto" style="padding-top:0">
-    <div class="wrap">
-      <div class="cta-panel">
-        <div class="cta-grid">
-          <div>
-            <h2 class="reveal">Contanos qué querés construir.</h2>
+    <!-- ========== HERO ========== -->
+    <section class="hero" id="top">
+        <div class="wrap hero-grid">
+        <div>
+            <h1 class="reveal">Soluciones digitales escalables.<br>Con un precio accesible y calidad premium.</h1>
             <p class="lead reveal" style="--d:1">
-              Volvemos con un presupuesto y un plazo concretos.
+            Automatizaciones, aplicaciones y paginas web, la solucion digital que quieras a tu alcance.
             </p>
-            <p class="cta-contact reveal" style="--d:2">
-              O escribinos directo a
-              <a href="mailto:hola@linestack.dev">hola@linestack.dev</a>
-            </p>
-          </div>
-
-          <div>
-            <form id="brief-form" novalidate>
-              <div class="field">
-                <label for="f-name">Nombre</label>
-                <input id="f-name" name="name" type="text" autocomplete="name" aria-describedby="e-name">
-                <span class="error" id="e-name">Escribí tu nombre.</span>
-              </div>
-
-              <div class="field">
-                <label for="f-email">Email</label>
-                <input id="f-email" name="email" type="email" autocomplete="email" inputmode="email" aria-describedby="e-email">
-                <span class="error" id="e-email">Revisá el email, no parece válido.</span>
-              </div>
-
-              <div class="field">
-                <label for="f-kind">Qué necesitás</label>
-                <select id="f-kind" name="kind" aria-describedby="e-kind">
-                  <option value="">Elegí una opción</option>
-                  <option value="landing">Una landing page</option>
-                  <option value="app">Una web app</option>
-                  <option value="rework">Rehacer algo que ya existe</option>
-                  <option value="unsure">Todavía no lo tengo claro</option>
-                </select>
-                <span class="error" id="e-kind">Elegí una opción.</span>
-              </div>
-
-              <div class="field">
-                <label for="f-detail">Contexto</label>
-                <span class="hint" id="h-detail">Opcional. Dos o tres líneas alcanzan.</span>
-                <textarea id="f-detail" name="detail" aria-describedby="h-detail"></textarea>
-              </div>
-
-              <div class="form-foot">
-                <button class="btn btn-primary" type="submit" id="submit-btn">Pedir presupuesto</button>
-                <span class="label">Te escribimos al mail. No mandamos newsletter.</span>
-              </div>
-
-              <p class="error" id="e-form" role="alert"></p>
-            </form>
-
-            <div class="form-done" id="form-done" role="status" aria-live="polite" tabindex="-1">
-              <h3>Recibido.</h3>
-              <p>Te respondemos dentro de las próximas 48 horas hábiles con un presupuesto y un plazo.</p>
+            <div class="hero-actions reveal" style="--d:2">
+            <a class="btn btn-primary" href="#contacto">Pedir presupuesto</a>
+            <a class="btn btn-ghost" href="#proceso">Cómo trabajamos</a>
             </div>
-          </div>
         </div>
-      </div>
+
+        <div class="hero-media reveal" style="--d:2">
+            <!-- Swap this frame for the real photo. It is the LCP element, so
+                keep fetchpriority="high" and do NOT add loading="lazy":
+                <img src="img/hero.webp" width="1000" height="1250" fetchpriority="high"
+                    alt="El diseño de una pantalla abierto en un monitor y esa misma
+                        pantalla funcionando en el otro"> -->
+            <div class="shot-empty">
+            <span class="label">Foto del hero<br>4:5 vertical</span>
+            </div>
+        </div>
+        </div>
+    </section>
+    <!-- ========== PROBLEM ========== -->
+    <section class="section" id="problema">
+        <div class="wrap problem-grid">
+        <div class="section-head">
+            <h2 class="reveal">Contratar desarrollo es una caja negra.</h2>
+            <p class="lead reveal" style="--d:1">
+            Casi nadie que nos escribe tuvo una mala experiencia con el código. La tuvieron con todo lo demás.
+            </p>
+        </div>
+
+        <div>
+            <div class="pains">
+            <div class="pain reveal">
+                <span class="pain-mark" aria-hidden="true"></span>
+                <p>El presupuesto se movía cada vez que preguntabas algo.</p>
+            </div>
+            <div class="pain reveal" style="--d:1">
+                <span class="pain-mark" aria-hidden="true"></span>
+                <p>Tres semanas de silencio y después una demo que no era lo que pediste.</p>
+            </div>
+            <div class="pain reveal" style="--d:2">
+                <span class="pain-mark" aria-hidden="true"></span>
+                <p>El sitio funciona, pero nadie sabe en qué servidor vive.</p>
+            </div>
+            <div class="pain reveal" style="--d:3">
+                <span class="pain-mark" aria-hidden="true"></span>
+                <p>Cambiar un precio implica pedirle un favor a alguien.</p>
+            </div>
+            </div>
+
+            <p class="problem-close reveal" style="--d:2">
+            Ninguno de estos es un problema técnico. Todos son de proceso.
+            </p>
+        </div>
+        </div>
+    </section>
+
+    <!-- ========== PROCESS: the mark assembles on scroll ========== -->
+    <section class="section process-band" id="proceso">
+        <div class="wrap">
+        <div class="section-head">
+            <h2 class="reveal">Cuatro capas, en este orden.</h2>
+        </div>
+
+        <div class="process">
+            <ol class="psteps">
+            <li class="pstep">
+                <span class="pstep-dot" aria-hidden="true"></span>
+                <div>
+                <h3>Definimos el alcance</h3>
+                <p>Salís de la primera llamada con una lista de lo que entra, lo que queda afuera y cuánto cuesta.</p>
+                </div>
+            </li>
+
+            <li class="pstep">
+                <span class="pstep-dot" aria-hidden="true"></span>
+                <div>
+                <h3>Diseñamos las pantallas</h3>
+                <p>Ves la interfaz completa antes de que exista una línea de código. Mover cosas acá no cuesta nada.</p>
+                </div>
+            </li>
+
+            <li class="pstep">
+                <span class="pstep-dot" aria-hidden="true"></span>
+                <div>
+                <h3>Construimos en tramos de dos semanas</h3>
+                <p>Cada tramo cierra con algo que podés abrir y usar. El entorno de prueba está siempre disponible.</p>
+                </div>
+            </li>
+
+            <li class="pstep">
+                <span class="pstep-dot" aria-hidden="true"></span>
+                <div>
+                <h3>Salimos a producción con vos</h3>
+                <p>Publicamos juntos y quedamos disponibles treinta días para los ajustes que aparecen con usuarios reales.</p>
+                </div>
+            </li>
+            </ol>
+
+            <div class="pmark">
+            <div class="pmark-inner">
+                <!--
+                The brand mark as four separate slabs. Same geometry as the
+                nav logo, scaled up: the assembled formation is the logo.
+                -->
+                <svg class="assembly" viewBox="0 0 480 480" role="img"
+                    aria-label="Las cuatro capas del proceso se ordenan hasta formar el logotipo de Linestack.">
+                <path class="slab slab-1" d="M240 208 L390 240 L240 272 L90 240 Z" fill="#d7e6f2"/>
+                <path class="slab slab-2" d="M240 208 L390 240 L240 272 L90 240 Z" fill="#9dc0dc"/>
+                <path class="slab slab-3" d="M240 208 L390 240 L240 272 L90 240 Z" fill="#4a7fae"/>
+                <path class="slab slab-4" d="M240 208 L390 240 L240 272 L90 240 Z" fill="#123a63"/>
+                </svg>
+            </div>
+            </div>
+        </div>
+        </div>
+    </section>
+
+    <!-- ========== HANDOFF ========== -->
+    <section class="section" id="entrega">
+        <div class="wrap">
+        <div class="section-head">
+            <h2 class="reveal">Cuando terminamos, te llevás todo.</h2>
+        </div>
+
+        <dl class="assets">
+            <div class="asset asset--lead reveal">
+            <dt>La opción de irte</dt>
+            <dd>Si querés seguir con otro equipo, no hay nada que desbloquear ni licencia que renovar.</dd>
+            </div>
+            <div class="asset reveal" style="--d:1">
+            <dt>El repositorio</dt>
+            <dd>En tu cuenta de GitHub, con el historial completo de commits.</dd>
+            </div>
+            <div class="asset reveal" style="--d:2">
+            <dt>La infraestructura</dt>
+            <dd>Hosting, dominio y base de datos a nombre de tu empresa, no de la nuestra.</dd>
+            </div>
+            <div class="asset reveal" style="--d:3">
+            <dt>La documentación</dt>
+            <dd>Cómo se despliega, cómo se edita el contenido y dónde toca cada cosa.</dd>
+            </div>
+            <div class="asset reveal" style="--d:4">
+            <dt>El diseño</dt>
+            <dd>Archivos editables, con el sistema de componentes ya armado.</dd>
+            </div>
+        </dl>
+        </div>
+    </section>
+
+    <!-- ========== WORK: horizontal rail of shipped projects ==========
+        Fill each card with a real project: the href, a real screenshot,
+        the real name and one line saying what it solves. Add or remove
+        <article class="demo"> blocks freely, the rail takes any count.
+        Do not invent projects here. -->
+    <section class="section" id="trabajo">
+        <div class="wrap">
+        <div class="section-head">
+            <h2 class="reveal">Lo que sale de ese proceso.</h2>
+        </div>
+        </div>
+
+        <div class="rail" role="region" aria-label="Proyectos entregados">
+        <article class="demo">
+            <a class="demo-link" href="https://www.trainets.com" target="_blank" rel="noopener noreferrer">
+            <img class="demo-shot" src="img/trainets.webp" width="1600" height="1000"
+                loading="lazy" decoding="async"
+                alt="Landing de Trainets, con el programador de mesociclos a la derecha del titular">
+            <h3>Trainets</h3>
+            <p>Programación de entrenamiento para coaches. La planilla, sin la parte de copiar celdas.</p>
+            <span class="demo-go">Ver en vivo</span>
+            </a>
+        </article>
+
+        <article class="demo">
+            <a class="demo-link" href="https://blendburgershop.netlify.app/" target="_blank" rel="noopener noreferrer">
+            <img class="demo-shot" src="img/blend-burger.webp" width="1600" height="1000"
+                loading="lazy" decoding="async"
+                alt="Landing de Blend Burger, con la hamburguesa sobre fondo oscuro">
+            <h3>Blend Burger</h3>
+            <p>Hamburguesería en Mendoza. Carta, local y pedidos en una sola página.</p>
+            <span class="demo-go">Ver en vivo</span>
+            </a>
+        </article>
+
+        <!-- Variant for work with no public URL: a desktop app, an internal
+            tool, anything behind a login. Same card, no anchor, and a
+            factual note where the link would go. -->
+        <article class="demo">
+            <!-- Swap this frame for the real screenshot:
+                <img class="demo-shot" src="img/proyecto.webp" width="1600" height="1000"
+                    loading="lazy" alt="Captura de [nombre del proyecto]"> -->
+            <div class="demo-shot demo-shot--empty">
+            <span class="label">Captura del proyecto</span>
+            </div>
+            <h3>[Nombre del proyecto]</h3>
+            <p>[Que resuelve, en una linea]</p>
+            <span class="demo-note label">[Aplicacion de escritorio / Herramienta interna]</span>
+        </article>
+        </div>
+    </section>
+
+    <!-- ========== PROOF: reserved, not invented ========== -->
+    <section class="section proof">
+        <div class="wrap proof-grid">
+        <div>
+            <h2 class="reveal">Todavía no publicamos testimonios.</h2>
+            <p class="body-muted reveal proof-copy" style="--d:1">
+            Los proyectos de arriba están entregados y online. Estamos pidiendo permiso para citar a los clientes: cuando den el visto bueno, sus palabras van acá con nombre y empresa.
+            </p>
+        </div>
+
+        <!-- Visible placeholders. Swap each slot for a real quote when available. -->
+        <div class="slots">
+            <div class="slot reveal" style="--d:1"><span class="label">Testimonio reservado</span></div>
+            <div class="slot reveal" style="--d:2"><span class="label">Testimonio reservado</span></div>
+        </div>
+        </div>
+    </section>
+
+    <!-- ========== PRICING ========== -->
+    <section class="section" id="precio">
+        <div class="wrap price-grid">
+        <div class="section-head">
+            <h2 class="reveal">Cómo cobramos.</h2>
+            <p class="lead reveal" style="--d:1">
+            Cotizamos por alcance, no por hora. Antes de empezar sabés el número final, qué incluye y en cuántos pagos se divide.
+            </p>
+        </div>
+
+        <!--
+            TODO (commercial): confirm these terms before publishing, and drop real
+            starting ranges here if you want them public. Example placement:
+            <p class="label">Landing page desde USD X. Web app desde USD Y.</p>
+        -->
+        <div class="terms">
+            <div class="term reveal">
+            <h3>Precio cerrado</h3>
+            <p>El presupuesto que firmás es el que pagás. Si aparece algo nuevo, se cotiza aparte y decidís vos.</p>
+            </div>
+            <div class="term reveal" style="--d:1">
+            <h3>Dos pagos</h3>
+            <p>Mitad al arrancar, mitad contra la salida a producción.</p>
+            </div>
+            <div class="term reveal" style="--d:2">
+            <h3>Sin abono obligatorio</h3>
+            <p>El mantenimiento mensual es opcional y se contrata después, si lo necesitás.</p>
+            </div>
+            <div class="term reveal" style="--d:3">
+            <h3>Respuesta en 48 horas</h3>
+            <p>Nos contás qué necesitás y volvemos con un número y un plazo.</p>
+            </div>
+        </div>
+        </div>
+    </section>
+
+    <!-- ========== FINAL CTA ========== -->
+    <section class="section" id="contacto" style="padding-top:0">
+        <div class="wrap">
+        <div class="cta-panel">
+            <div class="cta-grid">
+            <div>
+                <h2 class="reveal">Contanos qué querés construir.</h2>
+                <p class="lead reveal" style="--d:1">
+                Volvemos con un presupuesto y un plazo concretos.
+                </p>
+                <p class="cta-contact reveal" style="--d:2">
+                O escribinos directo a
+                <a href="mailto:hola@linestack.dev">hola@linestack.dev</a>
+                </p>
+            </div>
+
+            <div>
+                <form id="brief-form" novalidate>
+                <div class="field">
+                    <label for="f-name">Nombre</label>
+                    <input id="f-name" name="name" type="text" autocomplete="name" aria-describedby="e-name">
+                    <span class="error" id="e-name">Escribí tu nombre.</span>
+                </div>
+
+                <div class="field">
+                    <label for="f-email">Email</label>
+                    <input id="f-email" name="email" type="email" autocomplete="email" inputmode="email" aria-describedby="e-email">
+                    <span class="error" id="e-email">Revisá el email, no parece válido.</span>
+                </div>
+
+                <div class="field">
+                    <label for="f-kind">Qué necesitás</label>
+                    <select id="f-kind" name="kind" aria-describedby="e-kind">
+                    <option value="">Elegí una opción</option>
+                    <option value="landing">Una landing page</option>
+                    <option value="app">Una web app</option>
+                    <option value="rework">Rehacer algo que ya existe</option>
+                    <option value="unsure">Todavía no lo tengo claro</option>
+                    </select>
+                    <span class="error" id="e-kind">Elegí una opción.</span>
+                </div>
+
+                <div class="field">
+                    <label for="f-detail">Contexto</label>
+                    <span class="hint" id="h-detail">Opcional. Dos o tres líneas alcanzan.</span>
+                    <textarea id="f-detail" name="detail" aria-describedby="h-detail"></textarea>
+                </div>
+
+                <div class="form-foot">
+                    <button class="btn btn-primary" type="submit" id="submit-btn">Pedir presupuesto</button>
+                    <span class="label">Te escribimos al mail. No mandamos newsletter.</span>
+                </div>
+
+                <p class="error" id="e-form" role="alert"></p>
+                </form>
+
+                <div class="form-done" id="form-done" role="status" aria-live="polite" tabindex="-1">
+                <h3>Recibido.</h3>
+                <p>Te respondemos dentro de las próximas 48 horas hábiles con un presupuesto y un plazo.</p>
+                </div>
+            </div>
+            </div>
+        </div>
+        </div>
+    </section>
+
+    </main>
+
+    <footer class="footer">
+    <div class="wrap footer-inner">
+        <a class="brand" href="#top" aria-label="Linestack, inicio">
+        <svg viewBox="0 0 28 28" role="img" aria-hidden="true" focusable="false">
+            <path d="M14 1.5 L26 5 L14 8.5 L2 5 Z" fill="#d7e6f2"/>
+            <path d="M14 8 L26 11.5 L14 15 L2 11.5 Z" fill="#9dc0dc"/>
+            <path d="M14 14.5 L26 18 L14 21.5 L2 18 Z" fill="#4a7fae"/>
+            <path d="M14 21 L26 24.5 L14 28 L2 24.5 Z" fill="#123a63"/>
+        </svg>
+        <span class="brand-name">LINE<span>STACK</span></span>
+        </a>
+
+        <nav class="footer-links" aria-label="Pie de página">
+        <a href="#proceso">Proceso</a>
+        <a href="#trabajo">Trabajo</a>
+        <a href="#entrega">Qué te llevás</a>
+        <a href="#precio">Precio</a>
+        <a href="mailto:hola@linestack.dev">hola@linestack.dev</a>
+        </nav>
+
+        <p class="footer-meta">Linestack. Desarrollo de software.</p>
     </div>
-  </section>
+    </footer>
 
-</main>
+    <script>
+    (function () {
+    "use strict";
 
-<footer class="footer">
-  <div class="wrap footer-inner">
-    <a class="brand" href="#top" aria-label="Linestack, inicio">
-      <svg viewBox="0 0 28 28" role="img" aria-hidden="true" focusable="false">
-        <path d="M14 1.5 L26 5 L14 8.5 L2 5 Z" fill="#d7e6f2"/>
-        <path d="M14 8 L26 11.5 L14 15 L2 11.5 Z" fill="#9dc0dc"/>
-        <path d="M14 14.5 L26 18 L14 21.5 L2 18 Z" fill="#4a7fae"/>
-        <path d="M14 21 L26 24.5 L14 28 L2 24.5 Z" fill="#123a63"/>
-      </svg>
-      <span class="brand-name">LINE<span>STACK</span></span>
-    </a>
+    /* ---- Scroll reveal: sequence on entry, one shot, IntersectionObserver
+            only. No scroll listeners anywhere in this file. ---- */
+    var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var targets = document.querySelectorAll(".reveal");
 
-    <nav class="footer-links" aria-label="Pie de página">
-      <a href="#proceso">Proceso</a>
-      <a href="#trabajo">Trabajo</a>
-      <a href="#entrega">Qué te llevás</a>
-      <a href="#precio">Precio</a>
-      <a href="mailto:hola@linestack.dev">hola@linestack.dev</a>
-    </nav>
+    if (reduce || !("IntersectionObserver" in window)) {
+        targets.forEach(function (el) { el.classList.add("in"); });
+    } else {
+        var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+            if (!entry.isIntersecting) return;
+            entry.target.classList.add("in");
+            io.unobserve(entry.target);
+        });
+        }, { threshold: 0.15, rootMargin: "0px 0px -8% 0px" });
 
-    <p class="footer-meta">Linestack. Desarrollo de software.</p>
-  </div>
-</footer>
-
-<script>
-(function () {
-  "use strict";
-
-  /* ---- Scroll reveal: sequence on entry, one shot, IntersectionObserver
-          only. No scroll listeners anywhere in this file. ---- */
-  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  var targets = document.querySelectorAll(".reveal");
-
-  if (reduce || !("IntersectionObserver" in window)) {
-    targets.forEach(function (el) { el.classList.add("in"); });
-  } else {
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (!entry.isIntersecting) return;
-        entry.target.classList.add("in");
-        io.unobserve(entry.target);
-      });
-    }, { threshold: 0.15, rootMargin: "0px 0px -8% 0px" });
-
-    targets.forEach(function (el) { io.observe(el); });
-  }
-
-  /* ---- Brief form ----
-     TODO: set FORM_ENDPOINT to a real handler (Formspree, a serverless
-     function, your CRM). While it is null the form validates and shows the
-     confirmation locally so the flow can be reviewed, and warns in console. */
-  var FORM_ENDPOINT = null;
-
-  var form = document.getElementById("brief-form");
-  var done = document.getElementById("form-done");
-  var submitBtn = document.getElementById("submit-btn");
-
-  function setError(input, errorId, hasError) {
-    var node = document.getElementById(errorId);
-    input.setAttribute("aria-invalid", hasError ? "true" : "false");
-    node.classList.toggle("show", hasError);
-  }
-
-  function validate() {
-    var name = document.getElementById("f-name");
-    var email = document.getElementById("f-email");
-    var kind = document.getElementById("f-kind");
-    var firstInvalid = null;
-
-    var nameBad = name.value.trim().length < 2;
-    setError(name, "e-name", nameBad);
-    if (nameBad && !firstInvalid) firstInvalid = name;
-
-    var emailBad = !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.value.trim());
-    setError(email, "e-email", emailBad);
-    if (emailBad && !firstInvalid) firstInvalid = email;
-
-    var kindBad = kind.value === "";
-    setError(kind, "e-kind", kindBad);
-    if (kindBad && !firstInvalid) firstInvalid = kind;
-
-    if (firstInvalid) firstInvalid.focus();
-    return !firstInvalid;
-  }
-
-  form.addEventListener("submit", function (event) {
-    event.preventDefault();
-    if (!validate()) return;
-
-    submitBtn.disabled = true;
-    submitBtn.textContent = "Enviando";
-
-    var payload = Object.fromEntries(new FormData(form).entries());
-
-    if (!FORM_ENDPOINT) {
-      console.warn("[linestack] FORM_ENDPOINT is not configured. Payload:", payload);
-      form.style.display = "none";
-      done.classList.add("show");
-      done.focus();
-      return;
+        targets.forEach(function (el) { io.observe(el); });
     }
 
-    fetch(FORM_ENDPOINT, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload)
-    })
-      .then(function (res) {
-        if (!res.ok) throw new Error("Request failed: " + res.status);
+    /* ---- Brief form ----
+        TODO: set FORM_ENDPOINT to a real handler (Formspree, a serverless
+        function, your CRM). While it is null the form validates and shows the
+        confirmation locally so the flow can be reviewed, and warns in console. */
+    var FORM_ENDPOINT = null;
+
+    var form = document.getElementById("brief-form");
+    var done = document.getElementById("form-done");
+    var submitBtn = document.getElementById("submit-btn");
+
+    function setError(input, errorId, hasError) {
+        var node = document.getElementById(errorId);
+        input.setAttribute("aria-invalid", hasError ? "true" : "false");
+        node.classList.toggle("show", hasError);
+    }
+
+    function validate() {
+        var name = document.getElementById("f-name");
+        var email = document.getElementById("f-email");
+        var kind = document.getElementById("f-kind");
+        var firstInvalid = null;
+
+        var nameBad = name.value.trim().length < 2;
+        setError(name, "e-name", nameBad);
+        if (nameBad && !firstInvalid) firstInvalid = name;
+
+        var emailBad = !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.value.trim());
+        setError(email, "e-email", emailBad);
+        if (emailBad && !firstInvalid) firstInvalid = email;
+
+        var kindBad = kind.value === "";
+        setError(kind, "e-kind", kindBad);
+        if (kindBad && !firstInvalid) firstInvalid = kind;
+
+        if (firstInvalid) firstInvalid.focus();
+        return !firstInvalid;
+    }
+
+    form.addEventListener("submit", function (event) {
+        event.preventDefault();
+        if (!validate()) return;
+
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Enviando";
+
+        var payload = Object.fromEntries(new FormData(form).entries());
+
+        if (!FORM_ENDPOINT) {
+        console.warn("[linestack] FORM_ENDPOINT is not configured. Payload:", payload);
         form.style.display = "none";
         done.classList.add("show");
-      })
-      .catch(function () {
-        submitBtn.disabled = false;
-        submitBtn.textContent = "Reintentar";
-        var box = document.getElementById("e-form");
-        box.textContent = "No pudimos enviar el formulario. Escribinos a hola@linestack.dev";
-        box.classList.add("show");
-      });
-  });
-})();
+        done.focus();
+        return;
+        }
 
-/* ---- Scroll-driven fallback ----
-   Firefox and LibreWolf ship no `animation-timeline` yet, so there the
-   section renders its default state: the finished mark, static. This runs
-   the same choreography for them instead.
+        fetch(FORM_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+        })
+        .then(function (res) {
+            if (!res.ok) throw new Error("Request failed: " + res.status);
+            form.style.display = "none";
+            done.classList.add("show");
+        })
+        .catch(function () {
+            submitBtn.disabled = false;
+            submitBtn.textContent = "Reintentar";
+            var box = document.getElementById("e-form");
+            box.textContent = "No pudimos enviar el formulario. Escribinos a hola@linestack.dev";
+            box.classList.add("show");
+        });
+    });
+    })();
 
-   It restates no motion values. The CSS animations run paused and this
-   only picks the frame with a negative `animation-delay`, reading the same
-   --r0/--r1 range the native timeline uses. There is no scroll listener:
-   a rAF loop runs only while the section is actually on screen. */
-(function () {
-  "use strict";
+    /* ---- Scroll-driven fallback ----
+    Firefox and LibreWolf ship no `animation-timeline` yet, so there the
+    section renders its default state: the finished mark, static. This runs
+    the same choreography for them instead.
 
-  if (CSS.supports("animation-timeline", "view()")) return;
-  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-  if (!("IntersectionObserver" in window)) return;
+    It restates no motion values. The CSS animations run paused and this
+    only picks the frame with a negative `animation-delay`, reading the same
+    --r0/--r1 range the native timeline uses. There is no scroll listener:
+    a rAF loop runs only while the section is actually on screen. */
+    (function () {
+    "use strict";
 
-  var track = document.querySelector(".process");
-  if (!track) return;
+    if (CSS.supports("animation-timeline", "view()")) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (!("IntersectionObserver" in window)) return;
 
-  var DURATION = 1000;
-  var desktop = window.matchMedia("(min-width: 768px)");
-  var running = false;
-  var onScreen = false;
+    var track = document.querySelector(".process");
+    if (!track) return;
 
-  var targets = [].map.call(track.querySelectorAll(".slab, .pstep"), function (el) {
-    var cs = getComputedStyle(el);
-    return {
-      el: el,
-      from: parseFloat(cs.getPropertyValue("--r0")) / 100,
-      to: parseFloat(cs.getPropertyValue("--r1")) / 100
-    };
-  }).filter(function (t) {
-    return isFinite(t.from) && isFinite(t.to) && t.to > t.from;
-  });
+    var DURATION = 1000;
+    var desktop = window.matchMedia("(min-width: 768px)");
+    var running = false;
+    var onScreen = false;
 
-  if (!targets.length) return;
+    var targets = [].map.call(track.querySelectorAll(".slab, .pstep"), function (el) {
+        var cs = getComputedStyle(el);
+        return {
+        el: el,
+        from: parseFloat(cs.getPropertyValue("--r0")) / 100,
+        to: parseFloat(cs.getPropertyValue("--r1")) / 100
+        };
+    }).filter(function (t) {
+        return isFinite(t.from) && isFinite(t.to) && t.to > t.from;
+    });
 
-  function apply() {
-    var rect = track.getBoundingClientRect();
-    var span = rect.height - window.innerHeight;
-    var progress = span > 0 ? -rect.top / span : 0;
-    if (progress < 0) progress = 0;
-    if (progress > 1) progress = 1;
+    if (!targets.length) return;
 
-    for (var i = 0; i < targets.length; i++) {
-      var t = targets[i];
-      var local = (progress - t.from) / (t.to - t.from);
-      if (local < 0) local = 0;
-      if (local > 1) local = 1;
-      t.el.style.animationDelay = -(local * DURATION) + "ms";
+    function apply() {
+        var rect = track.getBoundingClientRect();
+        var span = rect.height - window.innerHeight;
+        var progress = span > 0 ? -rect.top / span : 0;
+        if (progress < 0) progress = 0;
+        if (progress > 1) progress = 1;
+
+        for (var i = 0; i < targets.length; i++) {
+        var t = targets[i];
+        var local = (progress - t.from) / (t.to - t.from);
+        if (local < 0) local = 0;
+        if (local > 1) local = 1;
+        t.el.style.animationDelay = -(local * DURATION) + "ms";
+        }
     }
-  }
 
-  function frame() {
-    if (!running) return;
+    function frame() {
+        if (!running) return;
+        apply();
+        requestAnimationFrame(frame);
+    }
+
+    function sync() {
+        var active = onScreen && desktop.matches;
+        if (active === running) return;
+        running = active;
+        if (active) requestAnimationFrame(frame);
+        else apply();
+    }
+
+    track.classList.add("scrub");
     apply();
-    requestAnimationFrame(frame);
-  }
 
-  function sync() {
-    var active = onScreen && desktop.matches;
-    if (active === running) return;
-    running = active;
-    if (active) requestAnimationFrame(frame);
-    else apply();
-  }
+    new IntersectionObserver(function (entries) {
+        onScreen = entries[0].isIntersecting;
+        sync();
+    }).observe(track);
 
-  track.classList.add("scrub");
-  apply();
-
-  new IntersectionObserver(function (entries) {
-    onScreen = entries[0].isIntersecting;
-    sync();
-  }).observe(track);
-
-  desktop.addEventListener("change", sync);
-})();
-</script>
-</body>
-</html>
+    desktop.addEventListener("change", sync);
+    })();
+    </script>
+    </body>
+    </html>
