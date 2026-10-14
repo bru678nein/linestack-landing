@@ -65,13 +65,15 @@ The page ships with drafted content that is not confirmed:
 - **Commercial terms** in the pricing section (fixed price, 50/50 payments, no
   mandatory retainer, 48 hour response) are plausible copy, not agreed terms.
 - **`hola@linestack.dev`** is a placeholder address.
-- **The hero photograph is missing.** The slot renders a reserved frame and the
-  `<img>` sits commented above it, ready to uncomment. The shot is two screens
-  showing the same work: a design open on one, that same screen running on the
-  other. It has to compose **vertically**, because the slot is 4:5 on desktop:
-  shoot at an angle with one screen nearer than the other rather than straight
-  on. It is the LCP element, so keep `fetchpriority="high"` and never add
-  `loading="lazy"` to it.
+- **The hero is a collage of three shipped projects**, stacked back to front
+  in the same staircase as the brand mark. It uses `img/hero-*.webp`, 800px
+  variants of the work-rail screenshots sized for the slot, so the hero does
+  not pull the 1600px files on first paint. The step geometry lives in
+  `--fw`/`--dx`/`--dy` on `.collage`, solved so the front frame lands on the
+  slot's bottom-right corner in both the 4:5 desktop and 4:3 mobile slots;
+  change one value and re-solve the others. The front frame is the LCP
+  element: keep `fetchpriority="high"` on it and never add `loading="lazy"`
+  to any of the three.
 - **The third project card is still a template.** Trainets and Blend Burger are
   real, with captured screenshots and live links. The remaining card waits for a
   name, a line saying what the project solves, and a screenshot; it uses the

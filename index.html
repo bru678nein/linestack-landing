@@ -270,24 +270,54 @@
     right: -.9rem; bottom: -.9rem; width: 64%; height: 56%;
     background: var(--panel);
     }
-    .hero-media img,
-    .hero-media .shot-empty {
+    /* Collage: three shipped projects stacked as offset layers, the same
+    staircase as the brand mark. The geometry lives in custom properties so
+    the 4:5 desktop slot and the 4:3 mobile slot share one rule set. Frame
+    width (--fw), horizontal step (--dx, % of slot width) and vertical step
+    (--dy, % of slot height) are solved so the front frame lands exactly on
+    the slot's bottom-right corner. --sx/--sy are the entrance offset in
+    each frame's own units: the stack starts folded toward the back layer
+    and opens into the staircase. */
+    .collage {
     position: relative; z-index: 1;
-    width: 100%; aspect-ratio: 4 / 5; object-fit: cover;
-    border: 1px solid var(--line);
+    aspect-ratio: 4 / 5;
+    --fw: 85%; --dx: 7.5%; --dy: 28.75%;
+    --sx: -5%; --sy: -40%;
     }
     @media (max-width: 1023px) {
-    .hero-media img,
-    .hero-media .shot-empty { aspect-ratio: 4 / 3; }
+    .collage { aspect-ratio: 4 / 3; --fw: 62%; --dx: 19%; --dy: 24.17%; --sx: -18%; --sy: -28%; }
     }
-    /* Reserved frame, same dashed language as the work cards and the
-    testimonial slots. Holds the composition until the real photo lands. */
-    .hero-media .shot-empty {
-    display: grid; place-items: center;
-    padding: 2rem; text-align: center;
+    .collage img {
+    position: absolute;
+    left: calc(var(--i) * var(--dx));
+    top: calc(var(--i) * var(--dy));
+    width: var(--fw); height: auto;
+    aspect-ratio: 16 / 10; object-fit: cover;
+    border: 1px solid var(--line);
     background: var(--surface);
-    border: 1px dashed var(--line-strong);
-    color: var(--ink-3);
+    box-shadow: 0 22px 40px -24px rgb(10 30 53 / .45);
+    translate: calc(var(--i) * var(--sx)) calc(var(--i) * var(--sy));
+    transition: translate .9s var(--ease) calc(200ms + var(--i) * 90ms);
+    }
+    .hero-media.in .collage img { translate: none; }
+
+    /* Depth on scroll: while the hero leaves the viewport, the back layers
+    trail behind the front one, so the stack reads as layers at different
+    distances. It animates `transform`, which composes with the entrance
+    `translate` above instead of overriding it. Browsers without
+    animation-timeline keep the collage still. */
+    .hero { view-timeline-name: --hero; }
+    @keyframes collage-depth {
+    to { transform: translateY(calc((2 - var(--i)) * 2.75rem)); }
+    }
+    @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+        .collage img {
+        animation: collage-depth linear both;
+        animation-timeline: --hero;
+        animation-range: exit 0% exit 100%;
+        }
+    }
     }
 
     /* ============================================================
@@ -723,6 +753,7 @@
 
     @media (prefers-reduced-motion: reduce) {
     .reveal { opacity: 1; transform: none; transition: none; }
+    .collage img { translate: none; }
     .btn:active { transform: none; }
     /* The universal selector does not match pseudo-elements, so ::before and
         ::after keep their transitions unless named here. The hover bar on the
@@ -774,7 +805,7 @@
         <div>
             <h1 class="reveal">Soluciones digitales escalables.<br>Con un precio accesible y calidad premium.</h1>
             <p class="lead reveal" style="--d:1">
-            Automatizaciones, aplicaciones y paginas web, la solucion digital que quieras a tu alcance.
+            Automatizaciones, aplicaciones y paginas web, la solucion digital que quieras a medida para tu negocio.
             </p>
             <div class="hero-actions reveal" style="--d:2">
             <a class="btn btn-primary" href="#contacto">Pedir presupuesto</a>
@@ -783,13 +814,14 @@
         </div>
 
         <div class="hero-media reveal" style="--d:2">
-            <!-- Swap this frame for the real photo. It is the LCP element, so
-                keep fetchpriority="high" and do NOT add loading="lazy":
-                <img src="img/hero.webp" width="1000" height="1250" fetchpriority="high"
-                    alt="El diseño de una pantalla abierto en un monitor y esa misma
-                        pantalla funcionando en el otro"> -->
-            <div class="shot-empty">
-            <span class="label">Foto del hero<br>4:5 vertical</span>
+            <!-- Three shipped projects, back to front. The front frame is the
+                LCP element, so it carries fetchpriority="high"; none of the
+                three may take loading="lazy". The hero-* files are 800px
+                variants of the work-rail screenshots, sized for this slot. -->
+            <div class="collage" role="img" aria-label="Capturas de Blend Burger, FoodStore y Trainets, tres proyectos entregados">
+            <img style="--i:0" src="img/hero-blend-burger.webp" width="800" height="500" decoding="async" alt="">
+            <img style="--i:1" src="img/hero-foodstore.webp" width="800" height="500" decoding="async" alt="">
+            <img style="--i:2" src="img/hero-trainets.webp" width="800" height="500" fetchpriority="high" alt="">
             </div>
         </div>
         </div>
@@ -956,6 +988,19 @@
             <h3>Blend Burger</h3>
             <p>Hamburguesería en Mendoza. Carta, local y pedidos en una sola página.</p>
             <span class="demo-go">Ver en vivo</span>
+            </a>
+        </article>
+
+        <!-- No public deployment yet, but the repository is public, so the
+            card links to the code instead of a live site. -->
+        <article class="demo">
+            <a class="demo-link" href="https://github.com/bru678nein/foodstore" target="_blank" rel="noopener noreferrer">
+            <img class="demo-shot" src="img/foodstore.webp" width="1200" height="750"
+                loading="lazy" decoding="async"
+                alt="Catálogo de FoodStore, con las hamburguesas en grilla debajo del banner de ofertas">
+            <h3>FoodStore</h3>
+            <p>Pedidos de comida de punta a punta. Catálogo, pago con MercadoPago y seguimiento del pedido en vivo.</p>
+            <span class="demo-go">Ver el código</span>
             </a>
         </article>
 
