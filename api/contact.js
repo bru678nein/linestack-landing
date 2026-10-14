@@ -19,6 +19,7 @@ const SENDER = { email: "contacto@linestack.com.ar", name: "Linestack Web" };
 // Mirrors the options of <select id="f-kind"> in index.html. A value that is
 // not here is rejected, so adding an option means adding it in both places.
 const KINDS = {
+  agent: "Un agente que responda mensajes",
   automation: "Una automatización",
   website: "Una página web",
   webapp: "Una web app",
