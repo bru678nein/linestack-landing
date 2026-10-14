@@ -29,9 +29,27 @@ const KINDS = {
   unsure: "Todavía no lo tengo claro",
 };
 
+// Mirrors the channel radios in index.html.
+const CHANNELS = {
+  email: "Email",
+  whatsapp: "WhatsApp",
+};
+
 // Same rule the form applies client-side, re-checked here because the client
 // can be bypassed.
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+// Best-effort wa.me link for an Argentine number as people type it ("261 555
+// 1234", "+54 9 261 555 1234", "0261 555 1234"). WhatsApp needs 54 9 plus
+// the area code and number. Anything that does not fit that shape gets no
+// link, and the number is still in the email as typed, so nothing is lost.
+function whatsappLink(phone) {
+  let digits = phone.replace(/\D/g, "");
+  if (digits.startsWith("549") && digits.length === 13) return `https://wa.me/${digits}`;
+  if (digits.startsWith("54")) digits = digits.slice(2);
+  if (digits.startsWith("0")) digits = digits.slice(1);
+  return digits.length === 10 ? `https://wa.me/549${digits}` : "";
+}
 
 function clean(value, max) {
   return typeof value === "string" ? value.trim().slice(0, max) : "";
@@ -61,12 +79,25 @@ module.exports = async (req, res) => {
 
   // Newlines are stripped from the name because it ends up in the subject.
   const name = clean(body.name, 120).replace(/[\r\n]+/g, " ");
-  const email = clean(body.email, 254);
   const kind = clean(body.kind, 40);
   const detail = clean(body.detail, 4000);
+  // The visitor picks how to be contacted. A page cached from before the
+  // channel field existed sends no channel, which means email.
+  const channel = clean(body.channel, 20) || "email";
 
-  if (name.length < 2 || !EMAIL_RE.test(email) || !Object.hasOwn(KINDS, kind)) {
+  if (name.length < 2 || !Object.hasOwn(KINDS, kind) || !Object.hasOwn(CHANNELS, channel)) {
     return res.status(400).json({ error: "invalid_fields" });
+  }
+
+  let email = "";
+  let phone = "";
+  if (channel === "email") {
+    email = clean(body.email, 254);
+    if (!EMAIL_RE.test(email)) return res.status(400).json({ error: "invalid_fields" });
+  } else {
+    phone = clean(body.phone, 40).replace(/[\r\n]+/g, " ");
+    const digits = phone.replace(/\D/g, "").length;
+    if (digits < 8 || digits > 15) return res.status(400).json({ error: "invalid_fields" });
   }
 
   const apiKey = process.env.BREVO_API_KEY;
@@ -76,14 +107,25 @@ module.exports = async (req, res) => {
   }
 
   const kindLabel = KINDS[kind];
+  const chatLink = phone ? whatsappLink(phone) : "";
+  const contactLines = channel === "email"
+    ? [`Email: ${email}`]
+    : [`WhatsApp: ${phone}`, chatLink ? `Abrir chat: ${chatLink}` : "Abrir chat: revisá el número, no se pudo armar el link."];
   const text = [
     `Nombre: ${name}`,
-    `Email: ${email}`,
+    `Prefiere que lo contacten por: ${CHANNELS[channel]}`,
+    ...contactLines,
     `Qué necesita: ${kindLabel}`,
     "",
     "Contexto:",
     detail || "(sin contexto)",
   ].join("\n");
+
+  // The wa.me URL is built only from digits, so it is safe to turn into a
+  // link after the rest of the text has been escaped.
+  const html = escapeHtml(text)
+    .replace(/https:\/\/wa\.me\/\d+/, (url) => `<a href="${url}">${url}</a>`)
+    .replace(/\n/g, "<br>");
 
   try {
     const response = await fetch(BREVO_URL, {
@@ -97,10 +139,11 @@ module.exports = async (req, res) => {
         sender: SENDER,
         to: [{ email: INBOX }],
         // Replying to the notification answers the visitor, not the inbox.
-        replyTo: { email, name: name.slice(0, 70) },
-        subject: `Nuevo brief: ${kindLabel} - ${name}`,
+        // A WhatsApp brief has no address to reply to, so it carries none.
+        ...(email ? { replyTo: { email, name: name.slice(0, 70) } } : {}),
+        subject: `Nuevo brief: ${kindLabel} - ${name}${channel === "whatsapp" ? " (por WhatsApp)" : ""}`,
         textContent: text,
-        htmlContent: `<p>${escapeHtml(text).replace(/\n/g, "<br>")}</p>`,
+        htmlContent: `<p>${html}</p>`,
       }),
       signal: AbortSignal.timeout(8000),
     });

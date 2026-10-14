@@ -701,6 +701,35 @@
     }
     .error.show { display: block; }
 
+    /* Contact channel: two radios styled as the same bordered boxes as the
+    inputs, so the choice reads as part of the form and not as a footnote.
+    Each label is a full 48px touch target. */
+    .channel { border: 0; padding: 0; min-width: 0; }
+    .channel legend { padding: 0; font-weight: 600; font-size: .95rem; margin-bottom: .45rem; }
+    .channel-opts { display: grid; grid-template-columns: 1fr 1fr; gap: .6rem; }
+    /* Scoped under .channel so it outranks the generic `.field label` and
+    `.field input` rules, which would otherwise turn the radios into
+    full-width text boxes. */
+    .channel .channel-opt {
+    display: flex; align-items: center; gap: .6rem;
+    min-height: 48px; padding: .6rem .9rem; margin: 0;
+    font-weight: 500; font-size: 1rem; cursor: pointer;
+    background: rgba(255, 255, 255, .06);
+    border: 1px solid rgba(238, 244, 250, .34);
+    border-radius: var(--r);
+    transition: border-color .2s var(--ease), background-color .2s var(--ease);
+    }
+    .channel .channel-opt:hover { border-color: rgba(238, 244, 250, .6); }
+    .channel .channel-opt:has(input:checked) { border-color: var(--panel-ink); background: rgba(255, 255, 255, .12); }
+    .channel .channel-opt:has(input:focus-visible) { outline: 2px solid var(--focus-ring); outline-offset: 1px; }
+    .channel .channel-opt input {
+    flex: none; width: 1.1rem; height: 1.1rem; min-height: 0;
+    margin: 0; padding: 0; border: 0; background: none;
+    accent-color: var(--accent);
+    }
+    .channel .channel-opt input:focus { outline: none; }
+    .field[hidden] { display: none; }
+
     .form-foot { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; margin-top: 1.75rem; }
     /* Honeypot: moved off-screen instead of display:none, so bots that skip
     hidden fields still fill it. */
@@ -1060,10 +1089,28 @@
                     <span class="error" id="e-name">Escribí tu nombre.</span>
                 </div>
 
-                <div class="field">
+                <!-- The chosen channel decides which contact field is shown.
+                    The other one is hidden and disabled, so it never reaches
+                    the payload. -->
+                <fieldset class="field channel">
+                    <legend>¿Cómo preferís que te contactemos?</legend>
+                    <div class="channel-opts">
+                    <label class="channel-opt"><input type="radio" name="channel" value="email" checked> Email</label>
+                    <label class="channel-opt"><input type="radio" name="channel" value="whatsapp"> WhatsApp</label>
+                    </div>
+                </fieldset>
+
+                <div class="field" id="field-email">
                     <label for="f-email">Email</label>
                     <input id="f-email" name="email" type="email" autocomplete="email" inputmode="email" aria-describedby="e-email">
                     <span class="error" id="e-email">Revisá el email, no parece válido.</span>
+                </div>
+
+                <div class="field" id="field-phone" hidden>
+                    <label for="f-phone">WhatsApp</label>
+                    <span class="hint" id="h-phone">Con característica, por ejemplo 261 555 1234.</span>
+                    <input id="f-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" aria-describedby="h-phone e-phone" disabled>
+                    <span class="error" id="e-phone">Revisá el número, tiene que tener entre 8 y 15 dígitos.</span>
                 </div>
 
                 <div class="field">
@@ -1098,7 +1145,7 @@
 
                 <div class="form-foot">
                     <button class="btn btn-primary" type="submit" id="submit-btn">Pedir presupuesto</button>
-                    <span class="label">Te escribimos al mail. No mandamos newsletter.</span>
+                    <span class="label">Te contactamos por el medio que elijas. No mandamos newsletter.</span>
                 </div>
 
                 <p class="error" id="e-form" role="alert"></p>
@@ -1178,9 +1225,31 @@
         node.classList.toggle("show", hasError);
     }
 
+    /* Contact channel: only the chosen field is shown and enabled. A
+        disabled input is left out of FormData, so the payload carries
+        exactly one way to reach the visitor. */
+    var fieldEmail = document.getElementById("field-email");
+    var fieldPhone = document.getElementById("field-phone");
+
+    function channel() {
+        return form.querySelector('input[name="channel"]:checked').value;
+    }
+
+    function syncChannel() {
+        var byPhone = channel() === "whatsapp";
+        fieldEmail.hidden = byPhone;
+        fieldPhone.hidden = !byPhone;
+        document.getElementById("f-email").disabled = byPhone;
+        document.getElementById("f-phone").disabled = !byPhone;
+    }
+
+    form.querySelectorAll('input[name="channel"]').forEach(function (radio) {
+        radio.addEventListener("change", syncChannel);
+    });
+    syncChannel();
+
     function validate() {
         var name = document.getElementById("f-name");
-        var email = document.getElementById("f-email");
         var kind = document.getElementById("f-kind");
         var firstInvalid = null;
 
@@ -1188,9 +1257,18 @@
         setError(name, "e-name", nameBad);
         if (nameBad && !firstInvalid) firstInvalid = name;
 
-        var emailBad = !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.value.trim());
-        setError(email, "e-email", emailBad);
-        if (emailBad && !firstInvalid) firstInvalid = email;
+        if (channel() === "whatsapp") {
+            var phone = document.getElementById("f-phone");
+            var digits = phone.value.replace(/\D/g, "").length;
+            var phoneBad = digits < 8 || digits > 15;
+            setError(phone, "e-phone", phoneBad);
+            if (phoneBad && !firstInvalid) firstInvalid = phone;
+        } else {
+            var email = document.getElementById("f-email");
+            var emailBad = !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.value.trim());
+            setError(email, "e-email", emailBad);
+            if (emailBad && !firstInvalid) firstInvalid = email;
+        }
 
         var kindBad = kind.value === "";
         setError(kind, "e-kind", kindBad);
