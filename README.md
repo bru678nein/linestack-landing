@@ -62,8 +62,12 @@ node stack-react/verify-choreography.mjs
 
 The page ships with drafted content that is not confirmed:
 
-- **Commercial terms** in the pricing section (fixed price, 50/50 payments, no
-  mandatory retainer, 48 hour response) are plausible copy, not agreed terms.
+- **Commercial terms** in the pricing section (fixed price, 50/50 payments, 48
+  hour response) are plausible copy, not agreed terms. The maintenance model
+  is confirmed: monthly maintenance (hosting, updates, backups, small changes)
+  is the default after launch, the first thirty days are included, and the
+  client can hand the project to another team instead. The monthly price and
+  the cancellation terms still have to be stated in every quote.
 - **`hola@linestack.dev`** is a placeholder address.
 - **The hero is a collage of three shipped projects**, stacked back to front
   in the same staircase as the brand mark. It uses `img/hero-*.webp`, 800px
