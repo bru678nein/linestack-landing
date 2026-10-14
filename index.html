@@ -575,21 +575,6 @@
     .asset--lead dt { font-size: clamp(1.5rem, 1.2rem + 1.1vw, 2rem); line-height: 1.05; letter-spacing: -.03em; }
     .asset--lead dd { color: var(--panel-muted); max-width: 38ch; margin-top: .9rem; }
 
-    /* ---- Proof: honest reserved slots ---- */
-    .proof { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
-    .proof-grid { display: grid; gap: clamp(2rem, 5vw, 3.5rem); align-items: center; }
-    @media (min-width: 900px) { .proof-grid { grid-template-columns: .9fr 1.1fr; } }
-    .slots { display: grid; gap: 1rem; }
-    @media (min-width: 560px) { .slots { grid-template-columns: 1fr 1fr; } }
-    .proof-copy { margin-top: 1.25rem; }
-    .slot {
-    border: 1px dashed var(--line-strong);
-    padding: 1.5rem;
-    min-height: 148px;
-    display: flex; align-items: flex-end;
-    color: var(--ink-3);
-    }
-
     /* ---- Work: full-bleed horizontal rail ----
     Every other section on this page is a two-column split, so the work
     breaks the container and scrolls sideways instead. It also survives
@@ -623,9 +608,9 @@
     border: 1px solid var(--line);
     background: var(--surface);
     }
-    /* Reserved frame, same dashed language as the testimonial slots. No
-    external placeholder service: this section is waiting on real
-    screenshots, and a third-party image that 503s just looks broken. */
+    /* Reserved frame for a card whose screenshot has not landed yet. No
+    external placeholder service: a third-party image that 503s just looks
+    broken. */
     .demo-shot--empty {
     display: grid; place-items: center;
     border: 1px dashed var(--line-strong);
@@ -650,6 +635,9 @@
     }
 
     /* ---- Pricing: two-column split, grouped hairlines ---- */
+    /* The work rail ends on loose card text with no edge of its own, so the
+    hairline marks where pricing begins. */
+    #precio { border-top: 1px solid var(--line); }
     .price-grid { display: grid; gap: clamp(2.5rem, 6vw, 5rem); align-items: start; }
     @media (min-width: 900px) { .price-grid { grid-template-columns: 1fr 1.1fr; } }
     .terms { display: grid; }
@@ -1010,24 +998,6 @@
             <p>Escaneo automático de vulnerabilidades. Corre cinco herramientas en secuencia y genera el informe con los hallazgos unificados.</p>
             <span class="demo-note label">Herramienta interna, sin URL pública</span>
         </article>
-        </div>
-    </section>
-
-    <!-- ========== PROOF: reserved, not invented ========== -->
-    <section class="section proof">
-        <div class="wrap proof-grid">
-        <div>
-            <h2 class="reveal">Todavía no publicamos testimonios.</h2>
-            <p class="body-muted reveal proof-copy" style="--d:1">
-            Los proyectos de arriba están entregados y online. Estamos pidiendo permiso para citar a los clientes: cuando den el visto bueno, sus palabras van acá con nombre y empresa.
-            </p>
-        </div>
-
-        <!-- Visible placeholders. Swap each slot for a real quote when available. -->
-        <div class="slots">
-            <div class="slot reveal" style="--d:1"><span class="label">Testimonio reservado</span></div>
-            <div class="slot reveal" style="--d:2"><span class="label">Testimonio reservado</span></div>
-        </div>
         </div>
     </section>
 
