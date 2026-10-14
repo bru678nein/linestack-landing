@@ -747,6 +747,7 @@
     .form-done.show { display: block; }
     .form-done h3 { font-size: 1.5rem; }
     .form-done p { margin-top: .75rem; color: var(--panel-muted); max-width: 40ch; }
+    .form-done a { color: var(--panel-ink); text-decoration-thickness: 1px; text-underline-offset: 3px; }
 
     /* ============================================================
     9. FOOTER
@@ -1089,9 +1090,10 @@
                     <span class="error" id="e-name">Escribí tu nombre.</span>
                 </div>
 
-                <!-- The chosen channel decides which contact field is shown.
-                    The other one is hidden and disabled, so it never reaches
-                    the payload. -->
+                <!-- Email posts the brief to api/contact.js. WhatsApp sends
+                    nothing to the server: the submit opens a chat with the
+                    studio number and the brief already written, so the
+                    visitor's number arrives with their first message. -->
                 <fieldset class="field channel">
                     <legend>¿Cómo preferís que te contactemos?</legend>
                     <div class="channel-opts">
@@ -1106,11 +1108,8 @@
                     <span class="error" id="e-email">Revisá el email, no parece válido.</span>
                 </div>
 
-                <div class="field" id="field-phone" hidden>
-                    <label for="f-phone">WhatsApp</label>
-                    <span class="hint" id="h-phone">Con característica, por ejemplo 261 555 1234.</span>
-                    <input id="f-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" aria-describedby="h-phone e-phone" disabled>
-                    <span class="error" id="e-phone">Revisá el número, tiene que tener entre 8 y 15 dígitos.</span>
+                <div class="field" id="field-wa" hidden>
+                    <p class="hint">Al tocar el botón se abre WhatsApp con tu mensaje listo para mandar.</p>
                 </div>
 
                 <div class="field">
@@ -1154,6 +1153,13 @@
                 <div class="form-done" id="form-done" role="status" aria-live="polite" tabindex="-1">
                 <h3>Recibido.</h3>
                 <p>Te respondemos dentro de las próximas 48 horas hábiles con un presupuesto y un plazo.</p>
+                </div>
+
+                <!-- The page cannot tell whether the browser blocked the new
+                    window, so the fallback link is always offered. -->
+                <div class="form-done" id="form-done-wa" role="status" aria-live="polite" tabindex="-1">
+                <h3>Se abrió WhatsApp.</h3>
+                <p>Tu mensaje está listo: mandalo desde ahí y seguimos por ese chat. Si no se abrió, <a id="wa-fallback" href="https://wa.me/5492612094560" target="_blank" rel="noopener noreferrer">abrilo acá</a>.</p>
                 </div>
             </div>
             </div>
@@ -1225,22 +1231,38 @@
         node.classList.toggle("show", hasError);
     }
 
-    /* Contact channel: only the chosen field is shown and enabled. A
-        disabled input is left out of FormData, so the payload carries
-        exactly one way to reach the visitor. */
+    /* Contact channel. Email shows the email field and posts the brief.
+        WhatsApp hides it (a disabled input is left out of FormData) and the
+        submit opens a chat with the studio instead. */
+    var WHATSAPP_NUMBER = "5492612094560";
     var fieldEmail = document.getElementById("field-email");
-    var fieldPhone = document.getElementById("field-phone");
+    var fieldWa = document.getElementById("field-wa");
+    var doneWa = document.getElementById("form-done-wa");
 
     function channel() {
         return form.querySelector('input[name="channel"]:checked').value;
     }
 
     function syncChannel() {
-        var byPhone = channel() === "whatsapp";
-        fieldEmail.hidden = byPhone;
-        fieldPhone.hidden = !byPhone;
-        document.getElementById("f-email").disabled = byPhone;
-        document.getElementById("f-phone").disabled = !byPhone;
+        var byWa = channel() === "whatsapp";
+        fieldEmail.hidden = byWa;
+        fieldWa.hidden = !byWa;
+        document.getElementById("f-email").disabled = byWa;
+        submitBtn.textContent = byWa ? "Abrir WhatsApp" : "Pedir presupuesto";
+    }
+
+    // "Hola, soy Ana. Quiero pedir un presupuesto para un agente que
+    // responda mensajes." plus the optional context on its own paragraph.
+    function whatsappUrl() {
+        var kind = document.getElementById("f-kind");
+        var label = kind.options[kind.selectedIndex].text;
+        var detail = document.getElementById("f-detail").value.trim();
+        var lines = ["Hola, soy " + document.getElementById("f-name").value.trim() + "."];
+        lines.push(kind.value === "unsure"
+            ? "Quiero pedir un presupuesto, todavía no tengo claro qué necesito."
+            : "Quiero pedir un presupuesto para " + label.charAt(0).toLowerCase() + label.slice(1) + ".");
+        if (detail) lines.push("", detail);
+        return "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(lines.join("\n"));
     }
 
     form.querySelectorAll('input[name="channel"]').forEach(function (radio) {
@@ -1257,13 +1279,7 @@
         setError(name, "e-name", nameBad);
         if (nameBad && !firstInvalid) firstInvalid = name;
 
-        if (channel() === "whatsapp") {
-            var phone = document.getElementById("f-phone");
-            var digits = phone.value.replace(/\D/g, "").length;
-            var phoneBad = digits < 8 || digits > 15;
-            setError(phone, "e-phone", phoneBad);
-            if (phoneBad && !firstInvalid) firstInvalid = phone;
-        } else {
+        if (channel() === "email") {
             var email = document.getElementById("f-email");
             var emailBad = !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.value.trim());
             setError(email, "e-email", emailBad);
@@ -1281,6 +1297,18 @@
     form.addEventListener("submit", function (event) {
         event.preventDefault();
         if (!validate()) return;
+
+        // window.open has to run synchronously inside the submit handler, or
+        // the browser treats it as an unsolicited popup and blocks it.
+        if (channel() === "whatsapp") {
+            var url = whatsappUrl();
+            document.getElementById("wa-fallback").href = url;
+            window.open(url, "_blank", "noopener");
+            form.style.display = "none";
+            doneWa.classList.add("show");
+            doneWa.focus();
+            return;
+        }
 
         submitBtn.disabled = true;
         submitBtn.textContent = "Enviando";

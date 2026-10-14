@@ -94,14 +94,17 @@ The page ships with drafted content that is not confirmed:
     records added in Cloudflare), since the sender is
     `contacto@linestack.com.ar`.
   - MX records for `linestack.com.ar`, so the inbox can receive mail at all.
-  The visitor chooses to be contacted by email or WhatsApp; only the chosen
-  field is shown and sent. A WhatsApp brief arrives with the number as typed
-  plus a best-effort `wa.me` link (Argentine formats) and no reply-to.
+  The visitor chooses email or WhatsApp. Email posts to the function.
+  WhatsApp never reaches the server: the submit opens
+  `wa.me/5492612094560` with the brief already written ("Hola, soy ...
+  Quiero pedir un presupuesto para ..."), and the confirmation offers the
+  same link in case the browser blocked the new window. The number lives in
+  `WHATSAPP_NUMBER` in the inline script and in the fallback link's `href`.
   The function re-validates every field, rejects unknown project types,
   escapes visitor input before it reaches the HTML body, and silently drops
   submissions that fill the off-screen `company` honeypot. The project types
-  are listed in both the `<select>` and `KINDS`, and the channels in both the
-  radios and `CHANNELS`: keep each pair in sync. The static local server (`python3 -m http.server`) cannot run the
+  are listed in both the `<select>` and `KINDS` in the function: keep them in
+  sync. The static local server (`python3 -m http.server`) cannot run the
   function, so a local submission shows the error state; set `FORM_ENDPOINT`
   to `null` to review the success flow without sending.
 - **Fonts load from the Google Fonts CDN.** Self-host them for production.
