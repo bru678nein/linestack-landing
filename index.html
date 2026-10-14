@@ -515,17 +515,22 @@
     100% { color: var(--ink-3); }
     }
 
-    /* ---- Handoff: asymmetric bento, five cells for five things ----
-    The five deliverables are not peers. "La opcion de irte" is the argument
+    /* ---- Handoff: asymmetric bento, four cells for four things ----
+    The deliverables are not peers. "La opcion de irte" is the argument
     the whole page builds toward, so it leads at double width on the navy
-    surface instead of sitting fifth in a flat two-column list.
-    Five items, five cells, no empty tile at the end. */
+    surface instead of sitting last in a flat two-column list.
+    Four items, four cells, no empty tile: the last cell also takes double
+    width, which closes the grid at two columns (lead / two / one wide) and
+    at three (lead + one / one + wide), mirroring the lead diagonally. */
     .assets {
     margin-top: clamp(2.5rem, 5vw, 4rem);
     display: grid;
     gap: clamp(.75rem, 1.5vw, 1rem);
     }
-    @media (min-width: 720px)  { .assets { grid-template-columns: repeat(2, 1fr); } }
+    @media (min-width: 720px)  {
+    .assets { grid-template-columns: repeat(2, 1fr); }
+    .asset:last-child { grid-column: span 2; }
+    }
     @media (min-width: 1024px) { .assets { grid-template-columns: repeat(3, 1fr); } }
 
     /* Cells do NOT lift on hover. They are content inside a <dl>, not controls,
@@ -934,21 +939,17 @@
         <dl class="assets">
             <div class="asset asset--lead reveal">
             <dt>La opción de irte</dt>
-            <dd>Si querés seguir con otro equipo, no hay nada que desbloquear ni licencia que renovar.</dd>
+            <dd>Si querés seguir con otro equipo, te entregamos el repositorio completo para que lo puedan modificar. No hay nada que desbloquear ni licencia que renovar.</dd>
             </div>
             <div class="asset reveal" style="--d:1">
-            <dt>El repositorio</dt>
-            <dd>En tu cuenta de GitHub, con el historial completo de commits.</dd>
-            </div>
-            <div class="asset reveal" style="--d:2">
             <dt>La infraestructura</dt>
             <dd>Hosting, dominio y base de datos a nombre de tu empresa, no de la nuestra.</dd>
             </div>
-            <div class="asset reveal" style="--d:3">
+            <div class="asset reveal" style="--d:2">
             <dt>La documentación</dt>
             <dd>Cómo se despliega, cómo se edita el contenido y dónde toca cada cosa.</dd>
             </div>
-            <div class="asset reveal" style="--d:4">
+            <div class="asset reveal" style="--d:3">
             <dt>El diseño</dt>
             <dd>Archivos editables, con el sistema de componentes ya armado.</dd>
             </div>
