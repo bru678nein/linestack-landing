@@ -78,12 +78,11 @@ The page ships with drafted content that is not confirmed:
   change one value and re-solve the others. The front frame is the LCP
   element: keep `fetchpriority="high"` on it and never add `loading="lazy"`
   to any of the three.
-- **The third project card is still a template.** Trainets and Blend Burger are
-  real, with captured screenshots and live links. The remaining card waits for a
-  name, a line saying what the project solves, and a screenshot; it uses the
-  no-URL variant, since the project it is held for is a desktop app. Delete it
-  rather than shipping it empty. Add or remove `<article class="demo">` blocks
-  freely; the rail takes any count.
+- **The work rail holds four real projects.** Trainets and Blend Burger link
+  to live sites, FoodStore links to its public repository, and VulnScan uses
+  the no-URL variant (an anchorless card with a factual note) because it runs
+  only in a local lab. Add or remove `<article class="demo">` blocks freely;
+  the rail takes any count.
 - **Screenshots are captured headless at 1600x1000**, the aspect the card
   renders at, then encoded to WebP. Crop the frame above any hosting badge the
   provider injects.
