@@ -515,23 +515,18 @@
     100% { color: var(--ink-3); }
     }
 
-    /* ---- Handoff: asymmetric bento, four cells for four things ----
+    /* ---- Handoff: asymmetric bento, three cells for three things ----
     The deliverables are not peers. "La opcion de irte" is the argument
-    the whole page builds toward, so it leads at double width on the navy
-    surface instead of sitting last in a flat two-column list.
-    Four items, four cells, no empty tile: the last cell also takes double
-    width, which closes the grid at two columns (lead / two / one wide) and
-    at three (lead + one / one + wide), mirroring the lead diagonally. */
+    the whole page builds toward, so it leads on the navy surface as a tall
+    cell spanning both rows, with the other two stacked beside it.
+    Three items, three cells, no empty tile at any width. */
     .assets {
     margin-top: clamp(2.5rem, 5vw, 4rem);
     display: grid;
     gap: clamp(.75rem, 1.5vw, 1rem);
     }
-    @media (min-width: 720px)  {
-    .assets { grid-template-columns: repeat(2, 1fr); }
-    .asset:last-child { grid-column: span 2; }
-    }
-    @media (min-width: 1024px) { .assets { grid-template-columns: repeat(3, 1fr); } }
+    @media (min-width: 720px)  { .assets { grid-template-columns: 1fr 1fr; } }
+    @media (min-width: 1024px) { .assets { grid-template-columns: 1.4fr 1fr; } }
 
     /* Cells do NOT lift on hover. They are content inside a <dl>, not controls,
     and a card that rises promises a click that never comes. They get the
@@ -574,7 +569,7 @@
     display: flex; flex-direction: column; justify-content: flex-end;
     min-height: 14rem;
     }
-    @media (min-width: 720px) { .asset--lead { grid-column: span 2; min-height: 16rem; } }
+    @media (min-width: 720px) { .asset--lead { grid-row: span 2; min-height: 16rem; } }
     .asset--lead::before { background: var(--slab-2); }
     .asset--lead:hover { background: color-mix(in srgb, var(--panel) 88%, var(--slab-4)); }
     .asset--lead dt { font-size: clamp(1.5rem, 1.2rem + 1.1vw, 2rem); line-height: 1.05; letter-spacing: -.03em; }
@@ -942,14 +937,10 @@
             <dd>Si querés seguir con otro equipo, te entregamos el repositorio completo para que lo puedan modificar. No hay nada que desbloquear ni licencia que renovar.</dd>
             </div>
             <div class="asset reveal" style="--d:1">
-            <dt>La infraestructura</dt>
-            <dd>Hosting, dominio y base de datos a nombre de tu empresa, no de la nuestra.</dd>
-            </div>
-            <div class="asset reveal" style="--d:2">
             <dt>La documentación</dt>
             <dd>Cómo se despliega, cómo se edita el contenido y dónde toca cada cosa.</dd>
             </div>
-            <div class="asset reveal" style="--d:3">
+            <div class="asset reveal" style="--d:2">
             <dt>El diseño</dt>
             <dd>Archivos editables, con el sistema de componentes ya armado.</dd>
             </div>
