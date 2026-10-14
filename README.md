@@ -7,6 +7,7 @@ Landing page for Linestack, a software studio building web apps and landing page
 | Path | What it is |
 |---|---|
 | `index.html` | The landing page. One self-contained file: no build step, no dependencies, open it in a browser. |
+| `api/contact.js` | Vercel serverless function behind the brief form. Validates the submission and emails it through Brevo. No dependencies. |
 | `stack-react/` | A Vite sandbox holding `LayerStack.tsx`, the process section as a React component. Built to develop and verify the animation. Not wired to the landing. |
 
 ## The process section
@@ -68,7 +69,6 @@ The page ships with drafted content that is not confirmed:
   is the default after launch, the first thirty days are included, and the
   client can hand the project to another team instead. The monthly price and
   the cancellation terms still have to be stated in every quote.
-- **`hola@linestack.dev`** is a placeholder address.
 - **The hero is a collage of three shipped projects**, stacked back to front
   in the same staircase as the brand mark. It uses `img/hero-*.webp`, 800px
   variants of the work-rail screenshots sized for the slot, so the hero does
@@ -87,8 +87,21 @@ The page ships with drafted content that is not confirmed:
 - **Screenshots are captured headless at 1600x1000**, the aspect the card
   renders at, then encoded to WebP. Crop the frame above any hosting badge the
   provider injects.
-- **The contact form has no endpoint.** `FORM_ENDPOINT` is `null`, so it
-  validates and shows the confirmation locally while warning in the console.
+- **The contact form posts to `api/contact.js`**, which emails the brief to
+  `contacto@linestack.com.ar` through Brevo, with the visitor as reply-to. It
+  needs three things outside the repo before a submission arrives:
+  - `BREVO_API_KEY` set in the Vercel project's environment variables.
+  - `linestack.com.ar` authenticated as a sender domain in Brevo (its DNS
+    records added in Cloudflare), since the sender is
+    `contacto@linestack.com.ar`.
+  - MX records for `linestack.com.ar`, so the inbox can receive mail at all.
+  The function re-validates every field, rejects unknown project types,
+  escapes visitor input before it reaches the HTML body, and silently drops
+  submissions that fill the off-screen `company` honeypot. The project types
+  are listed in both the `<select>` and `KINDS` in the function: keep them in
+  sync. The static local server (`python3 -m http.server`) cannot run the
+  function, so a local submission shows the error state; set `FORM_ENDPOINT`
+  to `null` to review the success flow without sending.
 - **Fonts load from the Google Fonts CDN.** Self-host them for production.
 - **The logo is a rebuilt SVG**, not the official asset. That applies to the nav
   mark, the process section and `img/favicon.svg`.

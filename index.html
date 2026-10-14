@@ -714,6 +714,9 @@
     .error.show { display: block; }
 
     .form-foot { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; margin-top: 1.75rem; }
+    /* Honeypot: moved off-screen instead of display:none, so bots that skip
+    hidden fields still fill it. */
+    .hp { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
     .form-foot .label { color: var(--panel-muted); }
 
     #e-form { margin-top: 1rem; }
@@ -1079,7 +1082,7 @@
                 </p>
                 <p class="cta-contact reveal" style="--d:2">
                 O escribinos directo a
-                <a href="mailto:hola@linestack.dev">hola@linestack.dev</a>
+                <a href="mailto:contacto@linestack.com.ar">contacto@linestack.com.ar</a>
                 </p>
             </div>
 
@@ -1116,6 +1119,14 @@
                     <label for="f-detail">Contexto</label>
                     <span class="hint" id="h-detail">Opcional. Dos o tres líneas alcanzan.</span>
                     <textarea id="f-detail" name="detail" aria-describedby="h-detail"></textarea>
+                </div>
+
+                <!-- Honeypot: off-screen rather than display:none, since some
+                    bots skip hidden fields. People never see or reach it;
+                    api/contact.js drops any submission that fills it. -->
+                <div class="hp" aria-hidden="true">
+                    <label for="f-company">Empresa</label>
+                    <input id="f-company" name="company" type="text" tabindex="-1" autocomplete="off">
                 </div>
 
                 <div class="form-foot">
@@ -1155,7 +1166,7 @@
         <a href="#trabajo">Trabajo</a>
         <a href="#entrega">Qué te llevás</a>
         <a href="#precio">Precio</a>
-        <a href="mailto:hola@linestack.dev">hola@linestack.dev</a>
+        <a href="mailto:contacto@linestack.com.ar">contacto@linestack.com.ar</a>
         </nav>
 
         <p class="footer-meta">Linestack. Desarrollo de software.</p>
@@ -1186,10 +1197,11 @@
     }
 
     /* ---- Brief form ----
-        TODO: set FORM_ENDPOINT to a real handler (Formspree, a serverless
-        function, your CRM). While it is null the form validates and shows the
-        confirmation locally so the flow can be reviewed, and warns in console. */
-    var FORM_ENDPOINT = null;
+        Posts JSON to the Vercel function in api/contact.js, which emails the
+        brief through Brevo. Set FORM_ENDPOINT to null to review the flow
+        without sending: the form then validates and shows the confirmation
+        locally, and warns in console. */
+    var FORM_ENDPOINT = "/api/contact";
 
     var form = document.getElementById("brief-form");
     var done = document.getElementById("form-done");
@@ -1254,7 +1266,7 @@
             submitBtn.disabled = false;
             submitBtn.textContent = "Reintentar";
             var box = document.getElementById("e-form");
-            box.textContent = "No pudimos enviar el formulario. Escribinos a hola@linestack.dev";
+            box.textContent = "No pudimos enviar el formulario. Escribinos a contacto@linestack.com.ar";
             box.classList.add("show");
         });
     });
