@@ -575,27 +575,54 @@
     .asset--lead dt { font-size: clamp(1.5rem, 1.2rem + 1.1vw, 2rem); line-height: 1.05; letter-spacing: -.03em; }
     .asset--lead dd { color: var(--panel-muted); max-width: 38ch; margin-top: .9rem; }
 
-    /* ---- Work: full-bleed horizontal rail ----
+    /* ---- Work: full-bleed carousel ----
     Every other section on this page is a two-column split, so the work
-    breaks the container and scrolls sideways instead. It also survives
-    having only two projects, which a three-column grid does not: a grid
-    with one empty cell reads as missing work. */
+    breaks the container and scrolls sideways instead. Scroll-snap stays the
+    engine, which keeps touch, trackpad and keyboard native; the arrows and
+    the segment strip are a layer on top for mouse users, who otherwise had
+    to drag an OS scrollbar. The native bar is hidden because those controls
+    replace it, and the rail stays focusable so arrow keys still scroll it. */
+    .work-head {
+    display: flex; flex-wrap: wrap; align-items: flex-end;
+    justify-content: space-between; gap: 1.5rem;
+    }
+    .rail-nav { display: flex; gap: .5rem; }
+    .rail-btn {
+    display: grid; place-items: center;
+    width: 3rem; height: 3rem; padding: 0;
+    color: var(--ink); background: var(--paper);
+    border: 1px solid var(--line-strong); border-radius: var(--r);
+    cursor: pointer;
+    transition: background-color .2s var(--ease), border-color .2s var(--ease), transform .2s var(--ease);
+    }
+    .rail-btn svg { width: 1.25rem; height: 1.25rem; fill: currentColor; }
+    .rail-btn:hover:not([aria-disabled="true"]) { background: var(--surface); border-color: var(--ink); }
+    .rail-btn:active:not([aria-disabled="true"]) { transform: translateY(1px); }
+    /* aria-disabled instead of disabled: a disabled button drops keyboard
+    focus to the page start, which happens exactly when "anterior" reaches
+    the first project while focused. */
+    .rail-btn[aria-disabled="true"] { color: var(--ink-3); border-color: var(--line); cursor: default; opacity: .55; }
+
     .rail {
     --gutter: clamp(1.25rem, 5vw, 3.5rem);
     display: grid;
     grid-auto-flow: column;
-    grid-auto-columns: min(78vw, 400px);
-    gap: clamp(1rem, 2vw, 1.5rem);
-    margin-top: clamp(2.5rem, 5vw, 4rem);
+    grid-auto-columns: min(82vw, 480px);
+    gap: clamp(1rem, 2vw, 1.75rem);
+    margin-top: clamp(2rem, 4vw, 3rem);
     overflow-x: auto;
     overscroll-behavior-x: contain;
     scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
     /* First card lines up with the heading above; the rail still bleeds
         to both edges of the viewport. */
     padding-inline: calc(max(0px, (100% - 1240px) / 2) + var(--gutter));
-    scroll-padding-inline-start: calc(max(0px, (100% - 1240px) / 2) + var(--gutter));
-    padding-block: 4px;
+    scroll-padding-inline: calc(max(0px, (100% - 1240px) / 2) + var(--gutter));
+    padding-block: 6px;
     }
+    .rail::-webkit-scrollbar { display: none; }
+    .rail:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: -2px; }
     .demo { scroll-snap-align: start; }
     .demo-link {
     display: block; text-decoration: none;
@@ -603,11 +630,37 @@
     }
     .demo-link:hover { transform: translateY(-3px); }
     .demo-link:active { transform: translateY(0); }
-    .demo-shot {
-    width: 100%; aspect-ratio: 16 / 10; object-fit: cover;
+    /* The frame clips the screenshot so it can zoom on hover without
+    growing the card. Only linked cards zoom: VulnScan has no link, and a
+    card that reacts like a link promises a click that goes nowhere. */
+    .demo-frame {
+    display: block; overflow: hidden;
     border: 1px solid var(--line);
     background: var(--surface);
     }
+    .demo-shot {
+    display: block;
+    width: 100%; aspect-ratio: 16 / 10; object-fit: cover;
+    transition: transform .6s var(--ease);
+    }
+    .demo-link:hover .demo-shot { transform: scale(1.035); }
+
+    /* Segment strip: one hairline per project, the ones in view drawn in
+    ink. Each segment is a 44px-tall button with the line drawn inside, so
+    the touch target is not the 3px line itself. */
+    .rail-dots { display: flex; gap: .35rem; margin-top: 1.25rem; }
+    .rail-dot {
+    position: relative; width: 2.75rem; height: 2.75rem; padding: 0;
+    background: none; border: 0; cursor: pointer;
+    }
+    .rail-dot::before {
+    content: ""; position: absolute; left: 0; right: 0; top: 50%;
+    height: 3px; margin-top: -1.5px;
+    background: var(--line-strong);
+    transition: background-color .3s var(--ease);
+    }
+    .rail-dot:hover::before { background: var(--ink-3); }
+    .rail-dot[aria-current="true"]::before { background: var(--ink); }
     /* Reserved frame for a card whose screenshot has not landed yet. No
     external placeholder service: a third-party image that 503s just looks
     broken. */
@@ -631,7 +684,8 @@
     @media (prefers-reduced-motion: reduce) {
     .demo-link { transition: none; }
     .demo-link:hover { transform: none; }
-    .rail { scroll-snap-type: none; }
+    .demo-link:hover .demo-shot { transform: none; }
+    .rail { scroll-snap-type: none; scroll-behavior: auto; }
     }
 
     /* ---- Pricing: two-column split, grouped hairlines ---- */
@@ -974,18 +1028,28 @@
         <article class="demo"> blocks freely, the rail takes any count.
         Do not invent projects here. -->
     <section class="section" id="trabajo">
-        <div class="wrap">
+        <div class="wrap work-head">
         <div class="section-head">
             <h2 class="reveal">Lo que sale de ese proceso.</h2>
         </div>
+        <!-- Arrow glyphs: Phosphor Icons "arrow-left" / "arrow-right",
+            regular weight (MIT). -->
+        <div class="rail-nav">
+            <button class="rail-btn" type="button" id="rail-prev" aria-controls="rail" aria-label="Proyecto anterior" aria-disabled="true">
+            <svg viewBox="0 0 256 256" aria-hidden="true" focusable="false"><path d="M224,128a8,8,0,0,1-8,8H59.31l58.35,58.34a8,8,0,0,1-11.32,11.32l-72-72a8,8,0,0,1,0-11.32l72-72a8,8,0,0,1,11.32,11.32L59.31,120H216A8,8,0,0,1,224,128Z"/></svg>
+            </button>
+            <button class="rail-btn" type="button" id="rail-next" aria-controls="rail" aria-label="Proyecto siguiente">
+            <svg viewBox="0 0 256 256" aria-hidden="true" focusable="false"><path d="M221.66,133.66l-72,72a8,8,0,0,1-11.32-11.32L196.69,136H40a8,8,0,0,1,0-16H196.69L138.34,61.66a8,8,0,0,1,11.32-11.32l72,72A8,8,0,0,1,221.66,133.66Z"/></svg>
+            </button>
+        </div>
         </div>
 
-        <div class="rail" role="region" aria-label="Proyectos entregados">
+        <div class="rail" id="rail" role="region" aria-label="Proyectos entregados" tabindex="0">
         <article class="demo">
             <a class="demo-link" href="https://www.trainets.com" target="_blank" rel="noopener noreferrer">
-            <img class="demo-shot" src="img/trainets.webp" width="1600" height="1000"
+            <span class="demo-frame"><img class="demo-shot" src="img/trainets.webp" width="1600" height="1000"
                 loading="lazy" decoding="async"
-                alt="Landing de Trainets, con el programador de mesociclos a la derecha del titular">
+                alt="Landing de Trainets, con el programador de mesociclos a la derecha del titular"></span>
             <h3>Trainets</h3>
             <p>Programación de entrenamiento para coaches. La planilla, sin la parte de copiar celdas.</p>
             <span class="demo-go">Ver en vivo</span>
@@ -994,9 +1058,9 @@
 
         <article class="demo">
             <a class="demo-link" href="https://blendburgershop.netlify.app/" target="_blank" rel="noopener noreferrer">
-            <img class="demo-shot" src="img/blend-burger.webp" width="1600" height="1000"
+            <span class="demo-frame"><img class="demo-shot" src="img/blend-burger.webp" width="1600" height="1000"
                 loading="lazy" decoding="async"
-                alt="Landing de Blend Burger, con la hamburguesa sobre fondo oscuro">
+                alt="Landing de Blend Burger, con la hamburguesa sobre fondo oscuro"></span>
             <h3>Blend Burger</h3>
             <p>Hamburguesería en Mendoza. Carta, local y pedidos en una sola página.</p>
             <span class="demo-go">Ver en vivo</span>
@@ -1007,9 +1071,9 @@
             card links to the code instead of a live site. -->
         <article class="demo">
             <a class="demo-link" href="https://github.com/bru678nein/foodstore" target="_blank" rel="noopener noreferrer">
-            <img class="demo-shot" src="img/foodstore.webp" width="1200" height="750"
+            <span class="demo-frame"><img class="demo-shot" src="img/foodstore.webp" width="1200" height="750"
                 loading="lazy" decoding="async"
-                alt="Catálogo de FoodStore, con las hamburguesas en grilla debajo del banner de ofertas">
+                alt="Catálogo de FoodStore, con las hamburguesas en grilla debajo del banner de ofertas"></span>
             <h3>FoodStore</h3>
             <p>Pedidos de comida de punta a punta. Catálogo, pago con MercadoPago y seguimiento del pedido en vivo.</p>
             <span class="demo-go">Ver el código</span>
@@ -1020,13 +1084,19 @@
             tool, anything behind a login. Same card, no anchor, and a
             factual note where the link would go. -->
         <article class="demo">
-            <img class="demo-shot" src="img/vulnscan.webp" width="1600" height="1000"
+            <span class="demo-frame"><img class="demo-shot" src="img/vulnscan.webp" width="1600" height="1000"
                 loading="lazy" decoding="async"
-                alt="Panel de hallazgos de VulnScan, con las cinco herramientas del escaneo y el aporte de cada una">
+                alt="Panel de hallazgos de VulnScan, con las cinco herramientas del escaneo y el aporte de cada una"></span>
             <h3>VulnScan</h3>
             <p>Escaneo automático de vulnerabilidades. Corre cinco herramientas en secuencia y genera el informe con los hallazgos unificados.</p>
             <span class="demo-note label">Herramienta interna, sin URL pública</span>
         </article>
+        </div>
+
+        <!-- One segment per card, built by the script from the cards
+            themselves, so adding a project needs no change here. -->
+        <div class="wrap">
+        <div class="rail-dots" id="rail-dots"></div>
         </div>
     </section>
 
@@ -1341,6 +1411,64 @@
             box.classList.add("show");
         });
     });
+    })();
+
+    /* ---- Work carousel ----
+    Scroll-snap does the scrolling; this only drives the arrows and the
+    segment strip. There is no scroll listener: an IntersectionObserver
+    rooted on the rail reports which cards are in view, and every control
+    state is derived from that set. */
+    (function () {
+    "use strict";
+    var rail = document.getElementById("rail");
+    if (!rail || !("IntersectionObserver" in window)) return;
+
+    var cards = Array.prototype.slice.call(rail.querySelectorAll(".demo"));
+    var prev = document.getElementById("rail-prev");
+    var next = document.getElementById("rail-next");
+    var strip = document.getElementById("rail-dots");
+    var inView = cards.map(function () { return false; });
+
+    // scrollIntoView honours scroll-padding, so the card lands aligned with
+    // the heading. block "nearest" keeps the page from jumping vertically.
+    function show(i) {
+        cards[i].scrollIntoView({ block: "nearest", inline: "start" });
+    }
+
+    var dots = cards.map(function (card, i) {
+        var dot = document.createElement("button");
+        dot.type = "button";
+        dot.className = "rail-dot";
+        dot.setAttribute("aria-controls", "rail");
+        dot.setAttribute("aria-label", "Ver " + card.querySelector("h3").textContent);
+        dot.addEventListener("click", function () { show(i); });
+        strip.appendChild(dot);
+        return dot;
+    });
+
+    function first() { return inView.indexOf(true); }
+
+    function sync() {
+        prev.setAttribute("aria-disabled", inView[0] ? "true" : "false");
+        next.setAttribute("aria-disabled", inView[cards.length - 1] ? "true" : "false");
+        dots.forEach(function (dot, i) {
+            dot.setAttribute("aria-current", inView[i] ? "true" : "false");
+        });
+    }
+
+    function idle(btn) { return btn.getAttribute("aria-disabled") === "true"; }
+    prev.addEventListener("click", function () { if (!idle(prev)) show(Math.max(0, first() - 1)); });
+    next.addEventListener("click", function () { if (!idle(next)) show(Math.min(cards.length - 1, first() + 1)); });
+
+    // A card counts as in view when most of it is visible, so a sliver at
+    // the edge does not light its segment or block an arrow.
+    var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+            inView[cards.indexOf(entry.target)] = entry.intersectionRatio >= 0.75;
+        });
+        sync();
+    }, { root: rail, threshold: [0, 0.75, 1] });
+    cards.forEach(function (card) { io.observe(card); });
     })();
 
     /* ---- Scroll-driven fallback ----
