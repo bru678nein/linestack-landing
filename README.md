@@ -107,6 +107,13 @@ The page ships with drafted content that is not confirmed:
   sync. The static local server (`python3 -m http.server`) cannot run the
   function, so a local submission shows the error state; set `FORM_ENDPOINT`
   to `null` to review the success flow without sending.
+- **SEO metadata targets "desarrollo de software a medida" across Argentina.**
+  The canonical points at `https://www.linestack.com.ar/`, because the same
+  build is also served at `linestack-landing.vercel.app`. `img/og.jpg`
+  (1200x630, JPG because several apps ignore WebP previews) is rendered from
+  the hero headline and collage; re-render it when either changes. The
+  JSON-LD only states verifiable facts, so the address stops at the city.
+  Bump `<lastmod>` in `sitemap.xml` when the page content changes.
 - **Fonts load from the Google Fonts CDN.** Self-host them for production.
 - **The logo is a rebuilt SVG**, not the official asset. That applies to the nav
   mark, the process section and `img/favicon.svg`.
