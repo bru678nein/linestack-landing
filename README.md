@@ -114,6 +114,14 @@ The page ships with drafted content that is not confirmed:
   the hero headline and collage; re-render it when either changes. The
   JSON-LD only states verifiable facts, so the address stops at the city.
   Bump `<lastmod>` in `sitemap.xml` when the page content changes.
+- **Google Analytics 4 loads only on `www.linestack.com.ar`**, so local
+  previews and the vercel.app mirror stay out of the reports. The measurement
+  ID is `GA_ID` in the head script. The brief form sends GA4's
+  `generate_lead` event with `contact_channel` (`email` after the server
+  confirms the send, `whatsapp` when the chat opens, which is intent rather
+  than a sent message) and `project_kind`. Both parameters must be registered
+  as custom dimensions in GA4 to show up in reports. Never send personal data
+  in an event.
 - **Fonts load from the Google Fonts CDN.** Self-host them for production.
 - **The logo is a rebuilt SVG**, not the official asset. That applies to the nav
   mark, the process section and `img/favicon.svg`.

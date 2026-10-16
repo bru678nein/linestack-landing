@@ -48,6 +48,27 @@
     <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
     <meta name="theme-color" content="#08182b" media="(prefers-color-scheme: dark)">
 
+    <!-- Google Analytics 4. The tag loads only on the production host, so
+        local previews and the vercel.app mirror never reach the reports.
+        The gtag stub is defined either way: it just queues calls, so the
+        page can report events without checking whether the tag loaded.
+        Never put personal data (name, email, message) in an event; Google's
+        terms forbid it. -->
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    (function () {
+        var GA_ID = "G-S84D52M61H";
+        if (location.hostname !== "www.linestack.com.ar") return;
+        var tag = document.createElement("script");
+        tag.async = true;
+        tag.src = "https://www.googletagmanager.com/gtag/js?id=" + GA_ID;
+        document.head.appendChild(tag);
+        gtag("js", new Date());
+        gtag("config", GA_ID);
+    })();
+    </script>
+
     <!-- Favicon. The SVG is the one modern browsers use; the .ico carries real
         16, 32 and 48px bitmaps for the ones that ignore SVG, rather than
         letting them downscale a large PNG. -->
@@ -1358,6 +1379,17 @@
         submitBtn.textContent = byWa ? "Abrir WhatsApp" : "Pedir presupuesto";
     }
 
+    /* Analytics: GA4's recommended lead event. The email channel reports
+        only after the server confirmed the send; WhatsApp reports when the
+        chat opens, which is intent, not a sent message. Only the channel
+        and the project type travel: never the name, email or message. */
+    function reportLead(contactChannel) {
+        gtag("event", "generate_lead", {
+            contact_channel: contactChannel,
+            project_kind: document.getElementById("f-kind").value
+        });
+    }
+
     // "Hola, soy Ana. Quiero pedir un presupuesto para un agente que
     // responda mensajes." plus the optional context on its own paragraph.
     function whatsappUrl() {
@@ -1408,6 +1440,7 @@
         // window.open has to run synchronously inside the submit handler, or
         // the browser treats it as an unsolicited popup and blocks it.
         if (channel() === "whatsapp") {
+            reportLead("whatsapp");
             var url = whatsappUrl();
             document.getElementById("wa-fallback").href = url;
             window.open(url, "_blank", "noopener");
@@ -1437,6 +1470,7 @@
         })
         .then(function (res) {
             if (!res.ok) throw new Error("Request failed: " + res.status);
+            reportLead("email");
             form.style.display = "none";
             done.classList.add("show");
         })
