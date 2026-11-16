@@ -136,7 +136,7 @@ export function Projects() {
                       <div className="mt-6 hidden gap-2.5 lg:grid">
                         {p.results.map((r) => (
                           <div key={r} className="flex items-center gap-2.5 text-sm text-zinc-300">
-                            <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-400" />
+                            <CheckCircle2 className="h-4 w-4 shrink-0 text-ice" />
                             {r}
                           </div>
                         ))}
@@ -265,7 +265,7 @@ export function Projects() {
                     <div className="grid gap-3 sm:grid-cols-3">
                       {active.results.map((r) => (
                         <div key={r} className="flex items-center gap-2 rounded-xl border border-line bg-white/[0.03] p-3 text-sm text-white">
-                          <CheckCircle2 className="h-4 w-4 shrink-0 text-emerald-400" /> {r}
+                          <CheckCircle2 className="h-4 w-4 shrink-0 text-ice" /> {r}
                         </div>
                       ))}
                     </div>

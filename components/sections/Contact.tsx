@@ -192,7 +192,7 @@ export function Contact() {
                     className="absolute inset-0 flex flex-col items-center justify-center bg-surface/95 p-8 text-center backdrop-blur"
                   >
                     <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: "spring", delay: 0.1 }}>
-                      <CheckCircle2 className="h-14 w-14 text-emerald-400" />
+                      <CheckCircle2 className="h-14 w-14 text-ice" />
                     </motion.div>
                     <h3 className="mt-4 font-display text-2xl font-bold text-white">¡Mensaje enviado!</h3>
                     <p className="mt-2 max-w-sm text-zinc-400">Gracias por escribirnos. Te respondemos en menos de 24 h hábiles.</p>

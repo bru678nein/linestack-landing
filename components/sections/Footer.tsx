@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { ArrowUp } from "lucide-react";
-import { HalftoneWordmark } from "@/components/ui/HalftoneWordmark";
 import { Logo } from "@/components/ui/Logo";
 import { navLinks, site, whatsappUrl } from "@/config/site";
 
@@ -60,9 +59,12 @@ export function Footer() {
           </Link>
         </div>
       </div>
-      {/* Wordmark gigante en halftone interactivo */}
-      <div className="overflow-hidden px-2 pt-4">
-        <HalftoneWordmark />
+      {/* Static giant wordmark, cut by the bottom edge. Same split as the logo, toned down. */}
+      <div aria-hidden className="select-none overflow-hidden px-2 pt-4">
+        <p className="translate-y-[22%] whitespace-nowrap text-center font-display text-[15vw] font-bold leading-[0.8] tracking-[0.02em]">
+          <span className="text-zinc-800">LINE</span>
+          <span className="text-zinc-700">STACK</span>
+        </p>
       </div>
     </footer>
   );

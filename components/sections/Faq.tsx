@@ -22,11 +22,12 @@ function Item({ q, a, open, onToggle }: { q: string; a: string; open: boolean; o
             {q}
           </span>
           <span
-            className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full border transition-all duration-300 ${
-              open ? "rotate-45 border-ice/60 text-ice" : "border-line text-zinc-400"
+            className={`flex h-8 w-8 shrink-0 items-center justify-center border transition-colors duration-300 ${
+              open ? "border-zinc-500 text-white" : "border-line text-zinc-400"
             }`}
           >
-            <Plus className="h-4 w-4" />
+            {/* Only the glyph turns into an ×; the box stays square like every other control. */}
+            <Plus className={`h-4 w-4 transition-transform duration-300 ${open ? "rotate-45" : ""}`} />
           </span>
         </button>
       </h3>
