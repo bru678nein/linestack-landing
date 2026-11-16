@@ -65,4 +65,18 @@ export const projects: Project[] = [
     mobileImages: ["/projects/team-anexo/movil-1.webp"],
     url: "https://www.teamanexo.com/",
   },
+  {
+    slug: "trainets",
+    title: "Trainets",
+    client: "Producto propio · Entrenadores",
+    category: "Sistemas",
+    summary: "Plataforma para que los entrenadores programen mesociclos y sus atletas registren cada serie desde el teléfono.",
+    problem: "Con varios atletas, la planilla se vuelve una tarde por semana copiando celdas, archivos que van y vienen por WhatsApp y resultados que el entrenador tiene que transcribir a mano.",
+    solution: "Una app web donde el entrenador arma programa, mesociclo, sesión y series, y duplica una semana o un mesociclo entero para ajustar solo lo que cambia. Cada atleta entra con un link, ve su plan en el teléfono y registra lo que hizo.",
+    results: ["En uso en trainets.com", "El atleta registra desde el teléfono", "Adherencia y progresión de carga a la vista"],
+    tags: ["Web app", "Astro", "Python"],
+    accent: ["#4a7fae", "#94a3b8"],
+    images: ["/projects/trainets/1.webp"],
+    url: "https://www.trainets.com/",
+  },
 ];
