@@ -4,13 +4,7 @@
     {
       "name": "landing",
       "runtimeExecutable": "sh",
-      "runtimeArgs": ["-c", "python3 -m http.server \"$PORT\""],
-      "autoPort": true
-    },
-    {
-      "name": "layerstack",
-      "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "dev", "--prefix", "stack-react"],
+      "runtimeArgs": ["-c", "npx next dev --turbopack -p \"$PORT\""],
       "autoPort": true
     }
   ]

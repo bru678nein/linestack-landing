@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="l" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#f5f5f5"/><stop offset="1" stop-color="#bdbdbd"/></linearGradient>
+    <linearGradient id="r" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#d4d4d4"/><stop offset="1" stop-color="#8f8f8f"/></linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="14" fill="#050505"/>
+  <polygon points="32,8 52,14 32,20 12,14" fill="#ffffff"/>
+  <g>
+    <polygon points="12,16 32,22 32,27 12,21" fill="url(#l)"/><polygon points="32,22 52,16 52,21 32,27" fill="url(#r)"/>
+    <polygon points="12,24 32,30 32,35 12,29" fill="url(#l)"/><polygon points="32,30 52,24 52,29 32,35" fill="url(#r)"/>
+    <polygon points="12,32 32,38 32,43 12,37" fill="url(#l)"/><polygon points="32,38 52,32 52,37 32,43" fill="url(#r)"/>
+    <polygon points="12,40 32,46 32,51 12,45" fill="url(#l)"/><polygon points="32,46 52,40 52,45 32,51" fill="url(#r)"/>
+    <polygon points="12,48 32,54 32,59 12,53" fill="url(#l)"/><polygon points="32,54 52,48 52,53 32,59" fill="url(#r)"/>
+  </g>
+</svg>

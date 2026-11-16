@@ -1,0 +1,278 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #050505;
+  --color-surface: #0e0e0f;
+  --color-surface-2: #161618;
+  --color-line: rgb(255 255 255 / 0.08);
+  --color-silver: #c9c9cc;
+  --color-muted: #8a8a90;
+  --color-ice: #7dd3fc;
+  /* zinc-500 un tono más claro que el de Tailwind: el original no llegaba al contraste mínimo
+     (4.5:1) sobre el fondo casi negro en textos chicos */
+  --color-zinc-500: #83838c;
+  /* Tokens estilo shadcn (usados por componentes de components/ui) */
+  --color-background: #050505;
+  --color-foreground: #ededed;
+  --color-primary: #f4f4f5;
+  --color-primary-foreground: #050505;
+  --color-border: rgb(255 255 255 / 0.15);
+  --font-sans: var(--font-satoshi), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-clash), ui-sans-serif, system-ui, sans-serif;
+  /* Clash Display es ancha y ya viene ajustada: el interletrado negativo de Tailwind la apretaba de más */
+  --tracking-tight: -0.01em;
+  --tracking-tighter: -0.02em;
+
+  --animate-marquee: marquee 40s linear infinite;
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-shine: shine 6s linear infinite;
+
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+  @keyframes shine {
+    from { background-position: 200% center; }
+    to { background-position: -200% center; }
+  }
+}
+
+/*
+ * Esquinas rectas en todo el sitio, como el logo (capas con cantos vivos).
+ * Gana sobre cualquier rounded-* de Tailwind. Única excepción: los marcos de celular de los
+ * mockups (.device), que representan un teléfono real.
+ */
+*:not(.device),
+*::before,
+*::after {
+  border-radius: 0 !important;
+}
+
+html {
+  scroll-behavior: smooth;
+  color-scheme: dark;
+}
+
+body {
+  background: var(--color-ink);
+  color: #ededed;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+h1, h2, h3 { text-wrap: balance; }
+p { text-wrap: pretty; }
+
+/* Foco visible y consistente para teclado */
+:focus-visible {
+  outline: 2px solid rgb(255 255 255 / 0.8);
+  outline-offset: 3px;
+}
+
+/* Scrollbar discreta */
+html { scrollbar-color: #2a2a2e transparent; scrollbar-width: thin; }
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #2a2a2e; border-radius: 999px; border: 2px solid var(--color-ink); }
+::-webkit-scrollbar-thumb:hover { background: #45454a; }
+
+::selection {
+  background: rgb(255 255 255 / 0.9);
+  color: #000;
+}
+
+/* Texto metálico tipo logo */
+/* Clash Display trae poco espacio entre palabras; en títulos grandes se leían pegadas */
+.font-display {
+  word-spacing: 0.06em;
+}
+
+/*
+ * Títulos en gris mate claro: sin brillo ni degradé, para que el único metal de la página sea el
+ * del hero (logo y palabra que cambia). Antes era cromo; si se quiere volver, está en el historial de git.
+ */
+.text-metal {
+  color: #cfcfd5;
+}
+
+/* Entrada de las líneas de metal líquido del título (dos copias para poder reiniciarla) */
+@keyframes metal-in {
+  from { opacity: 0; filter: blur(10px); }
+  to { opacity: 1; filter: blur(0); }
+}
+@keyframes metal-in-b {
+  from { opacity: 0; filter: blur(10px); }
+  to { opacity: 1; filter: blur(0); }
+}
+
+/* Versión suave para textos largos (citas): sin horizonte ni reflejo, para que se lea cómodo */
+.text-metal-soft {
+  background: linear-gradient(180deg, #ffffff 0%, #d4d4d8 45%, #8b8b90 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+
+/* Cromo animado (palabra que cambia en el hero): metal pulido con horizonte oscuro
+   y un reflejo plata/celeste que lo recorre. Arranca de nuevo con cada palabra. */
+.text-chrome {
+  background:
+    linear-gradient(105deg, transparent 38%, rgb(224 242 254 / 0.95) 47%, #ffffff 50%, rgb(125 211 252 / 0.85) 53%, transparent 62%),
+    linear-gradient(180deg, #ffffff 0%, #e4e4e7 30%, #71717a 52%, #3f3f46 56%, #a1a1aa 72%, #f4f4f5 100%);
+  background-size: 250% 100%, 100% 100%;
+  background-repeat: no-repeat;
+  background-position: 130% 0, 0 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: chrome-sweep 2.4s cubic-bezier(0.45, 0, 0.2, 1) both;
+}
+@keyframes chrome-sweep {
+  from { background-position: 130% 0, 0 0; }
+  to { background-position: -30% 0, 0 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .text-chrome { animation: none; background-position: -30% 0, 0 0; }
+}
+
+.text-shine {
+  background: linear-gradient(110deg, #9a9a9f 35%, #ffffff 50%, #9a9a9f 65%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: var(--animate-shine);
+}
+
+/* Grilla de líneas de fondo */
+.bg-grid {
+  background-image:
+    linear-gradient(to right, rgb(255 255 255 / 0.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(255 255 255 / 0.045) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+
+/* Ruido sutil */
+.noise::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 60;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Card con borde que brilla siguiendo al mouse */
+/* Tarjeta base del sitio: mismo borde, fondo y redondeo en todas las secciones */
+.card,
+.glow-card {
+  position: relative;
+  border-radius: 1.5rem;
+  /* background-image (no "background"): así un bg-* de Tailwind puede sumar color de fondo */
+  background-image: linear-gradient(180deg, rgb(255 255 255 / 0.04), rgb(255 255 255 / 0.01));
+  border: 1px solid var(--color-line);
+}
+.glow-card::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: radial-gradient(400px circle at var(--mx, 50%) var(--my, 50%), rgb(255 255 255 / 0.45), transparent 40%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+.glow-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(500px circle at var(--mx, 50%) var(--my, 50%), rgb(255 255 255 / 0.06), transparent 40%);
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+.glow-card:hover::before,
+.glow-card:hover::after {
+  opacity: 1;
+}
+
+/* ---------- Border beam: un haz de luz que recorre el borde de la tarjeta ---------- */
+@property --beam-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+.border-beam {
+  position: absolute;
+  /* inset 0: la tarjeta tiene overflow-hidden y recortaría el haz si quedara por fuera */
+  inset: 0;
+  z-index: 1;
+  border-radius: inherit;
+  padding: 1.5px;
+  pointer-events: none;
+  background: conic-gradient(
+    from var(--beam-angle),
+    transparent 0deg,
+    transparent 250deg,
+    rgb(125 211 252 / 0.55) 310deg,
+    rgb(255 255 255) 350deg,
+    transparent 360deg
+  );
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: beam-spin 7s linear infinite;
+}
+.border-beam-delay {
+  animation-delay: -3.5s;
+}
+@keyframes beam-spin {
+  to { --beam-angle: 360deg; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .border-beam { animation: none; opacity: 0.4; }
+}
+
+/* ---------- Hero: fondo de estudio fotográfico ----------
+   Luz principal gris detrás del logo + un contraluz frío más chico. La posición la mueve HeroStage
+   con --light-x / --light-y (por defecto, detrás del logo). En celular el logo va arriba del texto. */
+.hero-studio {
+  background:
+    radial-gradient(ellipse 20% 26% at calc(var(--light-x, 66%) + 6%) calc(var(--light-y, 42%) - 8%), rgb(186 230 253 / 0.07), transparent 70%),
+    radial-gradient(ellipse 44% 62% at var(--light-x, 66%) var(--light-y, 42%), #2a2a30 0%, #17171b 36%, #09090b 68%, #050505 100%);
+}
+@media (max-width: 1023px) {
+  .hero-studio {
+    background:
+      radial-gradient(ellipse 70% 30% at 50% calc(var(--light-y, 42%) - 18%), #26262c 0%, #121215 50%, #050505 100%);
+  }
+}
+
+.mask-fade-x {
+  mask-image: linear-gradient(to right, transparent, #000 12%, #000 88%, transparent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
