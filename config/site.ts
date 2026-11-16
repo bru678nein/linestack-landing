@@ -23,7 +23,6 @@ export const whatsappUrl = (msg: string = site.whatsappMessage) =>
 export const navLinks = [
   { href: "/#proyectos", label: "Proyectos" },
   { href: "/#servicios", label: "Servicios" },
-  { href: "/#proceso", label: "Proceso" },
-  { href: "/#por-que", label: "Por qué nosotros" },
+  { href: "/#faq", label: "Preguntas" },
   { href: "/contacto", label: "Contacto" },
 ];

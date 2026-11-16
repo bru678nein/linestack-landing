@@ -19,7 +19,7 @@ Open http://localhost:3000. `npm run build` checks that the production build com
 | `config/site.ts` | Name, domain, contact email, phone, WhatsApp number and social profiles. Every page reads these from here. |
 | `data/projects.ts` | Portfolio projects, in page order. See `PROYECTOS.md` to add one. |
 | `data/services.ts` | Services, written as client situations, and the project types offered in the contact form. |
-| `data/content.ts` | Guarantees, process steps, FAQ and testimonials. |
+| `data/content.ts` | FAQ and testimonials. |
 | `app/api/contact/route.ts` | Contact form endpoint. Validates the submission and emails it through Brevo. |
 | `components/Analytics.tsx` | Google Analytics 4 and the `generate_lead` event. |
 
@@ -61,8 +61,10 @@ personal data (name, email, message) in an event.
   left out of `app/page.tsx`. Put it back only with real quotes the client agreed to publish.
 - **Texts marked `BORRADOR`** in `data/projects.ts` were written from screenshots. Check them
   against the real projects.
-- **Guarantees and FAQ answers are commitments.** `data/content.ts` says it: list only what the
-  team actually delivers.
+- **FAQ answers and the hero's promises are commitments.** List only what the team actually
+  delivers. The repository stays in Linestack's GitHub account and hosting, domain and database
+  are in Linestack's name: never claim the client owns them, only that they get the full
+  repository if they move to another team.
 - **Social profiles** in `config/site.ts` are empty until the studio has real accounts. The footer
   and the structured data only show the ones that exist.
 
