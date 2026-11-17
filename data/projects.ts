@@ -79,4 +79,21 @@ export const projects: Project[] = [
     images: ["/projects/trainets/1.webp"],
     url: "https://www.trainets.com/",
   },
+  {
+    slug: "julian",
+    title: "Julian",
+    client: "Producción y edición audiovisual",
+    category: "Web",
+    summary: "Portfolio de un editor de video: sus trabajos para marcas en un carrusel de celulares que se arrastra y se reproduce en la página.",
+    // BORRADOR
+    problem: "Sus videos vivían sueltos en redes y no tenía un lugar propio para mostrarle a una marca qué hace y cómo trabaja.",
+    // BORRADOR
+    solution: "Una web liviana con los videos verticales en marcos de celular, una grilla de trabajos que se reproducen ahí mismo y contacto directo, pensada primero para el teléfono.",
+    results: ["Publicado en miportfoliojulian.netlify.app", "9 trabajos para marcas en video", "Los videos se reproducen en la página"],
+    tags: ["React", "Vite", "Responsive"],
+    accent: ["#d4d4d4", "#525252"],
+    images: ["/projects/julian/1.webp", "/projects/julian/2.webp"],
+    mobileImages: ["/projects/julian/movil-1.webp"],
+    url: "https://miportfoliojulian.netlify.app/",
+  },
 ];
