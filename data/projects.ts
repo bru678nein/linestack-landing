@@ -81,10 +81,10 @@ export const projects: Project[] = [
   },
   {
     slug: "julian",
-    title: "Julian",
+    title: "Portafolio",
     client: "Producción y edición audiovisual",
     category: "Web",
-    summary: "Portfolio de un editor de video: sus trabajos para marcas en un carrusel de celulares que se arrastra y se reproduce en la página.",
+    summary: "Sitio de un editor de video: sus trabajos para marcas en un carrusel de celulares que se arrastra y se reproduce en la página.",
     // BORRADOR
     problem: "Sus videos vivían sueltos en redes y no tenía un lugar propio para mostrarle a una marca qué hace y cómo trabaja.",
     // BORRADOR
