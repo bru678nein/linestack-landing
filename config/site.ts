@@ -13,7 +13,7 @@ export const site = {
   whatsappMessage: "¡Hola LineStack! Quiero contarles sobre un proyecto.",
   // Perfiles públicos del estudio (ej: instagram: "https://instagram.com/linestack").
   // Vacío hasta tener cuentas reales: el pie y los datos para Google solo muestran los que existan.
-  socials: {} as Record<string, string>,
+  socials: { instagram: "https://www.instagram.com/linestackdev/" } as Record<string, string>,
 };
 
 export const whatsappUrl = (msg: string = site.whatsappMessage) =>
